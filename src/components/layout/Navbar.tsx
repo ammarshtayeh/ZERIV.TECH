@@ -32,7 +32,7 @@ export function Navbar() {
   return (
     <header className="fixed inset-x-0 top-0 z-50 nav-glass">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-5 sm:px-8">
-        <Logo size="nav" variant="circle" />
+        <Logo size="nav" variant="nav" />
 
         <ul className="hidden items-center lg:flex">
           {navLinks.map((link) => (

@@ -1,7 +1,7 @@
 "use client";
 
-import Image from "next/image";
 import { Music2, Landmark, Code2, Palette } from "lucide-react";
+import { Logo } from "@/components/brand/Logo";
 import { ScrollReveal } from "@/components/effects/ScrollReveal";
 import { HeritageBackdrop } from "@/components/effects/HeritageBackdrop";
 import {
@@ -106,14 +106,8 @@ export function ZarifSection() {
           <ScrollReveal delay={0.1} className="lg:col-span-2">
             <div className="content-card relative flex h-full flex-col overflow-hidden p-6 sm:p-7">
               <TatreezBorder className="absolute inset-x-0 top-0" />
-              <div className="logo-panel mx-auto mt-2 max-w-[200px] rounded-xl p-4">
-              <Image
-                src="/brand/logo.png"
-                alt="شعار ZERIV TECH"
-                width={240}
-                height={340}
-                className="logo-image-enhance mx-auto h-auto w-full object-contain"
-              />
+              <div className="mx-auto mt-2 flex justify-center">
+                <Logo size="lg" className="pointer-events-none" />
               </div>
               <div className="mt-6 space-y-3">
                 {pillars.map((p) => {

@@ -1,9 +1,9 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowLeft } from "lucide-react";
+import { Logo } from "@/components/brand/Logo";
 import { Container, SectionShell } from "@/components/layout/SectionShell";
 import { HeritageBackdrop } from "@/components/effects/HeritageBackdrop";
 import {
@@ -102,23 +102,15 @@ export function HeroSection() {
             transition={{ duration: 1, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
             className="relative flex justify-center lg:justify-end"
           >
-            <div className="relative w-full max-w-[min(100%,340px)]">
+            <div className="relative w-full max-w-[min(100%,360px)]">
               <TatreezBorder thick className="rounded-t-xl" />
-              <div className="logo-panel relative rounded-b-none rounded-t-none px-5 py-7 sm:px-7 sm:py-9">
-                <motion.div
-                  animate={{ y: [0, -6, 0] }}
-                  transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-                >
-                  <Image
-                    src="/brand/logo.png"
-                    alt="ZERIV TECH"
-                    width={340}
-                    height={500}
-                    className="logo-image-enhance mx-auto h-auto w-full max-w-[280px] object-contain sm:max-w-[300px]"
-                    priority
-                  />
-                </motion.div>
-              </div>
+              <motion.div
+                className="flex justify-center px-2 py-4 sm:px-4 sm:py-6"
+                animate={{ y: [0, -6, 0] }}
+                transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+              >
+                <Logo size="hero" variant="framed" className="pointer-events-none" priority />
+              </motion.div>
               <TatreezBorder thick className="rounded-b-xl" />
             </div>
           </motion.div>

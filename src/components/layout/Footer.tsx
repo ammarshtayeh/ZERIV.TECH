@@ -35,9 +35,7 @@ export function Footer() {
       <div className="relative mx-auto max-w-6xl px-5 py-16 sm:px-8">
         <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
           <div className="lg:col-span-1">
-            <div className="logo-panel inline-block rounded-xl p-3">
-              <Logo size="md" />
-            </div>
+            <Logo size="md" />
             <p className="mt-4 font-heritage text-sm text-zeriv-offwhite/60">
               تقنية حديثة بروح فلسطينية
             </p>

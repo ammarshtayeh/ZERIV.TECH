@@ -343,20 +343,19 @@
     background: linear-gradient(to left, var(--zeriv-bg), transparent);
   }
 
-  .logo-panel {
-    background: linear-gradient(165deg, #ffffff 0%, #f4f6f9 55%, #eef1f5 100%);
-    border: 1px solid rgba(15, 20, 25, 0.08);
+  .logo-panel-dark {
+    background: #000000;
+    border: 1px solid rgba(206, 17, 38, 0.2);
     box-shadow:
-      0 16px 48px rgba(0, 0, 0, 0.12),
-      0 0 0 1px rgba(206, 17, 38, 0.06),
-      inset 0 1px 0 rgba(255, 255, 255, 0.9);
+      0 12px 40px rgba(0, 0, 0, 0.35),
+      inset 0 1px 0 rgba(255, 255, 255, 0.04);
   }
 
-  .dark .logo-panel {
-    background: linear-gradient(165deg, #ffffff 0%, #f8fafc 50%, #f1f5f9 100%);
+  .dark .logo-panel-dark {
+    border-color: rgba(0, 122, 61, 0.25);
     box-shadow:
-      0 20px 60px rgba(0, 0, 0, 0.5),
-      0 0 0 1px rgba(0, 122, 61, 0.1);
+      0 16px 48px rgba(0, 0, 0, 0.55),
+      0 0 40px rgba(206, 17, 38, 0.06);
   }
 
   .logo-image-enhance {

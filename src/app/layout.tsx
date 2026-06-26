@@ -54,6 +54,11 @@ export const metadata: Metadata = {
     description: "نصمم ونبرمج مواقع وتطبيقات وحلول رقمية — بروح فلسطينية.",
     locale: "ar_PS",
     type: "website",
+    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "ZERIV TECH" }],
+  },
+  icons: {
+    icon: "/brand/logo.png",
+    apple: "/brand/logo.png",
   },
 };
 
