@@ -2,56 +2,51 @@
 
 import { processSteps } from "@/lib/mock-data";
 import { ScrollReveal } from "@/components/effects/ScrollReveal";
-import { HeritageBackdrop } from "@/components/effects/HeritageBackdrop";
 import {
   Container,
   SectionShell,
-  SectionHeader,
 } from "@/components/layout/SectionShell";
-
-const stepAccents = [
-  "border-zeriv-red",
-  "border-zeriv-green",
-  "border-zeriv-fg/30",
-  "border-zeriv-green",
-  "border-zeriv-red",
-];
 
 export function ProcessSection() {
   return (
-    <SectionShell id="process" variant="accent" divider className="py-20 sm:py-28">
-      <HeritageBackdrop />
-      <Container>
+    <SectionShell id="process" variant="default" className="py-24 sm:py-36 relative">
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[radial-gradient(circle,rgba(212,175,55,0.03)_0%,transparent_60%)] pointer-events-none" />
+      
+      <Container className="relative z-10">
         <ScrollReveal>
-          <SectionHeader
-            number="03"
-            label="عمليتنا"
-            title={
-              <>
-                من الفكرة إلى <span className="text-zeriv-green">الإطلاق</span>
-              </>
-            }
-            description="خمس خطوات واضحة — من الاستماع والتخطيط إلى الإطلاق والدعم المستمر."
-          />
+          <div className="mb-20 sm:mb-28 text-right">
+            <p className="text-[11px] font-semibold tracking-[0.2em] uppercase text-[#D4AF37] mb-4">عمليتنا</p>
+            <h2 className="font-display text-[clamp(2rem,5vw,3.5rem)] font-bold leading-[1.1] text-zeriv-fg">
+              من الفكرة إلى <span className="text-[#D4AF37]">الإطلاق</span>
+            </h2>
+          </div>
         </ScrollReveal>
 
         <div className="relative">
-          <div className="absolute inset-x-0 top-8 hidden h-px bg-zeriv-border lg:block" aria-hidden="true" />
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-5 lg:gap-4">
+          {/* Vertical gold line */}
+          <div className="absolute right-[19px] sm:right-[23px] top-0 bottom-0 w-[1px] bg-gradient-to-b from-[#D4AF37]/30 via-[#D4AF37]/10 to-transparent" />
+          
+          <div className="space-y-12 sm:space-y-16">
             {processSteps.map((step, i) => (
-              <ScrollReveal key={step.number} delay={i * 0.06}>
-                <div className="relative pt-2 lg:pt-0">
-                  <div
-                    className={`mb-5 flex h-10 w-10 items-center justify-center rounded-full border-2 bg-zeriv-bg font-mono text-xs font-semibold text-zeriv-fg ${stepAccents[i % stepAccents.length]}`}
-                  >
-                    {step.number}
+              <ScrollReveal key={step.number} delay={i * 0.1}>
+                <div className="flex items-start gap-6 sm:gap-10 flex-row-reverse">
+                  {/* Number circle */}
+                  <div className="relative flex h-10 w-10 sm:h-12 sm:w-12 shrink-0 items-center justify-center rounded-full border border-[#D4AF37]/20 bg-[#0B0B0B]">
+                    <span className="font-display text-sm sm:text-base font-bold text-[#D4AF37]/60">
+                      {step.number}
+                    </span>
+                    <div className="absolute inset-0 rounded-full bg-[#D4AF37]/5" />
                   </div>
-                  <h3 className="font-display text-base font-semibold text-zeriv-fg">
-                    {step.title}
-                  </h3>
-                  <p className="mt-2 text-sm font-light leading-[1.8] text-zeriv-muted">
-                    {step.description}
-                  </p>
+                  
+                  {/* Content */}
+                  <div className="text-right pt-1 sm:pt-2">
+                    <h3 className="font-display text-xl sm:text-2xl font-bold text-zeriv-fg">
+                      {step.title}
+                    </h3>
+                    <p className="mt-2 text-sm leading-relaxed text-white/35 max-w-md font-light">
+                      {step.description}
+                    </p>
+                  </div>
                 </div>
               </ScrollReveal>
             ))}

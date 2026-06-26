@@ -8,7 +8,6 @@ import {
   Dribbble,
 } from "lucide-react";
 import { Logo } from "@/components/brand/Logo";
-import { DiamondSeparator, TatreezBorder } from "@/components/patterns/Patterns";
 import { services } from "@/lib/mock-data";
 
 function BehanceIcon({ className }: { className?: string }) {
@@ -28,36 +27,31 @@ const socialLinks = [
 
 export function Footer() {
   return (
-    <footer className="relative border-t border-white/10 bg-zeriv-dark-2">
-      <TatreezBorder />
-      <div className="noise-overlay absolute inset-0" />
-      <div className="tatreez-bg-pattern absolute inset-0 opacity-20" />
-      <div className="relative mx-auto max-w-6xl px-5 py-16 sm:px-8">
+    <footer className="relative border-t border-white/[0.06] bg-[#080808]">
+      <div className="relative mx-auto max-w-6xl px-5 py-16 sm:px-8 sm:py-20">
         <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
+          {/* Brand */}
           <div className="lg:col-span-1">
             <Logo size="md" />
-            <p className="mt-4 font-heritage text-sm text-zeriv-offwhite/60">
+            <p className="mt-4 text-sm text-white/25 font-light">
               تقنية حديثة بروح فلسطينية
             </p>
-            <p className="mt-2 flex items-center gap-2 text-xs text-zeriv-offwhite/40">
-              <span className="text-zeriv-red">تصميم</span>
-              <DiamondSeparator className="text-zeriv-red/40" />
-              <span className="text-zeriv-red">كود</span>
-              <DiamondSeparator className="text-zeriv-red/40" />
-              <span className="text-zeriv-green">هوية</span>
+            <p className="mt-2 text-xs text-[#D4AF37]/40">
+              We Design. We Code. We Elevate.
             </p>
           </div>
 
+          {/* Services */}
           <div>
-            <h3 className="mb-4 text-sm font-semibold text-zeriv-red">
+            <h3 className="mb-4 text-xs font-semibold tracking-[0.15em] uppercase text-[#D4AF37]/60">
               خدماتنا
             </h3>
-            <ul className="space-y-2 text-sm text-zeriv-offwhite/55">
+            <ul className="space-y-2.5 text-sm text-white/25">
               {services.slice(0, 5).map((s) => (
                 <li key={s.id}>
                   <Link
                     href="/services"
-                    className="transition-colors hover:text-zeriv-red"
+                    className="transition-colors hover:text-[#D4AF37]/70"
                   >
                     {s.title}
                   </Link>
@@ -66,74 +60,44 @@ export function Footer() {
             </ul>
           </div>
 
+          {/* Quick Links */}
           <div>
-            <h3 className="mb-4 text-sm font-semibold text-zeriv-red">
+            <h3 className="mb-4 text-xs font-semibold tracking-[0.15em] uppercase text-[#D4AF37]/60">
               روابط سريعة
             </h3>
-            <ul className="space-y-2 text-sm text-zeriv-offwhite/55">
-              <li>
-                <Link href="/" className="transition-colors hover:text-zeriv-red">
-                  الرئيسية
-                </Link>
-              </li>
-              <li>
-                <Link href="/#services" className="transition-colors hover:text-zeriv-red">
-                  خدماتنا
-                </Link>
-              </li>
-              <li>
-                <Link href="/#zarif" className="transition-colors hover:text-zeriv-red">
-                  زريف الطول
-                </Link>
-              </li>
-              <li>
-                <Link href="/portfolio" className="transition-colors hover:text-zeriv-red">
-                  أعمالنا
-                </Link>
-              </li>
-              <li>
-                <Link href="/about" className="transition-colors hover:text-zeriv-red">
-                  عنا
-                </Link>
-              </li>
-              <li>
-                <Link href="/contact" className="transition-colors hover:text-zeriv-red">
-                  تواصل معنا
-                </Link>
-              </li>
+            <ul className="space-y-2.5 text-sm text-white/25">
+              <li><Link href="/" className="transition-colors hover:text-[#D4AF37]/70">الرئيسية</Link></li>
+              <li><Link href="/#services" className="transition-colors hover:text-[#D4AF37]/70">خدماتنا</Link></li>
+              <li><Link href="/portfolio" className="transition-colors hover:text-[#D4AF37]/70">أعمالنا</Link></li>
+              <li><Link href="/about" className="transition-colors hover:text-[#D4AF37]/70">عنا</Link></li>
+              <li><Link href="/contact" className="transition-colors hover:text-[#D4AF37]/70">تواصل معنا</Link></li>
             </ul>
           </div>
 
+          {/* Contact */}
           <div>
-            <h3 className="mb-4 text-sm font-semibold text-zeriv-red">
+            <h3 className="mb-4 text-xs font-semibold tracking-[0.15em] uppercase text-[#D4AF37]/60">
               تواصل
             </h3>
-            <ul className="space-y-3 text-sm text-zeriv-offwhite/55">
+            <ul className="space-y-3 text-sm text-white/25">
               <li className="flex items-center gap-2">
-                <Mail className="h-4 w-4 shrink-0 text-zeriv-red/60" />
-                <a
-                  href="mailto:ammar.shtayeh@gmail.com"
-                  className="transition-colors hover:text-zeriv-red"
-                >
+                <Mail className="h-3.5 w-3.5 shrink-0 text-[#D4AF37]/30" />
+                <a href="mailto:ammar.shtayeh@gmail.com" className="transition-colors hover:text-[#D4AF37]/70">
                   ammar.shtayeh@gmail.com
                 </a>
               </li>
               <li className="flex items-center gap-2">
-                <Phone className="h-4 w-4 shrink-0 text-zeriv-red/60" />
-                <a
-                  href="tel:+972595537190"
-                  className="transition-colors hover:text-zeriv-red"
-                  dir="ltr"
-                >
+                <Phone className="h-3.5 w-3.5 shrink-0 text-[#D4AF37]/30" />
+                <a href="tel:+972595537190" className="transition-colors hover:text-[#D4AF37]/70" dir="ltr">
                   +972 59 553 7190
                 </a>
               </li>
               <li className="flex items-center gap-2">
-                <MapPin className="h-4 w-4 shrink-0 text-zeriv-red/60" />
+                <MapPin className="h-3.5 w-3.5 shrink-0 text-[#D4AF37]/30" />
                 <span>فلسطين</span>
               </li>
             </ul>
-            <div className="mt-6 flex gap-3">
+            <div className="mt-6 flex gap-2.5">
               {socialLinks.map(({ href, icon: Icon, label }) => (
                 <a
                   key={label}
@@ -141,22 +105,22 @@ export function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={label}
-                  className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 text-zeriv-offwhite/50 transition-all hover:border-zeriv-red/40 hover:bg-zeriv-red/5 hover:text-zeriv-red"
+                  className="flex h-9 w-9 items-center justify-center rounded-full border border-white/[0.06] text-white/25 transition-all hover:border-[#D4AF37]/30 hover:text-[#D4AF37]/60"
                 >
-                  <Icon className="h-4 w-4" />
+                  <Icon className="h-3.5 w-3.5" />
                 </a>
               ))}
             </div>
           </div>
         </div>
 
-        <div className="section-divider mt-12" />
-        <div className="mt-8 flex flex-col items-center justify-between gap-4 sm:flex-row">
-          <p className="text-xs text-zeriv-offwhite/30">
-            © {new Date().getFullYear()} ZERIV TECH — زريف الطول. جميع الحقوق
-            محفوظة.
+        {/* Bottom divider and copyright */}
+        <div className="mt-16 h-[1px] bg-gradient-to-r from-transparent via-[#D4AF37]/10 to-transparent" />
+        <div className="mt-6 flex flex-col items-center justify-between gap-4 sm:flex-row">
+          <p className="text-[11px] text-white/15">
+            © {new Date().getFullYear()} ZERIV TECH. جميع الحقوق محفوظة.
           </p>
-          <p className="font-heritage text-xs text-zeriv-offwhite/40">
+          <p className="text-[11px] text-white/10">
             صُنع بروح فلسطينية 🇵🇸
           </p>
         </div>

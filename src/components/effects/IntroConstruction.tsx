@@ -2,26 +2,18 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 
 export function IntroConstruction({ onComplete }: { onComplete: () => void }) {
-  const [phase, setPhase] = useState<"stitch" | "logo" | "grid" | "complete">("stitch");
+  const [phase, setPhase] = useState<"stitch" | "trace" | "reveal" | "complete">("stitch");
 
   useEffect(() => {
-    // Stage 1: Single stitch appears, then grows (1.2s)
-    const t1 = setTimeout(() => {
-      setPhase("logo");
-    }, 1500);
-
-    // Stage 2: Logo constructs via PCB lines (2s)
-    const t2 = setTimeout(() => {
-      setPhase("grid");
-    }, 3800);
-
-    // Stage 3: Lines expand to form screen grid (1.2s)
+    const t1 = setTimeout(() => setPhase("trace"), 1500);
+    const t2 = setTimeout(() => setPhase("reveal"), 3500);
     const t3 = setTimeout(() => {
       setPhase("complete");
       onComplete();
-    }, 5200);
+    }, 5000);
 
     return () => {
       clearTimeout(t1);
@@ -35,142 +27,397 @@ export function IntroConstruction({ onComplete }: { onComplete: () => void }) {
       {phase !== "complete" && (
         <motion.div
           initial={{ opacity: 1 }}
-          exit={{ opacity: 0, transition: { duration: 0.8, ease: "easeInOut" } }}
-          className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#050706] text-white select-none"
+          exit={{ opacity: 0, transition: { duration: 1, ease: "easeInOut" } }}
+          className="fixed inset-0 z-[100] flex flex-col items-center justify-center select-none overflow-hidden"
+          style={{ background: "#050706" }}
         >
-          {/* Main Visual Arena */}
-          <div className="relative flex h-[350px] w-[350px] items-center justify-center">
-            
-            {/* Phase 1: Tatreez Cross-Stitch Blooming */}
-            {phase === "stitch" && (
-              <div className="flex flex-col gap-1 items-center justify-center">
-                {/* Growing cross-stitch lattice */}
+          {/* Ambient glow behind everything */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 0.15 }}
+            transition={{ duration: 2 }}
+            style={{
+              position: "absolute",
+              width: 600,
+              height: 600,
+              borderRadius: "50%",
+              background: "radial-gradient(circle, #D4AF37 0%, transparent 70%)",
+              filter: "blur(80px)",
+              pointerEvents: "none",
+            }}
+          />
+
+          {/* Main visual area */}
+          <div
+            className="relative flex items-center justify-center"
+            style={{ width: 400, height: 400 }}
+          >
+            {/* ── Phase 1: Tatreez Diamond Bloom ── */}
+            <AnimatePresence>
+              {phase === "stitch" && (
                 <motion.div
-                  initial={{ scale: 0, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  transition={{ duration: 0.6 }}
-                  className="flex gap-2"
-                >
-                  <Stitch color="#ce1126" delay={0} />
-                  <Stitch color="#ce1126" delay={0.2} />
-                  <Stitch color="#ce1126" delay={0.4} />
-                </motion.div>
-                <motion.div
-                  initial={{ scale: 0, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  transition={{ duration: 0.6, delay: 0.3 }}
-                  className="flex gap-2 mt-1"
-                >
-                  <Stitch color="#007a3d" delay={0.5} />
-                  <Stitch color="#bfa26a" delay={0.7} />
-                  <Stitch color="#007a3d" delay={0.5} />
-                </motion.div>
-                <motion.p
+                  key="stitch"
                   initial={{ opacity: 0 }}
-                  animate={{ opacity: 0.5 }}
-                  className="absolute bottom-[-40px] text-[10px] tracking-[0.2em] font-mono text-zeriv-red"
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0, transition: { duration: 0.5 } }}
+                  className="absolute inset-0 flex items-center justify-center"
                 >
-                  [STITCHING_IDENTITY]
-                </motion.p>
-              </div>
-            )}
-
-            {/* Phase 2 & 3: Logo Outline Drawing & PCB Tracing */}
-            {(phase === "logo" || phase === "grid") && (
-              <svg className="h-full w-full" viewBox="0 0 400 400" fill="none">
-                <defs>
-                  {/* Glowing filter */}
-                  <filter id="glow-intro" x="-20%" y="-20%" width="140%" height="140%">
-                    <feGaussianBlur stdDeviation="5" result="blur" />
-                    <feMerge>
-                      <feMergeNode in="blur" />
-                      <feMergeNode in="SourceGraphic" />
-                    </feMerge>
-                  </filter>
-                  <linearGradient id="gold-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="#d4bc8a" />
-                    <stop offset="100%" stopColor="#bfa26a" />
-                  </linearGradient>
-                </defs>
-
-                {/* PCB trace lines drawing outward from central logo */}
-                <motion.g
-                  stroke="var(--color-zeriv-green)"
-                  strokeWidth="1.2"
-                  opacity="0.3"
-                  initial={{ pathLength: 0 }}
-                  animate={{ pathLength: 1 }}
-                  transition={{ duration: 2, ease: "easeInOut" }}
-                >
-                  <path d="M 200 200 L 200 40M 200 200 L 200 360M 200 200 L 40 200M 200 200 L 360 200" />
-                  <path d="M 200 200 L 90 90M 200 200 L 310 90M 200 200 L 90 310M 200 200 L 310 310" />
-                </motion.g>
-
-                {/* Secondary trace branches */}
-                <motion.g
-                  stroke="#ce1126"
-                  strokeWidth="1"
-                  opacity="0.25"
-                  initial={{ pathLength: 0 }}
-                  animate={{ pathLength: 1 }}
-                  transition={{ duration: 1.8, delay: 0.5, ease: "easeInOut" }}
-                >
-                  <path d="M 90 90 L 90 40 H 40M 310 90 L 310 40 H 360M 90 310 L 90 360 H 40M 310 310 L 310 360 H 360" />
-                </motion.g>
-
-                {/* ZERIV Arch Logo Construction */}
-                <motion.path
-                  d="M 150 280 L 150 160 L 200 120 L 250 160 L 250 280 L 220 280 L 220 200 L 180 200 L 180 280 Z"
-                  stroke="url(#gold-grad)"
-                  strokeWidth="2.5"
-                  filter="url(#glow-intro)"
-                  initial={{ pathLength: 0, fill: "rgba(191, 162, 106, 0)" }}
-                  animate={{ 
-                    pathLength: 1, 
-                    fill: phase === "grid" ? "rgba(191, 162, 106, 0.08)" : "rgba(191, 162, 106, 0)"
-                  }}
-                  transition={{ 
-                    pathLength: { duration: 2.2, ease: "easeInOut" },
-                    fill: { duration: 1 } 
-                  }}
-                />
-
-                {/* Little center Diamond core */}
-                <motion.path
-                  d="M 195 180 L 200 175 L 205 180 L 200 185 Z"
-                  fill="#ce1126"
-                  initial={{ scale: 0, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  transition={{ delay: 1.5, duration: 0.5 }}
-                />
-
-                {/* Phase 3: Grid Expansion */}
-                {phase === "grid" && (
-                  <motion.g
-                    stroke="rgba(255, 255, 255, 0.15)"
-                    strokeWidth="0.5"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
+                  <svg
+                    width="200"
+                    height="200"
+                    viewBox="0 0 200 200"
+                    fill="none"
+                    style={{ overflow: "visible" }}
                   >
-                    {/* Shoot gridlines outward */}
-                    <motion.line x1="0" y1="40" x2="400" y2="40" initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} />
-                    <motion.line x1="0" y1="360" x2="400" y2="360" initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} />
-                    <motion.line x1="40" y1="0" x2="40" y2="400" initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} />
-                    <motion.line x1="360" y1="0" x2="360" y2="400" initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} />
-                  </motion.g>
-                )}
-              </svg>
-            )}
+                    <defs>
+                      <linearGradient id="gold-stitch" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stopColor="#D4AF37" />
+                        <stop offset="100%" stopColor="#F5D98A" />
+                      </linearGradient>
+                      <filter id="stitch-glow">
+                        <feGaussianBlur stdDeviation="3" result="blur" />
+                        <feMerge>
+                          <feMergeNode in="blur" />
+                          <feMergeNode in="SourceGraphic" />
+                        </feMerge>
+                      </filter>
+                    </defs>
 
-            {phase === "grid" && (
-              <motion.p
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 0.6 }}
-                className="absolute bottom-[-40px] text-[10px] tracking-[0.2em] font-mono text-[#bfa26a]"
-              >
-                [GRID_ESTABLISHED]
-              </motion.p>
-            )}
+                    {/* Center diamond — deep red */}
+                    <motion.path
+                      d="M 100 70 L 130 100 L 100 130 L 70 100 Z"
+                      stroke="#8b1538"
+                      strokeWidth="2"
+                      fill="none"
+                      filter="url(#stitch-glow)"
+                      initial={{ pathLength: 0, opacity: 0 }}
+                      animate={{ pathLength: 1, opacity: 1 }}
+                      transition={{ duration: 0.8, ease: "easeOut" }}
+                    />
+
+                    {/* Inner diamond — gold */}
+                    <motion.path
+                      d="M 100 80 L 120 100 L 100 120 L 80 100 Z"
+                      stroke="url(#gold-stitch)"
+                      strokeWidth="1.5"
+                      fill="none"
+                      initial={{ pathLength: 0, opacity: 0 }}
+                      animate={{ pathLength: 1, opacity: 1 }}
+                      transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
+                    />
+
+                    {/* Tiny center diamond — deep red filled */}
+                    <motion.path
+                      d="M 100 92 L 108 100 L 100 108 L 92 100 Z"
+                      fill="#8b1538"
+                      stroke="#8b1538"
+                      strokeWidth="0.5"
+                      initial={{ scale: 0, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      transition={{ delay: 0.4, duration: 0.5, type: "spring" }}
+                    />
+
+                    {/* Cross-stitch X marks around diamond */}
+                    {[
+                      { x: 100, y: 55 },
+                      { x: 145, y: 100 },
+                      { x: 100, y: 145 },
+                      { x: 55, y: 100 },
+                    ].map((pos, i) => (
+                      <motion.g
+                        key={i}
+                        initial={{ opacity: 0, scale: 0 }}
+                        animate={{ opacity: 0.8, scale: 1 }}
+                        transition={{ delay: 0.5 + i * 0.12, duration: 0.4, type: "spring" }}
+                      >
+                        <line
+                          x1={pos.x - 4}
+                          y1={pos.y - 4}
+                          x2={pos.x + 4}
+                          y2={pos.y + 4}
+                          stroke="#D4AF37"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                        />
+                        <line
+                          x1={pos.x + 4}
+                          y1={pos.y - 4}
+                          x2={pos.x - 4}
+                          y2={pos.y + 4}
+                          stroke="#D4AF37"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                        />
+                      </motion.g>
+                    ))}
+
+                    {/* Corner stitch accents — deep red */}
+                    {[
+                      { x: 70, y: 70 },
+                      { x: 130, y: 70 },
+                      { x: 130, y: 130 },
+                      { x: 70, y: 130 },
+                    ].map((pos, i) => (
+                      <motion.g
+                        key={`corner-${i}`}
+                        initial={{ opacity: 0, scale: 0 }}
+                        animate={{ opacity: 0.6, scale: 1 }}
+                        transition={{ delay: 0.7 + i * 0.1, duration: 0.3, type: "spring" }}
+                      >
+                        <line
+                          x1={pos.x - 3}
+                          y1={pos.y - 3}
+                          x2={pos.x + 3}
+                          y2={pos.y + 3}
+                          stroke="#8b1538"
+                          strokeWidth="1.2"
+                          strokeLinecap="round"
+                        />
+                        <line
+                          x1={pos.x + 3}
+                          y1={pos.y - 3}
+                          x2={pos.x - 3}
+                          y2={pos.y + 3}
+                          stroke="#8b1538"
+                          strokeWidth="1.2"
+                          strokeLinecap="round"
+                        />
+                      </motion.g>
+                    ))}
+
+                    {/* Pulsing glow on the center */}
+                    <motion.circle
+                      cx="100"
+                      cy="100"
+                      r="18"
+                      fill="none"
+                      stroke="#D4AF37"
+                      strokeWidth="0.5"
+                      initial={{ opacity: 0, r: 10 }}
+                      animate={{ opacity: [0, 0.4, 0], r: [10, 25, 30] }}
+                      transition={{ duration: 1.2, delay: 0.6, ease: "easeOut" }}
+                    />
+                  </svg>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            {/* ── Phase 2: Golden Geometric Trace ── */}
+            <AnimatePresence>
+              {phase === "trace" && (
+                <motion.div
+                  key="trace"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0, transition: { duration: 0.6 } }}
+                  className="absolute inset-0 flex items-center justify-center"
+                >
+                  <svg
+                    width="400"
+                    height="400"
+                    viewBox="0 0 400 400"
+                    fill="none"
+                    style={{ overflow: "visible" }}
+                  >
+                    <defs>
+                      <linearGradient id="gold-beam" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stopColor="#D4AF37" />
+                        <stop offset="50%" stopColor="#F5D98A" />
+                        <stop offset="100%" stopColor="#D4AF37" />
+                      </linearGradient>
+                      <linearGradient id="gold-beam-v" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" stopColor="#D4AF37" />
+                        <stop offset="50%" stopColor="#F5D98A" />
+                        <stop offset="100%" stopColor="#D4AF37" />
+                      </linearGradient>
+                      <filter id="beam-glow">
+                        <feGaussianBlur stdDeviation="4" result="blur" />
+                        <feMerge>
+                          <feMergeNode in="blur" />
+                          <feMergeNode in="SourceGraphic" />
+                        </feMerge>
+                      </filter>
+                    </defs>
+
+                    {/* Central diamond morphing/scaling up */}
+                    <motion.path
+                      d="M 200 160 L 240 200 L 200 240 L 160 200 Z"
+                      stroke="#8b1538"
+                      strokeWidth="1.5"
+                      fill="rgba(139, 21, 56, 0.08)"
+                      initial={{ scale: 0.6, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      transition={{ duration: 0.6, ease: "easeOut" }}
+                      style={{ transformOrigin: "200px 200px" }}
+                    />
+                    <motion.path
+                      d="M 200 175 L 225 200 L 200 225 L 175 200 Z"
+                      stroke="#D4AF37"
+                      strokeWidth="1"
+                      fill="none"
+                      initial={{ scale: 0.5, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 0.7 }}
+                      transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
+                      style={{ transformOrigin: "200px 200px" }}
+                    />
+
+                    {/* Cardinal beams — gold gradient */}
+                    {[
+                      "M 200 160 L 200 20",
+                      "M 200 240 L 200 380",
+                      "M 160 200 L 20 200",
+                      "M 240 200 L 380 200",
+                    ].map((d, i) => (
+                      <motion.path
+                        key={`beam-${i}`}
+                        d={d}
+                        stroke="url(#gold-beam)"
+                        strokeWidth="1.2"
+                        filter="url(#beam-glow)"
+                        initial={{ pathLength: 0, opacity: 0 }}
+                        animate={{ pathLength: 1, opacity: 0.7 }}
+                        transition={{ duration: 1.2, delay: 0.2 + i * 0.08, ease: "easeOut" }}
+                      />
+                    ))}
+
+                    {/* Diagonal beams */}
+                    {[
+                      "M 170 170 L 60 60",
+                      "M 230 170 L 340 60",
+                      "M 170 230 L 60 340",
+                      "M 230 230 L 340 340",
+                    ].map((d, i) => (
+                      <motion.path
+                        key={`diag-${i}`}
+                        d={d}
+                        stroke="url(#gold-beam)"
+                        strokeWidth="0.8"
+                        filter="url(#beam-glow)"
+                        initial={{ pathLength: 0, opacity: 0 }}
+                        animate={{ pathLength: 1, opacity: 0.4 }}
+                        transition={{ duration: 1, delay: 0.5 + i * 0.1, ease: "easeOut" }}
+                      />
+                    ))}
+
+                    {/* Secondary branching lines */}
+                    {[
+                      "M 200 80 L 160 40",
+                      "M 200 80 L 240 40",
+                      "M 200 320 L 160 360",
+                      "M 200 320 L 240 360",
+                      "M 80 200 L 40 160",
+                      "M 80 200 L 40 240",
+                      "M 320 200 L 360 160",
+                      "M 320 200 L 360 240",
+                    ].map((d, i) => (
+                      <motion.path
+                        key={`branch-${i}`}
+                        d={d}
+                        stroke="#D4AF37"
+                        strokeWidth="0.6"
+                        initial={{ pathLength: 0, opacity: 0 }}
+                        animate={{ pathLength: 1, opacity: 0.3 }}
+                        transition={{ duration: 0.8, delay: 0.9 + i * 0.05, ease: "easeOut" }}
+                      />
+                    ))}
+
+                    {/* Terminal dots at beam ends */}
+                    {[
+                      [200, 20], [200, 380], [20, 200], [380, 200],
+                      [60, 60], [340, 60], [60, 340], [340, 340],
+                    ].map(([cx, cy], i) => (
+                      <motion.circle
+                        key={`dot-${i}`}
+                        cx={cx}
+                        cy={cy}
+                        r="2"
+                        fill="#D4AF37"
+                        initial={{ opacity: 0, scale: 0 }}
+                        animate={{ opacity: 0.6, scale: 1 }}
+                        transition={{ delay: 1.2 + i * 0.06, duration: 0.3, type: "spring" }}
+                      />
+                    ))}
+
+                    {/* Outer rotating ring */}
+                    <motion.circle
+                      cx="200"
+                      cy="200"
+                      r="170"
+                      stroke="#D4AF37"
+                      strokeWidth="0.4"
+                      strokeDasharray="4 8"
+                      fill="none"
+                      initial={{ opacity: 0, rotate: 0 }}
+                      animate={{ opacity: 0.2, rotate: 45 }}
+                      transition={{ duration: 1.8, delay: 0.4, ease: "easeOut" }}
+                      style={{ transformOrigin: "200px 200px" }}
+                    />
+                  </svg>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            {/* ── Phase 3: Logo Reveal ── */}
+            <AnimatePresence>
+              {phase === "reveal" && (
+                <motion.div
+                  key="reveal"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0, transition: { duration: 0.8 } }}
+                  className="absolute inset-0 flex flex-col items-center justify-center"
+                >
+                  {/* Golden glow behind logo */}
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.5 }}
+                    animate={{ opacity: 0.3, scale: 1 }}
+                    transition={{ duration: 1, ease: "easeOut" }}
+                    style={{
+                      position: "absolute",
+                      width: 220,
+                      height: 220,
+                      borderRadius: "50%",
+                      background: "radial-gradient(circle, #D4AF37 0%, rgba(212,175,55,0.1) 50%, transparent 70%)",
+                      filter: "blur(30px)",
+                      pointerEvents: "none",
+                    }}
+                  />
+
+                  {/* Logo image */}
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.7 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+                  >
+                    <Image
+                      src="/brand/logo.png"
+                      alt="ZERIV"
+                      width={160}
+                      height={160}
+                      priority
+                      style={{ objectFit: "contain" }}
+                    />
+                  </motion.div>
+
+                  {/* ZERIV TECH subtitle */}
+                  <motion.p
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 0.4, y: 0 }}
+                    transition={{ duration: 0.8, delay: 0.5, ease: "easeOut" }}
+                    style={{
+                      marginTop: 20,
+                      fontSize: 11,
+                      letterSpacing: "0.3em",
+                      textTransform: "uppercase",
+                      color: "#D4AF37",
+                      fontWeight: 300,
+                    }}
+                  >
+                    ZERIV TECH
+                  </motion.p>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
 
           {/* Skip Button */}
@@ -179,27 +426,35 @@ export function IntroConstruction({ onComplete }: { onComplete: () => void }) {
               setPhase("complete");
               onComplete();
             }}
-            className="absolute bottom-8 right-8 flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs font-mono text-white/50 transition-all hover:border-white/30 hover:bg-white/10 hover:text-white cursor-pointer"
+            style={{
+              position: "absolute",
+              bottom: 32,
+              right: 32,
+              padding: "6px 20px",
+              borderRadius: 999,
+              border: "1px solid rgba(212, 175, 55, 0.3)",
+              background: "rgba(212, 175, 55, 0.05)",
+              color: "rgba(212, 175, 55, 0.6)",
+              fontSize: 12,
+              letterSpacing: "0.1em",
+              cursor: "pointer",
+              transition: "all 0.3s ease",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.borderColor = "rgba(212, 175, 55, 0.6)";
+              e.currentTarget.style.color = "rgba(212, 175, 55, 0.9)";
+              e.currentTarget.style.background = "rgba(212, 175, 55, 0.1)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.borderColor = "rgba(212, 175, 55, 0.3)";
+              e.currentTarget.style.color = "rgba(212, 175, 55, 0.6)";
+              e.currentTarget.style.background = "rgba(212, 175, 55, 0.05)";
+            }}
           >
-            تخطي العرض [SKIP_INTRO] →
+            تخطي
           </button>
         </motion.div>
       )}
     </AnimatePresence>
-  );
-}
-
-function Stitch({ color, delay }: { color: string; delay: number }) {
-  return (
-    <motion.svg
-      initial={{ opacity: 0, scale: 0 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ delay, duration: 0.4, type: "spring" }}
-      className="h-5 w-5"
-      viewBox="0 0 10 10"
-    >
-      <line x1="1" y1="1" x2="9" y2="9" stroke={color} strokeWidth="1.8" strokeLinecap="round" />
-      <line x1="9" y1="1" x2="1" y2="9" stroke={color} strokeWidth="1.8" strokeLinecap="round" />
-    </motion.svg>
   );
 }

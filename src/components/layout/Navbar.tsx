@@ -6,8 +6,6 @@ import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Logo } from "@/components/brand/Logo";
 import { ThemeToggle } from "@/components/layout/ThemeToggle";
-import { Button } from "@/components/ui/button";
-import { TatreezBorder } from "@/components/patterns/Patterns";
 import { useNavActive, type NavItemId } from "@/hooks/useNavActive";
 import { cn } from "@/lib/utils";
 
@@ -39,14 +37,21 @@ function NavLink({
       onClick={onClick}
       aria-current={active ? "page" : undefined}
       className={cn(
-        "relative rounded-full px-3.5 py-2 text-sm font-semibold transition-all duration-300",
+        "relative px-4 py-2 text-sm font-medium transition-all duration-300",
         active
-          ? "nav-link-active text-white shadow-md shadow-zeriv-red/35"
-          : "text-zeriv-muted hover:bg-zeriv-surface/80 hover:text-zeriv-fg",
+          ? "text-[#D4AF37]"
+          : "text-white/40 hover:text-white/70",
         className
       )}
     >
       {label}
+      {active && (
+        <motion.div
+          layoutId="nav-indicator"
+          className="absolute bottom-0 left-1/2 -translate-x-1/2 h-[2px] w-4 bg-[#D4AF37] rounded-full"
+          transition={{ type: "spring", stiffness: 400, damping: 30 }}
+        />
+      )}
     </Link>
   );
 }
@@ -56,12 +61,14 @@ export function Navbar() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 nav-glass-premium">
-      <div className="mx-auto flex h-[4.25rem] max-w-7xl items-center gap-4 px-4 sm:px-6 lg:px-8">
+    <header className="fixed inset-x-0 top-0 z-50">
+      <div className="mx-auto flex h-[4.25rem] max-w-7xl items-center justify-between px-5 sm:px-8">
+        {/* Logo */}
         <Logo size="nav" variant="nav" />
 
-        <nav className="hidden flex-1 justify-center lg:flex" aria-label="التنقل الرئيسي">
-          <ul className="nav-pill flex items-center gap-0.5 rounded-full p-1">
+        {/* Center navigation */}
+        <nav className="hidden lg:flex" aria-label="التنقل الرئيسي">
+          <ul className="flex items-center gap-1 rounded-full border border-white/[0.06] bg-black/40 backdrop-blur-xl px-2 py-1">
             {navLinks.map((link) => (
               <li key={link.id}>
                 <NavLink
@@ -74,39 +81,36 @@ export function Navbar() {
           </ul>
         </nav>
 
-        <div className="flex shrink-0 items-center gap-2 lg:gap-2.5">
+        {/* Right side */}
+        <div className="flex items-center gap-3">
           <ThemeToggle />
-          <Button
-            asChild
-            size="sm"
-            className="hidden rounded-md bg-zeriv-green px-5 font-semibold shadow-none hover:bg-zeriv-green-light sm:inline-flex"
+          <Link
+            href="/contact"
+            className="hidden sm:inline-flex items-center rounded-full bg-[#D4AF37] px-5 py-2 text-xs font-bold text-black transition-all duration-300 hover:bg-[#E5C148]"
           >
-            <Link href="/contact">ابدأ مشروعك</Link>
-          </Button>
-          <Button
-            variant="ghost"
-            size="icon"
-            className="rounded-full lg:hidden"
+            ابدأ مشروعك
+          </Link>
+          <button
+            className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 text-white/50 lg:hidden hover:border-[#D4AF37]/30 hover:text-[#D4AF37] transition-colors"
             onClick={() => setOpen(!open)}
             aria-label={open ? "إغلاق القائمة" : "فتح القائمة"}
             aria-expanded={open}
           >
             {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-          </Button>
+          </button>
         </div>
       </div>
 
-      <TatreezBorder />
-
+      {/* Mobile menu */}
       <AnimatePresence>
         {open && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="overflow-hidden border-b border-zeriv-border bg-zeriv-surface/95 backdrop-blur-xl lg:hidden"
+            className="overflow-hidden border-b border-white/[0.06] bg-[#0B0B0B]/95 backdrop-blur-2xl lg:hidden"
           >
-            <ul className="flex flex-col gap-1 px-4 py-3 sm:px-6">
+            <ul className="flex flex-col gap-1 px-5 py-4">
               {navLinks.map((link) => (
                 <li key={link.id}>
                   <NavLink
@@ -114,7 +118,7 @@ export function Navbar() {
                     label={link.label}
                     active={activeId === link.id}
                     onClick={() => setOpen(false)}
-                    className="block w-full text-right"
+                    className="block w-full text-right py-3"
                   />
                 </li>
               ))}

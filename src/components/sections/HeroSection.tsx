@@ -1,80 +1,94 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { ArrowLeft } from "lucide-react";
-import { HeroVisual } from "@/components/brand/HeroVisual";
 import { Container, SectionShell } from "@/components/layout/SectionShell";
-import { TatreezBorder } from "@/components/patterns/Patterns";
-
-const heroStats = [
-  { value: "50+", label: "مشروع منجز" },
-  { value: "5", label: "مجالات خدمة" },
-  { value: "100%", label: "التزام بالجودة" },
-];
 
 export function HeroSection() {
   return (
-    <SectionShell variant="hero" className="relative min-h-[92vh] pt-[4.25rem]">
-      <Container className="relative flex min-h-[calc(92vh-4.25rem)] flex-col justify-center py-14 lg:py-20">
-        <div className="grid items-center gap-12 lg:grid-cols-[1.15fr_0.85fr] lg:gap-16">
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+    <SectionShell variant="hero" className="relative min-h-screen pt-[4.25rem]">
+      {/* Subtle gold radial glow at top */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[600px] bg-[radial-gradient(ellipse_at_center,rgba(212,175,55,0.06)_0%,transparent_70%)]" />
+      </div>
+      
+      <Container className="relative flex min-h-[calc(100vh-4.25rem)] flex-col items-center justify-center text-center py-20">
+        {/* Logo mark - small, centered above headline */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+          className="mb-12"
+        >
+          <Image 
+            src="/brand/logo.png"
+            alt="ZERIV TECH"
+            width={80}
+            height={80}
+            className="mx-auto opacity-70"
+          />
+        </motion.div>
+
+        {/* Main headline - massive, elegant */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.9, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <h1 className="font-display text-[clamp(2.5rem,7vw,5.5rem)] font-bold leading-[1.05] tracking-tight">
+            <span className="text-[#D4AF37]">نصمم.</span>
+            <br />
+            <span className="text-zeriv-fg">نبرمج.</span>
+            <br />
+            <span className="text-zeriv-fg/40">نرتقي.</span>
+          </h1>
+        </motion.div>
+
+        {/* Supporting text - one line only */}
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          className="mt-8 max-w-lg text-base font-light leading-relaxed text-zeriv-fg/50"
+        >
+          نبني تجارب رقمية استثنائية — بأناقة مستوحاة من تراثنا الفلسطيني.
+        </motion.p>
+
+        {/* Single CTA */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.7, ease: [0.22, 1, 0.36, 1] }}
+          className="mt-12"
+        >
+          <Link
+            href="/contact"
+            className="group inline-flex items-center gap-3 rounded-full border border-[#D4AF37]/30 bg-[#D4AF37]/5 px-8 py-4 text-sm font-semibold text-[#D4AF37] transition-all duration-500 hover:border-[#D4AF37]/60 hover:bg-[#D4AF37]/10 hover:shadow-[0_0_40px_rgba(212,175,55,0.15)]"
           >
-            <p className="hero-eyebrow mb-6">وكالة رقمية فلسطينية</p>
+            ابدأ مشروعك
+            <ArrowLeft className="h-4 w-4 transition-transform duration-300 group-hover:-translate-x-1" />
+          </Link>
+        </motion.div>
 
-            <h1 className="hero-headline text-zeriv-fg">
-              نحوّل <span className="text-zeriv-red">الأفكار</span>
-              <br />
-              إلى تجارب رقمية
-              <br />
-              <span className="text-zeriv-muted font-light">تستحق أن تُرى.</span>
-            </h1>
-
-            <p className="mt-8 max-w-xl text-base font-light leading-[1.9] text-zeriv-muted sm:text-lg">
-              مواقع، تطبيقات، وهويات بصرية — نبنيها بمعايير عالمية،
-              بروح فلسطينية أصيلة في كل تفصيلة.
-            </p>
-
-            <div className="mt-10 flex flex-wrap gap-3">
-              <Link href="/contact" className="btn-primary">
-                ابدأ مشروعك
-                <ArrowLeft className="h-4 w-4" />
-              </Link>
-              <Link href="/portfolio" className="btn-outline">
-                أعمالنا
-              </Link>
-            </div>
-
-            <div className="mt-14 flex flex-wrap items-stretch divide-x divide-x-reverse divide-zeriv-border border-y border-zeriv-border">
-              {heroStats.map((s) => (
-                <div key={s.label} className="stat-card min-w-[7rem] flex-1 py-5">
-                  <div className="font-display text-2xl font-semibold text-zeriv-fg sm:text-3xl">
-                    {s.value}
-                  </div>
-                  <div className="mt-1 text-xs font-medium text-zeriv-muted">
-                    {s.label}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.9, delay: 0.12 }}
-            className="relative flex justify-center lg:justify-end"
-          >
-            <HeroVisual />
-          </motion.div>
-        </div>
+        {/* Scroll indicator */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.5, duration: 1 }}
+          className="absolute bottom-8 left-1/2 -translate-x-1/2"
+        >
+          <div className="flex flex-col items-center gap-2">
+            <span className="text-[10px] tracking-[0.2em] uppercase text-zeriv-fg/20">اكتشف المزيد</span>
+            <motion.div
+              animate={{ y: [0, 6, 0] }}
+              transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+              className="h-8 w-[1px] bg-gradient-to-b from-[#D4AF37]/40 to-transparent"
+            />
+          </div>
+        </motion.div>
       </Container>
-
-      <TatreezBorder thick className="absolute inset-x-0 bottom-0" />
     </SectionShell>
   );
 }
-
