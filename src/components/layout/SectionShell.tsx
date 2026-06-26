@@ -9,18 +9,8 @@ export function Container({
   className?: string;
 }) {
   return (
-    <div className={cn("mx-auto w-full max-w-6xl px-5 sm:px-8", className)}>
+    <div className={cn("mx-auto w-full max-w-6xl px-5 sm:px-8 lg:px-10", className)}>
       {children}
-    </div>
-  );
-}
-
-export function SectionOrnament({ className }: { className?: string }) {
-  return (
-    <div className={cn("section-ornament", className)} aria-hidden="true">
-      <span className="bg-zeriv-red/80" />
-      <span className="bg-zeriv-black dark:bg-zeriv-white h-2 w-2" />
-      <span className="bg-zeriv-green/80" />
     </div>
   );
 }
@@ -70,48 +60,53 @@ interface SectionHeaderProps {
   align?: "center" | "start";
   className?: string;
   number?: string;
-  showOrnament?: boolean;
 }
 
 export function SectionHeader({
   label,
   title,
   description,
-  align = "center",
+  align = "start",
   className,
   number,
-  showOrnament = true,
 }: SectionHeaderProps) {
+  const centered = align === "center";
+
   return (
     <div
       className={cn(
-        "mb-12 sm:mb-16",
-        align === "center" ? "text-center" : "text-right",
+        "mb-14 sm:mb-20",
+        centered ? "text-center" : "text-right",
         className
       )}
     >
       <div
         className={cn(
-          "flex items-center gap-3",
-          align === "center" ? "justify-center" : "justify-start"
+          "flex items-end gap-5",
+          centered ? "justify-center" : "justify-start"
         )}
       >
         {number && (
-          <span className="font-mono text-sm font-medium text-zeriv-red/70">
+          <span className="section-number select-none" aria-hidden="true">
             {number}
           </span>
         )}
-        <span className="section-label">{label}</span>
+        <div className={cn(centered && "text-center")}>
+          <p className="section-label">{label}</p>
+          <h2 className="section-title mt-3">{title}</h2>
+        </div>
       </div>
-      <h2 className="section-title mt-4">{title}</h2>
-      {showOrnament && (
-        <SectionOrnament className={align === "start" ? "mr-0 justify-start" : undefined} />
-      )}
+      <div
+        className={cn(
+          "section-rule mt-6",
+          centered && "section-rule-center"
+        )}
+      />
       {description && (
         <p
           className={cn(
-            "section-desc mt-4 max-w-2xl leading-relaxed",
-            align === "center" && "mx-auto"
+            "section-desc mt-5",
+            centered && "mx-auto"
           )}
         >
           {description}

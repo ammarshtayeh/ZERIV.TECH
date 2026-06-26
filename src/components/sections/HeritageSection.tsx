@@ -30,17 +30,17 @@ const heritage = [
   {
     title: "العمارة",
     desc: "أقواس الحجر والنوافذ الفلسطينية تنعكس في شعارنا وتصميم هويتنا الرقمية.",
-    accent: "border-r-zeriv-gold",
+    accent: "border-r-zeriv-fg/25",
     icon: Landmark,
-    color: "text-zeriv-gold",
-    bg: "bg-zeriv-gold/10",
+    color: "text-zeriv-fg",
+    bg: "bg-zeriv-surface",
   },
 ];
 
 export function HeritageSection() {
   return (
     <SectionShell variant="warm" divider className="py-14 sm:py-20">
-      <HeritageBackdrop variant="accent" />
+      <HeritageBackdrop />
       <Container>
         <ScrollReveal>
           <SectionHeader
@@ -48,7 +48,7 @@ export function HeritageSection() {
             label="جذورنا"
             title={
               <>
-                هويتنا <span className="text-gradient-flag">فلسطينية</span>
+                هويتنا <span className="text-zeriv-red">فلسطينية</span>
               </>
             }
             description="التراث الفلسطيني يشكّل هوية ZERIV البصرية واسمنا — أما عملنا فيشمل مواقع وتطبيقات ومنصات لأي قطاع أو فكرة."

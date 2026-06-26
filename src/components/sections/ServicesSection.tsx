@@ -1,15 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import {
-  Brain,
-  Code2,
-  Layout,
-  Palette,
-  Sparkles,
-  ArrowLeft,
-  type LucideIcon,
-} from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { services } from "@/lib/mock-data";
 import { ScrollReveal } from "@/components/effects/ScrollReveal";
 import { HeritageBackdrop } from "@/components/effects/HeritageBackdrop";
@@ -18,69 +10,53 @@ import {
   SectionShell,
   SectionHeader,
 } from "@/components/layout/SectionShell";
+import { cn } from "@/lib/utils";
 
-const iconMap: Record<string, LucideIcon> = {
-  code: Code2,
-  palette: Palette,
-  sparkles: Sparkles,
-  layout: Layout,
-  brain: Brain,
-};
-
-const accents = [
-  { grad: "from-zeriv-green/15 to-transparent", border: "border-zeriv-green/20", icon: "text-zeriv-green" },
-  { grad: "from-zeriv-gold/15 to-transparent", border: "border-zeriv-gold/20", icon: "text-zeriv-gold" },
-  { grad: "from-zeriv-red/15 to-transparent", border: "border-zeriv-red/20", icon: "text-zeriv-red" },
-  { grad: "from-zeriv-green/10 to-transparent", border: "border-zeriv-green/15", icon: "text-zeriv-green" },
-  { grad: "from-zeriv-gold/10 to-transparent", border: "border-zeriv-gold/15", icon: "text-zeriv-gold" },
-];
+const accents = ["editorial-card-red", "editorial-card-green", "editorial-card-black"];
 
 function ServiceCard({
   title,
   description,
-  icon,
   category,
   index,
   featured = false,
 }: {
   title: string;
   description: string;
-  icon: string;
   category: string;
   index: number;
   featured?: boolean;
 }) {
-  const Icon = iconMap[icon] || Code2;
-  const accent = accents[index % accents.length];
-
   return (
-    <div
-      className={`content-card-hover group relative flex h-full flex-col overflow-hidden bg-gradient-to-br p-6 ${accent.grad} border ${accent.border} ${
-        featured ? "sm:p-8" : ""
-      }`}
+    <article
+      className={cn(
+        "editorial-card group h-full transition-colors hover:bg-zeriv-elevated",
+        accents[index % accents.length],
+        featured && "sm:p-8"
+      )}
     >
-      <div className="tatreez-corner pointer-events-none absolute -left-2 -top-2 h-16 w-16 opacity-40" />
-      <div className="mb-4 flex items-start justify-between">
-        <div className={`flex h-12 w-12 items-center justify-center rounded-xl border border-white/10 bg-white/[0.06] ${accent.icon}`}>
-          <Icon className="h-5 w-5" strokeWidth={1.5} />
-        </div>
+      <div className="mb-6 flex items-center justify-between gap-3">
+        <span className="font-mono text-xs text-zeriv-red/70">
+          {String(index + 1).padStart(2, "0")}
+        </span>
         <span className="tag-pill">{category}</span>
       </div>
       <h3
-        className={`mb-2 font-semibold text-zeriv-offwhite ${
-          featured ? "text-lg sm:text-xl" : "text-base"
-        }`}
+        className={cn(
+          "font-display font-semibold text-zeriv-fg",
+          featured ? "text-xl sm:text-2xl" : "text-lg"
+        )}
       >
         {title}
       </h3>
-      <p className="flex-1 text-sm leading-relaxed text-zeriv-offwhite/65">
+      <p className="mt-3 flex-1 text-sm font-light leading-[1.85] text-zeriv-muted">
         {description}
       </p>
-      <div className="mt-4 flex items-center gap-1 text-xs font-medium text-zeriv-gold opacity-0 transition-opacity group-hover:opacity-100">
+      <div className="mt-6 flex items-center gap-1 text-xs font-medium text-zeriv-red opacity-0 transition-opacity group-hover:opacity-100">
         <span>اعرف المزيد</span>
         <ArrowLeft className="h-3 w-3" />
       </div>
-    </div>
+    </article>
   );
 }
 
@@ -97,7 +73,7 @@ export function ServicesSection({ showAll = false }: { showAll?: boolean }) {
             label="خدماتنا"
             title={
               <>
-                حلول رقمية <span className="text-gradient-heritage">متكاملة</span>
+                حلول رقمية <span className="text-zeriv-red">متكاملة</span>
               </>
             }
             description="مواقع، تطبيقات، تصميم، هوية بصرية، واستشارات — خمسة مجالات نتقنها لعملائنا في مختلف القطاعات."
@@ -107,7 +83,7 @@ export function ServicesSection({ showAll = false }: { showAll?: boolean }) {
         {showAll ? (
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {services.map((s, i) => (
-              <ScrollReveal key={s.id} delay={i * 0.06}>
+              <ScrollReveal key={s.id} delay={i * 0.05}>
                 <ServiceCard {...s} index={i} featured={i === 0} />
               </ScrollReveal>
             ))}
@@ -118,9 +94,9 @@ export function ServicesSection({ showAll = false }: { showAll?: boolean }) {
               <ScrollReveal>
                 <ServiceCard {...featured} index={0} featured />
               </ScrollReveal>
-              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-1">
+              <div className="grid gap-4">
                 {rest.slice(0, 2).map((s, i) => (
-                  <ScrollReveal key={s.id} delay={(i + 1) * 0.06}>
+                  <ScrollReveal key={s.id} delay={(i + 1) * 0.05}>
                     <ServiceCard {...s} index={i + 1} />
                   </ScrollReveal>
                 ))}
@@ -128,12 +104,12 @@ export function ServicesSection({ showAll = false }: { showAll?: boolean }) {
             </div>
             <div className="mt-4 grid gap-4 sm:grid-cols-2">
               {rest.slice(2).map((s, i) => (
-                <ScrollReveal key={s.id} delay={(i + 3) * 0.06}>
+                <ScrollReveal key={s.id} delay={(i + 3) * 0.05}>
                   <ServiceCard {...s} index={i + 3} />
                 </ScrollReveal>
               ))}
             </div>
-            <ScrollReveal className="mt-10 text-center">
+            <ScrollReveal className="mt-12">
               <Link href="/services" className="btn-outline">
                 عرض جميع الخدمات
                 <ArrowLeft className="h-4 w-4" />

@@ -67,9 +67,14 @@
   --color-zeriv-white: #ffffff;
   --color-zeriv-silver: #e2e8f0;
   --color-zeriv-olive: #5c6b3c;
-  --font-sans: var(--font-cairo), system-ui, sans-serif;
-  --font-display: var(--font-tajawal), var(--font-cairo), system-ui, sans-serif;
-  --font-heritage: var(--font-amiri), var(--font-noto-naskh), var(--font-tajawal), serif;
+  --font-sans: var(--font-plex), system-ui, sans-serif;
+  --font-display: var(--font-messiri), var(--font-plex), serif;
+  --font-heritage: var(--font-noto-naskh), var(--font-messiri), serif;
+  --font-mono: ui-monospace, "Cascadia Code", monospace;
+  --leading-body: 1.75;
+  --leading-tight: 1.15;
+  --tracking-display: -0.02em;
+  --tracking-caps: 0.18em;
 }
 
 @layer base {
@@ -86,7 +91,19 @@
     background-color: var(--zeriv-bg);
     color: var(--zeriv-fg);
     font-family: var(--font-sans);
+    font-weight: 400;
+    line-height: var(--leading-body);
+    font-feature-settings: "kern" 1, "liga" 1;
     @apply antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    letter-spacing: var(--tracking-display);
+    text-wrap: balance;
   }
 
   ::selection {
@@ -96,128 +113,134 @@
 
 @layer utilities {
   .text-gradient-heritage {
-    @apply bg-gradient-to-l from-zeriv-red via-zeriv-black to-zeriv-green bg-clip-text text-transparent;
+    @apply text-zeriv-red;
   }
 
   .dark .text-gradient-heritage {
-    @apply from-zeriv-red via-zeriv-white to-zeriv-green;
+    @apply text-zeriv-red;
   }
 
   .text-gradient-light {
-    @apply bg-gradient-to-l from-zeriv-white via-zeriv-silver to-zeriv-white bg-clip-text text-transparent;
+    @apply text-zeriv-fg;
   }
 
   .text-gradient-flag {
-    @apply bg-gradient-to-l from-zeriv-red to-zeriv-green bg-clip-text text-transparent;
+    @apply text-zeriv-green;
+  }
+
+  .font-display {
+    font-family: var(--font-display);
   }
 
   .font-heritage {
     font-family: var(--font-heritage);
+    line-height: 1.9;
+  }
+
+  .text-caps {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
+  }
+
+  .site-grain {
+    opacity: 0.35;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  }
+
+  .dark .site-grain {
+    opacity: 0.5;
   }
 
   .bg-section-hero {
-    background:
-      radial-gradient(ellipse 90% 70% at 50% -10%, rgba(206, 17, 38, 0.08) 0%, transparent 55%),
-      radial-gradient(ellipse 50% 60% at 0% 80%, rgba(0, 122, 61, 0.07) 0%, transparent 50%),
-      radial-gradient(ellipse 50% 60% at 100% 70%, rgba(255, 255, 255, 0.15) 0%, transparent 50%),
-      linear-gradient(175deg, var(--zeriv-bg-2) 0%, var(--zeriv-bg) 100%);
+    background: var(--zeriv-bg);
   }
 
   .dark .bg-section-hero {
     background:
-      radial-gradient(ellipse 90% 70% at 50% -10%, rgba(206, 17, 38, 0.12) 0%, transparent 55%),
-      radial-gradient(ellipse 50% 60% at 0% 80%, rgba(0, 122, 61, 0.1) 0%, transparent 50%),
-      linear-gradient(175deg, #0c1210 0%, #060908 100%);
+      radial-gradient(ellipse 70% 50% at 80% 0%, rgba(206, 17, 38, 0.07) 0%, transparent 55%),
+      var(--zeriv-bg);
   }
 
   .bg-section-base {
-    background: linear-gradient(180deg, var(--zeriv-bg) 0%, var(--zeriv-bg-2) 100%);
+    background: var(--zeriv-bg);
   }
 
   .bg-section-elevated {
-    background:
-      radial-gradient(ellipse 80% 50% at 50% 100%, rgba(206, 17, 38, 0.04) 0%, transparent 55%),
-      var(--zeriv-bg-2);
+    background: var(--zeriv-bg-2);
   }
 
   .dark .bg-section-elevated {
-    background:
-      radial-gradient(ellipse 80% 50% at 50% 100%, rgba(0, 122, 61, 0.08) 0%, transparent 55%),
-      #0a0f0c;
+    background: var(--zeriv-bg-2);
   }
 
   .bg-section-accent {
-    background:
-      radial-gradient(ellipse 60% 50% at 100% 0%, rgba(206, 17, 38, 0.06) 0%, transparent 50%),
-      radial-gradient(ellipse 60% 50% at 0% 100%, rgba(0, 122, 61, 0.06) 0%, transparent 50%),
-      var(--zeriv-bg-3);
+    background: var(--zeriv-bg-3);
   }
 
   .dark .bg-section-accent {
-    background:
-      radial-gradient(ellipse 60% 50% at 100% 0%, rgba(206, 17, 38, 0.08) 0%, transparent 50%),
-      radial-gradient(ellipse 60% 50% at 0% 100%, rgba(0, 122, 61, 0.09) 0%, transparent 50%),
-      linear-gradient(160deg, #0d1411 0%, #080c0a 100%);
+    background: var(--zeriv-bg-3);
   }
 
   .bg-section-warm {
-    background:
-      radial-gradient(ellipse 90% 70% at 50% 50%, rgba(255, 255, 255, 0.9) 0%, transparent 60%),
-      radial-gradient(ellipse 50% 40% at 20% 80%, rgba(206, 17, 38, 0.04) 0%, transparent 50%),
-      var(--zeriv-bg-2);
+    background: var(--zeriv-bg-2);
   }
 
   .dark .bg-section-warm {
-    background:
-      radial-gradient(ellipse 90% 70% at 50% 50%, rgba(206, 17, 38, 0.08) 0%, transparent 60%),
-      linear-gradient(155deg, #121a16 0%, #0a0f0c 100%);
+    background: linear-gradient(180deg, var(--zeriv-bg-2) 0%, var(--zeriv-bg) 100%);
   }
 
   .section-label {
-    @apply inline-flex items-center gap-2 rounded-full border border-zeriv-red/30 bg-zeriv-red/8 px-4 py-1.5 text-[11px] font-bold tracking-[0.14em] text-zeriv-red;
-  }
-
-  .dark .section-label {
-    @apply border-zeriv-red/40 bg-zeriv-red/12 text-zeriv-red;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
+    @apply text-zeriv-red;
   }
 
   .section-title {
-    @apply font-display text-[1.85rem] font-extrabold leading-snug text-zeriv-fg sm:text-4xl lg:text-[2.75rem];
-    color: var(--zeriv-fg);
+    @apply font-display text-[2rem] font-semibold leading-[var(--leading-tight)] text-zeriv-fg sm:text-[2.5rem] lg:text-[3rem];
   }
 
   .section-desc {
-    @apply text-[15px] leading-relaxed sm:text-base;
+    @apply text-base font-light leading-[1.85] sm:text-[1.0625rem];
     color: var(--zeriv-fg-muted);
+    max-width: 38rem;
   }
 
-  .section-ornament {
-    @apply mx-auto mt-5 flex items-center justify-center gap-2;
+  .section-rule {
+    @apply mt-6 h-px w-16 bg-zeriv-red;
   }
 
-  .section-ornament span {
-    @apply h-1.5 w-1.5 rotate-45;
+  .section-rule-center {
+    @apply mx-auto;
+  }
+
+  .section-number {
+    font-family: var(--font-display);
+    @apply text-5xl font-semibold leading-none text-zeriv-red/15 sm:text-6xl;
   }
 
   .content-card {
-    @apply rounded-2xl backdrop-blur-sm;
+    @apply rounded-lg;
     background: var(--zeriv-card);
     border: 1px solid var(--zeriv-border);
-    box-shadow: var(--shadow-card);
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: none;
+    transition: border-color 0.25s ease, background-color 0.25s ease;
   }
 
   .content-card-hover {
-    @apply rounded-2xl backdrop-blur-sm transition-all duration-400;
+    @apply rounded-lg transition-all duration-300;
     background: var(--zeriv-card);
     border: 1px solid var(--zeriv-border);
-    box-shadow: var(--shadow-card);
+    box-shadow: none;
   }
 
   .content-card-hover:hover {
-    border-color: rgba(206, 17, 38, 0.35);
-    box-shadow: var(--shadow-card-hover);
-    transform: translateY(-4px);
+    border-color: rgba(206, 17, 38, 0.28);
+    background: color-mix(in srgb, var(--zeriv-card) 96%, #ce1126 4%);
+    transform: none;
   }
 
   .premium-glow {
@@ -242,9 +265,43 @@
   }
 
   .stat-card {
-    @apply rounded-xl px-4 py-3 backdrop-blur-sm;
-    background: var(--zeriv-surface);
-    border: 1px solid var(--zeriv-border);
+    @apply border-r border-zeriv-border px-5 py-2 first:pr-0 last:border-r-0;
+    background: transparent;
+    border-radius: 0;
+  }
+
+  .hero-headline {
+    font-family: var(--font-display);
+    font-size: clamp(2.25rem, 5vw, 3.75rem);
+    font-weight: 600;
+    line-height: 1.12;
+    letter-spacing: var(--tracking-display);
+  }
+
+  .hero-eyebrow {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
+    @apply text-zeriv-muted;
+  }
+
+  .editorial-card {
+    @apply relative overflow-hidden rounded-lg border border-zeriv-border bg-zeriv-card p-6 sm:p-7;
+    border-right-width: 3px;
+  }
+
+  .editorial-card-red {
+    border-right-color: #ce1126;
+  }
+
+  .editorial-card-green {
+    border-right-color: #007a3d;
+  }
+
+  .editorial-card-black {
+    border-right-color: var(--zeriv-fg);
+    border-right-color: color-mix(in srgb, var(--zeriv-fg) 40%, transparent);
   }
 
   .circuit-grid {
@@ -291,42 +348,35 @@
   }
 
   .inspiration-card {
-    @apply relative overflow-hidden rounded-2xl border border-zeriv-red/25 p-6 sm:p-8;
-    background: linear-gradient(
-      135deg,
-      rgba(206, 17, 38, 0.04) 0%,
-      var(--zeriv-card) 40%,
-      rgba(0, 122, 61, 0.04) 100%
-    );
-    box-shadow: var(--shadow-card);
+    @apply relative overflow-hidden rounded-lg border border-zeriv-border p-6 sm:p-8;
+    background: var(--zeriv-card);
+    box-shadow: none;
   }
 
   .btn-primary {
-    @apply inline-flex items-center justify-center gap-2 rounded-full bg-zeriv-green px-7 py-3.5 text-sm font-bold text-white transition-all;
-    box-shadow: 0 4px 20px rgba(0, 122, 61, 0.3);
+    @apply inline-flex items-center justify-center gap-2 rounded-md bg-zeriv-green px-6 py-3 text-sm font-semibold text-white transition-colors;
+    box-shadow: none;
   }
 
   .btn-primary:hover {
-    @apply scale-[1.02] bg-zeriv-green-light;
+    @apply bg-zeriv-green-light;
+    transform: none;
   }
 
   .btn-outline {
-    @apply inline-flex items-center justify-center gap-2 rounded-full border-2 border-zeriv-red/40 bg-transparent px-7 py-3.5 text-sm font-bold text-zeriv-red transition-all;
-  }
-
-  .dark .btn-outline {
-    @apply border-zeriv-red/50 text-zeriv-red;
+    @apply inline-flex items-center justify-center gap-2 rounded-md border border-zeriv-border bg-transparent px-6 py-3 text-sm font-semibold text-zeriv-fg transition-colors;
   }
 
   .btn-outline:hover {
-    @apply scale-[1.02] border-zeriv-red bg-zeriv-red/10;
+    @apply border-zeriv-red/40 bg-zeriv-red/5 text-zeriv-red;
+    transform: none;
   }
 
   .tag-pill {
-    @apply inline-flex items-center rounded-full px-3 py-1 text-[11px] font-medium;
-    background: var(--zeriv-bg-3);
+    @apply inline-flex items-center rounded-md px-2.5 py-1 text-[10px] font-medium uppercase tracking-wider;
+    background: transparent;
     border: 1px solid var(--zeriv-border);
-    color: var(--zeriv-fg-muted);
+    color: var(--zeriv-fg-soft);
   }
 
   .tatreez-corner {

@@ -43,7 +43,7 @@ export function AboutSection({ fullPage = false }: { fullPage?: boolean }) {
             label="عن ZERIV TECH"
             title={
               <>
-                تقنية حديثة بـ<span className="text-gradient-heritage">روح فلسطينية</span>
+                تقنية حديثة بـ<span className="text-zeriv-red">روح فلسطينية</span>
               </>
             }
             description="وكالة فلسطينية نطوّر مواقع وتطبيقات وحلول رقمية لعملاء من مختلف القطاعات — هويتنا فلسطينية، ومشاريعنا بلا حدود."

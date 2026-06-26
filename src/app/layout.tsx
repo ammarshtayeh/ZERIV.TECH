@@ -1,28 +1,22 @@
 import type { Metadata } from "next";
-import { Cairo, Tajawal, Amiri, Noto_Naskh_Arabic } from "next/font/google";
+import { IBM_Plex_Sans_Arabic, El_Messiri, Noto_Naskh_Arabic } from "next/font/google";
 import { ThemeProvider } from "@/components/layout/ThemeProvider";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { TatreezSideRails } from "@/components/patterns/TatreezSideRails";
 import "./globals.css";
 
-const cairo = Cairo({
+const plex = IBM_Plex_Sans_Arabic({
   subsets: ["arabic", "latin"],
-  variable: "--font-cairo",
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-plex",
   display: "swap",
 });
 
-const tajawal = Tajawal({
+const messiri = El_Messiri({
   subsets: ["arabic", "latin"],
-  weight: ["400", "500", "700", "800"],
-  variable: "--font-tajawal",
-  display: "swap",
-});
-
-const amiri = Amiri({
-  subsets: ["arabic", "latin"],
-  weight: ["400", "700"],
-  variable: "--font-amiri",
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-messiri",
   display: "swap",
 });
 
@@ -70,7 +64,7 @@ export default function RootLayout({
   return (
     <html lang="ar" dir="rtl" suppressHydrationWarning>
       <body
-        className={`${cairo.variable} ${tajawal.variable} ${amiri.variable} ${notoNaskh.variable} font-sans antialiased`}
+        className={`${plex.variable} ${messiri.variable} ${notoNaskh.variable} font-sans antialiased`}
       >
         <ThemeProvider
           attribute="class"
@@ -79,6 +73,7 @@ export default function RootLayout({
           disableTransitionOnChange={false}
         >
           <div className="relative min-h-screen bg-zeriv-bg text-zeriv-fg">
+            <div className="site-grain pointer-events-none fixed inset-0 z-[1]" aria-hidden="true" />
             <TatreezSideRails />
             <Navbar />
             <main className="relative z-[2]">{children}</main>

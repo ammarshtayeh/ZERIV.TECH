@@ -79,7 +79,7 @@ export function Navbar() {
           <Button
             asChild
             size="sm"
-            className="hidden rounded-full bg-zeriv-green px-5 font-bold shadow-lg shadow-zeriv-green/30 hover:bg-zeriv-green-light sm:inline-flex"
+            className="hidden rounded-md bg-zeriv-green px-5 font-semibold shadow-none hover:bg-zeriv-green-light sm:inline-flex"
           >
             <Link href="/contact">ابدأ مشروعك</Link>
           </Button>

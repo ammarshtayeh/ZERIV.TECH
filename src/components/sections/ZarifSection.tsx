@@ -57,7 +57,7 @@ export function ZarifSection() {
             label="أصل الاسم"
             title={
               <>
-                ZERIV = <span className="text-gradient-heritage">زريف الطول</span>
+                ZERIV = <span className="text-zeriv-red">زريف الطول</span>
               </>
             }
             description="اسم فلسطيني من أغاني الطفولة — وعملنا يشمل مواقع وتطبيقات وحلول رقمية لكل المجالات."
@@ -68,7 +68,7 @@ export function ZarifSection() {
           <ScrollReveal className="lg:col-span-3">
             <div className="inspiration-card h-full">
               <div className="mb-5 flex items-center gap-3">
-                <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-zeriv-gold/30 bg-zeriv-gold/10 text-zeriv-red">
+                <div className="flex h-11 w-11 items-center justify-center rounded-lg border border-zeriv-red/25 bg-zeriv-red/8 text-zeriv-red">
                   <Music2 className="h-5 w-5" />
                 </div>
                 <div>

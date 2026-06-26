@@ -185,7 +185,7 @@ export function PortfolioSection({ showAll = false }: { showAll?: boolean }) {
             label="أعمالنا"
             title={
               <>
-                مشاريع <span className="text-gradient-flag">نفتخر بها</span>
+                مشاريع <span className="text-zeriv-green">نفتخر بها</span>
               </>
             }
             description="مواقع، تطبيقات، متاجر، ومنصات — مشاريع حقيقية نفّذناها لعملاء في مجالات متنوعة."
