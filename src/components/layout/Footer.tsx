@@ -31,7 +31,7 @@ export function Footer() {
     <footer className="relative border-t border-white/10 bg-zeriv-dark-2">
       <TatreezBorder />
       <div className="noise-overlay absolute inset-0" />
-      <div className="mashrabiya-pattern absolute inset-0 opacity-20" />
+      <div className="tatreez-bg-pattern absolute inset-0 opacity-20" />
       <div className="relative mx-auto max-w-6xl px-5 py-16 sm:px-8">
         <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
           <div className="lg:col-span-1">

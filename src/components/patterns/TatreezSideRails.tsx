@@ -1,10 +1,18 @@
 /**
- * Palestinian tatreez border — eight-pointed star chain (Moon of Bethlehem style)
- * Inspired by traditional cross-stitch dress borders.
+ * Palestinian tatreez side borders — zigzag + cypress + diamond chain.
+ * Cross-stitch pixel motifs (Ramallah / Bethlehem dress borders).
  */
+import {
+  StitchGrid,
+  ZIGZAG_BORDER,
+  CYPRESS_TREE,
+  DIAMOND_CHAIN,
+  TatreezFabricGrid,
+} from "@/components/patterns/tatreez-stitches";
+
 function TatreezStrip({ side }: { side: "left" | "right" }) {
   const flip = side === "right" ? "scale-x-[-1]" : "";
-  const pid = `tatreez-${side}`;
+  const pid = `tatreez-rail-${side}`;
 
   return (
     <svg
@@ -15,44 +23,45 @@ function TatreezStrip({ side }: { side: "left" | "right" }) {
       aria-hidden="true"
     >
       <defs>
-        <pattern id={pid} x="0" y="0" width="56" height="56" patternUnits="userSpaceOnUse">
-          {/* Fabric base */}
-          <rect width="56" height="56" fill="var(--tatreez-base)" />
-          {/* Cross-stitch grid */}
-          <path
-            d="M0 14H56M0 28H56M0 42H56M14 0V56M28 0V56M42 0V56"
-            stroke="var(--tatreez-stitch)"
-            strokeWidth="0.35"
-            opacity="0.12"
-          />
-          <path
-            d="M0 0L56 56M56 0L0 56"
-            stroke="var(--tatreez-stitch)"
-            strokeWidth="0.25"
-            opacity="0.06"
-          />
-          {/* Square frame */}
-          <rect x="10" y="10" width="36" height="36" stroke="var(--tatreez-thread)" strokeWidth="0.8" fill="none" opacity="0.5" />
-          {/* Eight-pointed star — octagram */}
-          <path
-            d="M28 14 L31 22 L39 22 L33 27 L35 35 L28 30 L21 35 L23 27 L17 22 L25 22 Z"
-            fill="var(--tatreez-thread)"
-            opacity="0.92"
-          />
-          <path
-            d="M28 14 L31 22 L39 22 L33 27 L35 35 L28 30 L21 35 L23 27 L17 22 L25 22 Z"
-            stroke="var(--tatreez-stitch)"
-            strokeWidth="0.4"
-            opacity="0.35"
-          />
-          {/* Corner stitch accents */}
-          <rect x="12" y="12" width="3" height="3" fill="var(--tatreez-thread)" opacity="0.6" />
-          <rect x="41" y="12" width="3" height="3" fill="var(--tatreez-thread)" opacity="0.6" />
-          <rect x="12" y="41" width="3" height="3" fill="var(--tatreez-thread)" opacity="0.6" />
-          <rect x="41" y="41" width="3" height="3" fill="var(--tatreez-thread)" opacity="0.6" />
-          {/* Green accent — flag color */}
-          <rect x="26" y="26" width="4" height="4" fill="#007a3d" opacity="0.7" />
+        <pattern id={pid} x="0" y="0" width="56" height="70" patternUnits="userSpaceOnUse">
+          <rect width="56" height="70" fill="var(--tatreez-base)" />
+          <TatreezFabricGrid width={56} height={70} />
+
+          {/* Outer zigzag — asnan al-haj */}
+          <g transform="translate(2, 6)">
+            <StitchGrid stitches={ZIGZAG_BORDER} />
+            <g transform="translate(0, 16)">
+              <StitchGrid stitches={ZIGZAG_BORDER} />
+            </g>
+            <g transform="translate(0, 32)">
+              <StitchGrid stitches={ZIGZAG_BORDER} />
+            </g>
+            <g transform="translate(0, 48)">
+              <StitchGrid stitches={ZIGZAG_BORDER} />
+            </g>
+          </g>
+
+          {/* Cypress tree column */}
+          <g transform="translate(18, 2)">
+            <StitchGrid stitches={CYPRESS_TREE} />
+          </g>
+
+          {/* Diamond chain — square-stitch geometry */}
+          <g transform="translate(36, 10)">
+            <StitchGrid stitches={DIAMOND_CHAIN} />
+            <g transform="translate(0, 28)">
+              <StitchGrid stitches={DIAMOND_CHAIN} />
+            </g>
+            <g transform="translate(0, 56)">
+              <StitchGrid stitches={DIAMOND_CHAIN} />
+            </g>
+          </g>
+
+          {/* Green flag accent stitches */}
+          <rect x="26" y="34" width="4" height="4" fill="#007a3d" opacity="0.75" />
+          <rect x="30" y="38" width="4" height="4" fill="#007a3d" opacity="0.55" />
         </pattern>
+
         <linearGradient
           id={`fade-${side}`}
           x1={side === "left" ? "1" : "0"}
@@ -64,10 +73,8 @@ function TatreezStrip({ side }: { side: "left" | "right" }) {
           <stop offset="35%" stopColor="var(--zeriv-bg)" stopOpacity="0.3" />
           <stop offset="100%" stopColor="var(--zeriv-bg)" stopOpacity="1" />
         </linearGradient>
-        <mask id={`mask-${side}`}>
-          <rect width="56" height="280" fill={`url(#fade-${side})`} />
-        </mask>
       </defs>
+
       <rect width="56" height="280" fill={`url(#${pid})`} />
       <rect width="56" height="280" fill={`url(#fade-${side})`} opacity="0.85" />
       <line
@@ -76,8 +83,8 @@ function TatreezStrip({ side }: { side: "left" | "right" }) {
         x2={side === "left" ? "55" : "1"}
         y2="280"
         stroke="#ce1126"
-        strokeWidth="1.5"
-        opacity="0.5"
+        strokeWidth="1"
+        opacity="0.35"
       />
     </svg>
   );

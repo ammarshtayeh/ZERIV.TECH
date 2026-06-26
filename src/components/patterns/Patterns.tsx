@@ -1,18 +1,39 @@
 "use client";
 
+import { StitchGrid, DIAMOND_CHAIN, MOON_MEDALLION } from "@/components/patterns/tatreez-stitches";
+
 export function TatreezPattern({ className = "", id = "tatreez" }: { className?: string; id?: string }) {
   return (
     <svg className={className} viewBox="0 0 120 120" fill="none" aria-hidden="true">
       <defs>
-        <pattern id={id} x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
-          <rect width="20" height="20" fill="transparent" />
-          <path d="M10 0L20 10L10 20L0 10Z" fill="currentColor" opacity="0.14" />
-          <rect x="8" y="8" width="4" height="4" fill="currentColor" opacity="0.22" />
-          <path d="M0 0H5V5H0Z M15 0H20V5H15Z M0 15H5V20H0Z M15 15H20V20H15Z" fill="currentColor" opacity="0.16" />
-          <path d="M10 3V7M10 13V17M3 10H7M13 10H17" stroke="currentColor" strokeWidth="0.6" opacity="0.12" />
+        <pattern id={id} x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+          <rect width="40" height="40" fill="transparent" />
+          <g transform="translate(8, 8)" opacity="0.9">
+            <StitchGrid stitches={DIAMOND_CHAIN} thread="currentColor" stitchColor="currentColor" />
+          </g>
+          <rect x="0" y="0" width="4" height="4" fill="currentColor" opacity="0.12" />
+          <rect x="36" y="0" width="4" height="4" fill="currentColor" opacity="0.12" />
+          <rect x="0" y="36" width="4" height="4" fill="currentColor" opacity="0.12" />
+          <rect x="36" y="36" width="4" height="4" fill="currentColor" opacity="0.12" />
         </pattern>
       </defs>
       <rect width="120" height="120" fill={`url(#${id})`} />
+    </svg>
+  );
+}
+
+export function TatreezTilePattern({ className = "", id = "tatreez-tile" }: { className?: string; id?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 200 200" fill="none" aria-hidden="true">
+      <defs>
+        <pattern id={id} x="0" y="0" width="56" height="56" patternUnits="userSpaceOnUse">
+          <rect width="56" height="56" fill="transparent" />
+          <g transform="translate(12, 12)" opacity="0.85">
+            <StitchGrid stitches={MOON_MEDALLION} thread="currentColor" stitchColor="currentColor" />
+          </g>
+        </pattern>
+      </defs>
+      <rect width="200" height="200" fill={`url(#${id})`} />
     </svg>
   );
 }
@@ -24,7 +45,7 @@ export function KeffiyehPattern({ className = "", id = "keffiyeh" }: { className
         <pattern id={id} x="0" y="0" width="32" height="32" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
           <path d="M0 16H32M16 0V32" stroke="currentColor" strokeWidth="0.7" opacity="0.09" />
           <path d="M0 0L32 32M32 0L0 32" stroke="currentColor" strokeWidth="0.5" opacity="0.06" />
-          <circle cx="16" cy="16" r="1.5" fill="currentColor" opacity="0.08" />
+          <rect x="14" y="14" width="4" height="4" fill="currentColor" opacity="0.1" />
         </pattern>
       </defs>
       <rect width="200" height="200" fill={`url(#${id})`} />
@@ -68,10 +89,14 @@ export function CircuitPattern({ className = "" }: { className?: string }) {
   );
 }
 
+/** Cross-stitch diamond separator — not a smooth star */
 export function DiamondSeparator({ className = "" }: { className?: string }) {
   return (
-    <svg className={className} width="10" height="10" viewBox="0 0 12 12" fill="currentColor" aria-hidden="true">
-      <path d="M6 0L12 6L6 12L0 6Z" />
+    <svg className={className} width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+      <rect x="4" y="0" width="4" height="4" fill="currentColor" />
+      <rect x="0" y="4" width="4" height="4" fill="currentColor" />
+      <rect x="8" y="4" width="4" height="4" fill="currentColor" />
+      <rect x="4" y="8" width="4" height="4" fill="currentColor" />
     </svg>
   );
 }
