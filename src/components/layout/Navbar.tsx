@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -9,64 +8,87 @@ import { Logo } from "@/components/brand/Logo";
 import { ThemeToggle } from "@/components/layout/ThemeToggle";
 import { Button } from "@/components/ui/button";
 import { TatreezBorder } from "@/components/patterns/Patterns";
+import { useNavActive, type NavItemId } from "@/hooks/useNavActive";
 import { cn } from "@/lib/utils";
 
-const navLinks = [
-  { href: "/", label: "الرئيسية" },
-  { href: "/#services", label: "خدماتنا" },
-  { href: "/portfolio", label: "أعمالنا" },
-  { href: "/#zarif", label: "زريف الطول" },
-  { href: "/about", label: "عنا" },
-  { href: "/contact", label: "تواصل" },
+const navLinks: { href: string; label: string; id: NavItemId }[] = [
+  { href: "/", label: "الرئيسية", id: "home" },
+  { href: "/#services", label: "خدماتنا", id: "services" },
+  { href: "/portfolio", label: "أعمالنا", id: "portfolio" },
+  { href: "/#zarif", label: "زريف الطول", id: "zarif" },
+  { href: "/about", label: "عنا", id: "about" },
+  { href: "/contact", label: "تواصل", id: "contact" },
 ];
 
-function isActive(pathname: string, href: string) {
-  if (href.startsWith("/#")) return pathname === "/";
-  return pathname === href;
+function NavLink({
+  href,
+  label,
+  active,
+  onClick,
+  className,
+}: {
+  href: string;
+  label: string;
+  active: boolean;
+  onClick?: () => void;
+  className?: string;
+}) {
+  return (
+    <Link
+      href={href}
+      onClick={onClick}
+      aria-current={active ? "page" : undefined}
+      className={cn(
+        "relative rounded-full px-3.5 py-2 text-sm font-semibold transition-all duration-300",
+        active
+          ? "nav-link-active text-white shadow-md shadow-zeriv-red/35"
+          : "text-zeriv-muted hover:bg-zeriv-surface/80 hover:text-zeriv-fg",
+        className
+      )}
+    >
+      {label}
+    </Link>
+  );
 }
 
 export function Navbar() {
-  const pathname = usePathname();
+  const activeId = useNavActive();
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 nav-glass">
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-5 sm:px-8">
+    <header className="fixed inset-x-0 top-0 z-50 nav-glass-premium">
+      <div className="mx-auto flex h-[4.25rem] max-w-7xl items-center gap-4 px-4 sm:px-6 lg:px-8">
         <Logo size="nav" variant="nav" />
 
-        <ul className="hidden items-center lg:flex">
-          {navLinks.map((link) => (
-            <li key={link.href}>
-              <Link
-                href={link.href}
-                className={cn(
-                  "rounded-lg px-3 py-2 text-sm font-medium transition-all",
-                  isActive(pathname, link.href)
-                    ? "bg-zeriv-red/10 text-zeriv-red"
-                    : "text-zeriv-muted hover:bg-zeriv-surface hover:text-zeriv-fg"
-                )}
-              >
-                {link.label}
-              </Link>
-            </li>
-          ))}
-        </ul>
+        <nav className="hidden flex-1 justify-center lg:flex" aria-label="التنقل الرئيسي">
+          <ul className="nav-pill flex items-center gap-0.5 rounded-full p-1">
+            {navLinks.map((link) => (
+              <li key={link.id}>
+                <NavLink
+                  href={link.href}
+                  label={link.label}
+                  active={activeId === link.id}
+                />
+              </li>
+            ))}
+          </ul>
+        </nav>
 
-        <div className="flex items-center gap-1.5">
+        <div className="flex shrink-0 items-center gap-2 lg:gap-2.5">
           <ThemeToggle />
           <Button
             asChild
             size="sm"
-            className="hidden rounded-full bg-zeriv-green font-bold shadow-lg shadow-zeriv-green/25 hover:bg-zeriv-green-light sm:inline-flex"
+            className="hidden rounded-full bg-zeriv-green px-5 font-bold shadow-lg shadow-zeriv-green/30 hover:bg-zeriv-green-light sm:inline-flex"
           >
             <Link href="/contact">ابدأ مشروعك</Link>
           </Button>
           <Button
             variant="ghost"
             size="icon"
-            className="lg:hidden"
+            className="rounded-full lg:hidden"
             onClick={() => setOpen(!open)}
-            aria-label={open ? "إغلاق" : "القائمة"}
+            aria-label={open ? "إغلاق القائمة" : "فتح القائمة"}
             aria-expanded={open}
           >
             {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
@@ -82,23 +104,18 @@ export function Navbar() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="overflow-hidden border-b border-white/[0.06] bg-zeriv-surface lg:hidden"
+            className="overflow-hidden border-b border-zeriv-border bg-zeriv-surface/95 backdrop-blur-xl lg:hidden"
           >
-            <ul className="flex flex-col gap-0.5 px-5 py-3 sm:px-8">
+            <ul className="flex flex-col gap-1 px-4 py-3 sm:px-6">
               {navLinks.map((link) => (
-                <li key={link.href}>
-                  <Link
+                <li key={link.id}>
+                  <NavLink
                     href={link.href}
+                    label={link.label}
+                    active={activeId === link.id}
                     onClick={() => setOpen(false)}
-                    className={cn(
-                      "block rounded-lg px-4 py-3 text-sm font-medium",
-                      isActive(pathname, link.href)
-                        ? "bg-zeriv-red/10 text-zeriv-red"
-                        : "text-zeriv-muted hover:bg-zeriv-surface"
-                    )}
-                  >
-                    {link.label}
-                  </Link>
+                    className="block w-full text-right"
+                  />
                 </li>
               ))}
             </ul>

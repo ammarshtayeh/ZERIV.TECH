@@ -20,7 +20,7 @@ const heroStats = [
 
 export function HeroSection() {
   return (
-    <SectionShell variant="hero" className="relative min-h-screen pt-16">
+    <SectionShell variant="hero" className="relative min-h-screen pt-[4.25rem]">
       <HeritageBackdrop variant="hero" />
       <div className="circuit-grid absolute inset-0 opacity-60" />
 

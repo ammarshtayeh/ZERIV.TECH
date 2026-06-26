@@ -13,7 +13,7 @@ export function CTASection() {
       <HeritageBackdrop variant="accent" />
       <Container>
         <ScrollReveal>
-          <div className="cta-glow content-card relative mx-auto max-w-3xl overflow-hidden p-8 text-center sm:p-12">
+          <div className="cta-glow premium-glow content-card relative mx-auto max-w-3xl overflow-hidden p-8 text-center sm:p-12">
             <TatreezBorder className="absolute inset-x-0 top-0" />
             <div className="mb-4 flex justify-center text-zeriv-olive/40">
               <OliveBranch className="h-6 w-24" />

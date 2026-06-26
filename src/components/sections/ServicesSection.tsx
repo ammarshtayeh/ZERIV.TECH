@@ -88,7 +88,7 @@ export function ServicesSection({ showAll = false }: { showAll?: boolean }) {
   const [featured, ...rest] = services;
 
   return (
-    <SectionShell id="services" variant="elevated" divider className="py-16 sm:py-24">
+    <SectionShell id="services" variant="elevated" divider className="py-20 sm:py-28">
       <HeritageBackdrop />
       <Container>
         <ScrollReveal>

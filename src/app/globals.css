@@ -79,6 +79,7 @@
 
   html {
     scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
   }
 
   body {
@@ -203,6 +204,7 @@
     background: var(--zeriv-card);
     border: 1px solid var(--zeriv-border);
     box-shadow: var(--shadow-card);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
   }
 
   .content-card-hover {
@@ -215,7 +217,19 @@
   .content-card-hover:hover {
     border-color: rgba(206, 17, 38, 0.35);
     box-shadow: var(--shadow-card-hover);
-    transform: translateY(-3px);
+    transform: translateY(-4px);
+  }
+
+  .premium-glow {
+    box-shadow:
+      0 0 0 1px rgba(206, 17, 38, 0.08),
+      0 20px 60px rgba(0, 0, 0, 0.15);
+  }
+
+  .dark .premium-glow {
+    box-shadow:
+      0 0 0 1px rgba(0, 122, 61, 0.12),
+      0 24px 70px rgba(0, 0, 0, 0.5);
   }
 
   .heritage-frame {
@@ -331,6 +345,37 @@
     border-bottom: 1px solid var(--zeriv-border);
     box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
     @apply backdrop-blur-2xl;
+  }
+
+  .nav-glass-premium {
+    background: color-mix(in srgb, var(--nav-bg) 92%, transparent);
+    border-bottom: 1px solid var(--zeriv-border);
+    box-shadow:
+      0 8px 32px rgba(0, 0, 0, 0.12),
+      0 1px 0 rgba(255, 255, 255, 0.04) inset;
+    @apply backdrop-blur-2xl backdrop-saturate-150;
+  }
+
+  .dark .nav-glass-premium {
+    background: color-mix(in srgb, var(--nav-bg) 88%, transparent);
+    box-shadow:
+      0 12px 40px rgba(0, 0, 0, 0.45),
+      0 1px 0 rgba(255, 255, 255, 0.05) inset;
+  }
+
+  .nav-pill {
+    background: color-mix(in srgb, var(--zeriv-surface) 85%, transparent);
+    border: 1px solid var(--zeriv-border);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  }
+
+  .dark .nav-pill {
+    background: rgba(20, 28, 24, 0.75);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  }
+
+  .nav-link-active {
+    background: linear-gradient(135deg, #ce1126 0%, #a50e1f 100%);
   }
 
   .dark .nav-glass {

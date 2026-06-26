@@ -176,7 +176,7 @@ export function PortfolioSection({ showAll = false }: { showAll?: boolean }) {
   const items = showAll ? portfolioProjects : portfolioProjects.slice(0, 4);
 
   return (
-    <SectionShell id="portfolio" variant="default" divider className="py-16 sm:py-24">
+    <SectionShell id="portfolio" variant="default" divider className="py-20 sm:py-28">
       <HeritageBackdrop />
       <Container>
         <ScrollReveal>
