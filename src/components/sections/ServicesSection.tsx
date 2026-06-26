@@ -94,6 +94,27 @@ export function ServicesSection({ showAll = false }: { showAll?: boolean }) {
 
                   {/* Left side: English title + rotating plus indicator */}
                   <div className="flex items-center gap-4">
+                    <AnimatePresence>
+                      {hoveredIdx === idx && (
+                        <motion.svg
+                          initial={{ opacity: 0, x: 8 }}
+                          animate={{ opacity: 0.85, x: 0 }}
+                          exit={{ opacity: 0, x: 8 }}
+                          transition={{ duration: 0.3 }}
+                          width="12"
+                          height="12"
+                          viewBox="0 0 12 12"
+                          fill="none"
+                          className="hidden sm:block text-[#ce1126]"
+                        >
+                          <rect x="0" y="2" width="2" height="2" fill="currentColor" />
+                          <rect x="2" y="4" width="2" height="2" fill="currentColor" />
+                          <rect x="4" y="6" width="2" height="2" fill="currentColor" />
+                          <rect x="2" y="8" width="2" height="2" fill="currentColor" />
+                          <rect x="0" y="10" width="2" height="2" fill="currentColor" />
+                        </motion.svg>
+                      )}
+                    </AnimatePresence>
                     <span className={cn(
                       "hidden sm:block text-xs font-serif-eng italic tracking-wider transition-colors duration-500",
                       hoveredIdx === idx ? "text-[#ce1126]" : "text-zeriv-fg/30"

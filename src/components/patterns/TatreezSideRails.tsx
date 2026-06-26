@@ -2,12 +2,7 @@
 
 import React from "react";
 
-const STITCH_SIZE = 4;
-const COLS = 12; // 48px width
-const ROWS = 48; // 192px height
-
 // r: Red (#ce1126), g: Green (#007a3d), b: Body (var(--zeriv-fg)), w: White (#ffffff), .: Empty
-// We want this pattern to represent beautiful authentic tatreez.
 const PATTERN_DATA = [
   "r..........g",
   ".r........g.",
@@ -60,10 +55,7 @@ const PATTERN_DATA = [
 ];
 
 export function TatreezSideRails() {
-  const width = COLS * STITCH_SIZE; // 48
-  const height = ROWS * STITCH_SIZE; // 192
-
-  const renderStitches = () => {
+  const renderStitches = (stitchSize: number) => {
     const rects: React.JSX.Element[] = [];
     PATTERN_DATA.forEach((row, y) => {
       row.split("").forEach((cell, x) => {
@@ -76,13 +68,13 @@ export function TatreezSideRails() {
         
         rects.push(
           <rect
-            key={`${x}-${y}`}
-            x={x * STITCH_SIZE}
-            y={y * STITCH_SIZE}
-            width={STITCH_SIZE - 0.5} // slightly smaller to create a stitch gap
-            height={STITCH_SIZE - 0.5}
+            key={`${stitchSize}-${x}-${y}`}
+            x={x * stitchSize}
+            y={y * stitchSize}
+            width={stitchSize - 0.4} // subtle gap between stitches
+            height={stitchSize - 0.4}
             fill={fill}
-            rx={0.5}
+            rx={0.3}
           />
         );
       });
@@ -92,49 +84,92 @@ export function TatreezSideRails() {
 
   return (
     <>
+      <style>{`
+        .tatreez-rect-left {
+          fill: url(#tatreez-left-mobile);
+        }
+        .tatreez-rect-right {
+          fill: url(#tatreez-right-mobile);
+        }
+        @media (min-width: 1024px) {
+          .tatreez-rect-left {
+            fill: url(#tatreez-left-desktop);
+          }
+          .tatreez-rect-right {
+            fill: url(#tatreez-right-desktop);
+          }
+        }
+      `}</style>
+
       {/* Left side rail */}
       <div
-        className="pointer-events-none fixed inset-y-0 left-0 z-40 hidden w-12 lg:block xl:w-16 border-r border-zeriv-border bg-zeriv-bg/20 backdrop-blur-[0.5px]"
+        className="pointer-events-none fixed inset-y-0 left-0 z-40 w-5 lg:w-12 xl:w-16 border-r border-zeriv-border bg-zeriv-bg/25 backdrop-blur-[0.5px]"
         aria-hidden="true"
       >
-        <svg className="h-full w-full opacity-65" xmlns="http://www.w3.org/2000/svg">
+        <svg className="h-full w-full opacity-60" xmlns="http://www.w3.org/2000/svg">
           <defs>
+            {/* Mobile: 2px stitches (width 24px, height 96px) */}
             <pattern
-              id="tatreez-pattern-left"
-              width={width}
-              height={height}
+              id="tatreez-left-mobile"
+              width={24}
+              height={96}
+              patternUnits="userSpaceOnUse"
+              x="50%"
+              y="0"
+              patternTransform="translate(-12, 0)"
+            >
+              {renderStitches(2)}
+            </pattern>
+            {/* Desktop: 4px stitches (width 48px, height 192px) */}
+            <pattern
+              id="tatreez-left-desktop"
+              width={48}
+              height={192}
               patternUnits="userSpaceOnUse"
               x="50%"
               y="0"
               patternTransform="translate(-24, 0)"
             >
-              {renderStitches()}
+              {renderStitches(4)}
             </pattern>
           </defs>
-          <rect width="100%" height="100%" fill="url(#tatreez-pattern-left)" />
+          <rect className="tatreez-rect-left" width="100%" height="100%" />
         </svg>
       </div>
 
       {/* Right side rail */}
       <div
-        className="pointer-events-none fixed inset-y-0 right-0 z-40 hidden w-12 lg:block xl:w-16 border-l border-zeriv-border bg-zeriv-bg/20 backdrop-blur-[0.5px]"
+        className="pointer-events-none fixed inset-y-0 right-0 z-40 w-5 lg:w-12 xl:w-16 border-l border-zeriv-border bg-zeriv-bg/25 backdrop-blur-[0.5px]"
         aria-hidden="true"
       >
-        <svg className="h-full w-full opacity-65" xmlns="http://www.w3.org/2000/svg">
+        <svg className="h-full w-full opacity-60" xmlns="http://www.w3.org/2000/svg">
           <defs>
+            {/* Mobile Right: mirrored pattern */}
             <pattern
-              id="tatreez-pattern-right"
-              width={width}
-              height={height}
+              id="tatreez-right-mobile"
+              width={24}
+              height={96}
+              patternUnits="userSpaceOnUse"
+              x="50%"
+              y="0"
+              patternTransform="translate(-12, 0) scale(-1, 1)"
+            >
+              {renderStitches(2)}
+            </pattern>
+            {/* Desktop Right: mirrored pattern */}
+            <pattern
+              id="tatreez-right-desktop"
+              width={48}
+              height={192}
               patternUnits="userSpaceOnUse"
               x="50%"
               y="0"
               patternTransform="translate(-24, 0) scale(-1, 1)"
             >
-              {renderStitches()}
+              {renderStitches(4)}
             </pattern>
           </defs>
-          <rect width="100%" height="100%" fill="url(#tatreez-pattern-right)" />
+          <rect className="tatreez-rect-right" width="100%" height="100%" />
         </svg>
       </div>
     </>
