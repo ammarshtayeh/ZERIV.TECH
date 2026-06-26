@@ -119,7 +119,7 @@ export function PortfolioSection({ showAll = false }: { showAll?: boolean }) {
   const items = showAll ? portfolioProjects : portfolioProjects.slice(0, 4);
 
   return (
-    <SectionShell id="portfolio" variant="default" className="py-24 sm:py-36 relative">
+    <SectionShell id="portfolio" variant="default" className="py-24 sm:py-36 pb-36 sm:pb-48 relative">
       <div className="absolute bottom-0 left-0 w-[600px] h-[400px] bg-[radial-gradient(ellipse_at_bottom_left,rgba(0,122,61,0.03)_0%,transparent_70%)] pointer-events-none" />
       
       <Container className="relative z-10">
@@ -132,9 +132,13 @@ export function PortfolioSection({ showAll = false }: { showAll?: boolean }) {
           </div>
         </ScrollReveal>
 
-        <div className="grid gap-6 sm:grid-cols-2">
+        <div className="grid gap-12 sm:grid-cols-2 lg:gap-16">
           {items.map((p, i) => (
-            <ScrollReveal key={p.id} delay={i * 0.08}>
+            <ScrollReveal 
+              key={p.id} 
+              delay={i * 0.08}
+              className={cn(i % 2 === 1 ? "sm:translate-y-12 lg:translate-y-16" : "")}
+            >
               <ProjectCard project={p} />
             </ScrollReveal>
           ))}

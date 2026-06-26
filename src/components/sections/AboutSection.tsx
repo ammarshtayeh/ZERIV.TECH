@@ -35,7 +35,7 @@ export function AboutSection({ fullPage = false }: { fullPage?: boolean }) {
           
           {/* Column 1: Arch Geometry */}
           <ScrollReveal delay={0.05}>
-            <div className="relative h-full rounded-2xl border border-white/[0.06] bg-[#0f0f0f] p-8 flex flex-col justify-between transition-all duration-500 hover:border-[#007a3d]/30">
+            <div className="relative h-full rounded-2xl border border-white/[0.06] bg-[#0f0f0f] p-8 flex flex-col justify-between transition-all duration-500 hover:border-[#007a3d]/30 hover:-translate-y-1.5 hover:shadow-[0_12px_40px_rgba(0,122,61,0.06)]">
               <div>
                 <div className="flex items-center justify-between flex-row-reverse border-b border-white/[0.06] pb-4 mb-6">
                   <span className="text-[10px] tracking-wider font-semibold text-[#007a3d]">01 / التناسب</span>
@@ -84,7 +84,7 @@ export function AboutSection({ fullPage = false }: { fullPage?: boolean }) {
 
           {/* Column 2: Olive Growth system */}
           <ScrollReveal delay={0.1}>
-            <div className="relative h-full rounded-2xl border border-white/[0.06] bg-[#0f0f0f] p-8 flex flex-col justify-between transition-all duration-500 hover:border-[#ce1126]/30">
+            <div className="relative h-full rounded-2xl border border-white/[0.06] bg-[#0f0f0f] p-8 flex flex-col justify-between transition-all duration-500 hover:border-[#ce1126]/30 hover:-translate-y-1.5 hover:shadow-[0_12px_40px_rgba(206,17,38,0.06)]">
               <div>
                 <div className="flex items-center justify-between flex-row-reverse border-b border-white/[0.06] pb-4 mb-6">
                   <span className="text-[10px] tracking-wider font-semibold text-[#ce1126]">02 / الصمود</span>
@@ -139,7 +139,7 @@ export function AboutSection({ fullPage = false }: { fullPage?: boolean }) {
 
           {/* Column 3: Tatreez Mathematics */}
           <ScrollReveal delay={0.15}>
-            <div className="relative h-full rounded-2xl border border-white/[0.06] bg-[#0f0f0f] p-8 flex flex-col justify-between transition-all duration-500 hover:border-[#007a3d]/30">
+            <div className="relative h-full rounded-2xl border border-white/[0.06] bg-[#0f0f0f] p-8 flex flex-col justify-between transition-all duration-500 hover:border-[#007a3d]/30 hover:-translate-y-1.5 hover:shadow-[0_12px_40px_rgba(0,122,61,0.06)]">
               <div>
                 <div className="flex items-center justify-between flex-row-reverse border-b border-white/[0.06] pb-4 mb-6">
                   <span className="text-[10px] tracking-wider font-semibold text-[#007a3d]">03 / الصنعة</span>

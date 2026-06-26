@@ -10,10 +10,10 @@ export function TatreezSideRails() {
     <>
       {/* Left side rail */}
       <div
-        className="pointer-events-none fixed inset-y-0 left-0 z-40 hidden w-12 lg:block xl:w-16 border-r border-white/[0.06] bg-[#0B0B0B]"
+        className="pointer-events-none fixed inset-y-0 left-0 z-40 hidden w-12 lg:block xl:w-16 border-r border-white/[0.06] bg-transparent"
         aria-hidden="true"
       >
-        <div className="relative h-full w-full opacity-80">
+        <div className="relative h-full w-full opacity-60 mix-blend-screen">
           <Image
             src="/brand/tatreez_rail.png"
             alt="Left Tatreez Rail"
@@ -27,10 +27,10 @@ export function TatreezSideRails() {
 
       {/* Right side rail */}
       <div
-        className="pointer-events-none fixed inset-y-0 right-0 z-40 hidden w-12 lg:block xl:w-16 border-l border-white/[0.06] bg-[#0B0B0B]"
+        className="pointer-events-none fixed inset-y-0 right-0 z-40 hidden w-12 lg:block xl:w-16 border-l border-white/[0.06] bg-transparent"
         aria-hidden="true"
       >
-        <div className="relative h-full w-full opacity-80">
+        <div className="relative h-full w-full opacity-60 mix-blend-screen">
           <Image
             src="/brand/tatreez_rail.png"
             alt="Right Tatreez Rail"

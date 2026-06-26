@@ -29,21 +29,21 @@ export function ProcessSection() {
           <div className="space-y-12 sm:space-y-16">
             {processSteps.map((step, i) => (
               <ScrollReveal key={step.number} delay={i * 0.1}>
-                <div className="flex items-start gap-6 sm:gap-10 flex-row-reverse">
+                <div className="group flex items-start gap-6 sm:gap-10 flex-row-reverse cursor-pointer">
                   {/* Number circle */}
-                  <div className="relative flex h-10 w-10 sm:h-12 sm:w-12 shrink-0 items-center justify-center rounded-full border border-[#007a3d]/30 bg-[#0B0B0B]">
-                    <span className="font-display text-sm sm:text-base font-bold text-[#ce1126]">
+                  <div className="relative flex h-10 w-10 sm:h-12 sm:w-12 shrink-0 items-center justify-center rounded-full border border-[#007a3d]/30 bg-[#0B0B0B] transition-all duration-300 group-hover:border-[#ce1126] group-hover:bg-[#ce1126]">
+                    <span className="font-display text-sm sm:text-base font-bold text-[#ce1126] transition-colors duration-300 group-hover:text-white">
                       {step.number}
                     </span>
-                    <div className="absolute inset-0 rounded-full bg-[#ce1126]/5" />
+                    <div className="absolute inset-0 rounded-full bg-[#ce1126]/5 transition-opacity duration-300 group-hover:opacity-0" />
                   </div>
                   
                   {/* Content */}
-                  <div className="text-right pt-1 sm:pt-2">
-                    <h3 className="font-display text-xl sm:text-2xl font-bold text-white">
+                  <div className="text-right pt-1 sm:pt-2 transition-transform duration-300 group-hover:-translate-x-1">
+                    <h3 className="font-display text-xl sm:text-2xl font-bold text-white transition-colors duration-300 group-hover:text-[#007a3d]">
                       {step.title}
                     </h3>
-                    <p className="mt-2 text-sm leading-relaxed text-white/40 max-w-md font-light">
+                    <p className="mt-2 text-sm leading-relaxed text-white/40 max-w-md font-light transition-colors duration-300 group-hover:text-white/70">
                       {step.description}
                     </p>
                   </div>

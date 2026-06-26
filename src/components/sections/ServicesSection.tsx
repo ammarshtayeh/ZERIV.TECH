@@ -92,10 +92,25 @@ export function ServicesSection({ showAll = false }: { showAll?: boolean }) {
                     </h3>
                   </div>
 
-                  {/* Left side: English title */}
-                  <span className="hidden sm:block text-sm text-white/20 tracking-wider">
-                    {service.titleEn}
-                  </span>
+                  {/* Left side: English title + rotating plus indicator */}
+                  <div className="flex items-center gap-4">
+                    <span className={cn(
+                      "hidden sm:block text-xs tracking-wider transition-colors duration-500",
+                      hoveredIdx === idx ? "text-[#ce1126]" : "text-white/20"
+                    )}>
+                      {service.titleEn}
+                    </span>
+                    <motion.div
+                      animate={{ rotate: hoveredIdx === idx ? 90 : 0 }}
+                      transition={{ duration: 0.4, ease: "easeOut" }}
+                      className={cn(
+                        "h-6 w-6 border flex items-center justify-center rounded-lg transition-all duration-500",
+                        hoveredIdx === idx ? "border-[#ce1126] text-[#ce1126] bg-[#ce1126]/5" : "border-white/10 text-white/25"
+                      )}
+                    >
+                      <span className="text-xs font-light font-mono">+</span>
+                    </motion.div>
+                  </div>
                 </div>
 
                 {/* Expanding description on hover */}

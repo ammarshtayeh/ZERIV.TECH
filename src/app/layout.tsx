@@ -1,29 +1,30 @@
 import type { Metadata } from "next";
-import { IBM_Plex_Sans_Arabic, El_Messiri, Noto_Naskh_Arabic } from "next/font/google";
+import { Alexandria, Reem_Kufi, Amiri } from "next/font/google";
 import { ThemeProvider } from "@/components/layout/ThemeProvider";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { TatreezSideRails } from "@/components/patterns/TatreezSideRails";
 import "./globals.css";
 
-const plex = IBM_Plex_Sans_Arabic({
+const alexandria = Alexandria({
   subsets: ["arabic", "latin"],
   weight: ["300", "400", "500", "600", "700"],
-  variable: "--font-plex",
+  variable: "--font-alexandria",
   display: "swap",
 });
 
-const messiri = El_Messiri({
-  subsets: ["arabic", "latin"],
+const reemKufi = Reem_Kufi({
+  subsets: ["arabic"],
   weight: ["400", "500", "600", "700"],
-  variable: "--font-messiri",
+  variable: "--font-reem-kufi",
   display: "swap",
 });
 
-const notoNaskh = Noto_Naskh_Arabic({
+const amiri = Amiri({
   subsets: ["arabic"],
   weight: ["400", "700"],
-  variable: "--font-noto-naskh",
+  style: ["normal", "italic"],
+  variable: "--font-amiri",
   display: "swap",
 });
 
@@ -64,7 +65,7 @@ export default function RootLayout({
   return (
     <html lang="ar" dir="rtl" suppressHydrationWarning>
       <body
-        className={`${plex.variable} ${messiri.variable} ${notoNaskh.variable} font-sans antialiased`}
+        className={`${alexandria.variable} ${reemKufi.variable} ${amiri.variable} font-sans antialiased`}
       >
         <ThemeProvider
           attribute="class"

@@ -61,7 +61,7 @@ export function Navbar() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50">
+    <header className="fixed inset-x-0 top-0 z-50 bg-zeriv-bg/70 backdrop-blur-md border-b border-white/[0.04] dark:border-white/[0.04] border-black/[0.04]">
       <div className="mx-auto flex h-[4.25rem] max-w-7xl items-center justify-between px-5 sm:px-8">
         {/* Logo */}
         <Logo size="nav" variant="nav" />

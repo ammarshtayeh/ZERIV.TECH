@@ -4,23 +4,23 @@
 
 /* ── Semantic tokens: light (default class on html) vs dark ── */
 :root {
-  --zeriv-bg: #f8fafc;
-  --zeriv-bg-2: #f1f5f9;
-  --zeriv-bg-3: #e8ecf1;
-  --zeriv-surface: #ffffff;
-  --zeriv-elevated: #ffffff;
-  --zeriv-card: #ffffff;
-  --zeriv-fg: #0f1419;
-  --zeriv-fg-muted: #475569;
-  --zeriv-fg-soft: #64748b;
-  --zeriv-border: rgba(15, 20, 25, 0.1);
-  --zeriv-border-strong: rgba(15, 20, 25, 0.16);
-  --tatreez-base: #ffffff;
-  --tatreez-thread: #8b1538;
-  --tatreez-stitch: #1a1a1a;
-  --nav-bg: rgba(255, 255, 255, 0.88);
-  --shadow-card: 0 8px 32px rgba(15, 20, 25, 0.08);
-  --shadow-card-hover: 0 20px 48px rgba(212, 175, 55, 0.1);
+  --zeriv-bg: #FAF8F5;
+  --zeriv-bg-2: #F5F2EB;
+  --zeriv-bg-3: #EDEAE1;
+  --zeriv-surface: #F5F2EB;
+  --zeriv-elevated: #EDEAE1;
+  --zeriv-card: #FBF9F6;
+  --zeriv-fg: #151A18;
+  --zeriv-fg-muted: #5C625F;
+  --zeriv-fg-soft: #7C8380;
+  --zeriv-border: rgba(21, 26, 24, 0.08);
+  --zeriv-border-strong: rgba(21, 26, 24, 0.14);
+  --tatreez-base: #FAF8F5;
+  --tatreez-thread: #ce1126;
+  --tatreez-stitch: #151A18;
+  --nav-bg: rgba(250, 248, 245, 0.9);
+  --shadow-card: 0 8px 32px rgba(21, 26, 24, 0.05);
+  --shadow-card-hover: 0 20px 48px rgba(206, 17, 38, 0.08);
 }
 
 .dark {
@@ -68,9 +68,9 @@
   --color-zeriv-silver: #e2e8f0;
   --color-zeriv-olive: #007a3d;
   --color-zeriv-cream: #ffffff;
-  --font-sans: var(--font-plex), system-ui, sans-serif;
-  --font-display: var(--font-messiri), var(--font-plex), serif;
-  --font-heritage: var(--font-noto-naskh), var(--font-messiri), serif;
+  --font-sans: var(--font-alexandria), system-ui, sans-serif;
+  --font-display: var(--font-reem-kufi), serif;
+  --font-heritage: var(--font-amiri), serif;
   --font-mono: ui-monospace, "Cascadia Code", monospace;
   --leading-body: 1.75;
   --leading-tight: 1.15;
