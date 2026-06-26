@@ -262,23 +262,31 @@
 
   .section-divider {
     @apply h-[2px];
+    direction: ltr;
     background: linear-gradient(
-      to left,
+      to right,
       #ce1126 0%,
-      #1a1a1a 20%,
-      #ffffff 40%,
-      #007a3d 60%,
-      #ffffff 80%,
+      #1a1a1a 14.28%,
+      #007a3d 28.57%,
+      #ffffff 42.85%,
+      #ffffff 57.15%,
+      #007a3d 71.42%,
+      #1a1a1a 85.71%,
       #ce1126 100%
     );
   }
 
   .dark .section-divider {
     background: linear-gradient(
-      to left,
-      rgba(206, 17, 38, 0.7) 0%,
-      rgba(255, 255, 255, 0.3) 50%,
-      rgba(0, 122, 61, 0.7) 100%
+      to right,
+      #ce1126 0%,
+      #1a1a1a 14.28%,
+      #007a3d 28.57%,
+      #f8fafc 42.85%,
+      #f8fafc 57.15%,
+      #007a3d 71.42%,
+      #1a1a1a 85.71%,
+      #ce1126 100%
     );
   }
 
