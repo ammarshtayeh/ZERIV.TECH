@@ -8,12 +8,12 @@ export function IntroConstruction({ onComplete }: { onComplete: () => void }) {
   const [phase, setPhase] = useState<"stitch" | "trace" | "reveal" | "complete">("stitch");
 
   useEffect(() => {
-    const t1 = setTimeout(() => setPhase("trace"), 1500);
-    const t2 = setTimeout(() => setPhase("reveal"), 3500);
+    const t1 = setTimeout(() => setPhase("trace"), 1200);
+    const t2 = setTimeout(() => setPhase("reveal"), 2800);
     const t3 = setTimeout(() => {
       setPhase("complete");
       onComplete();
-    }, 5500);
+    }, 4400);
 
     return () => {
       clearTimeout(t1);
@@ -27,7 +27,7 @@ export function IntroConstruction({ onComplete }: { onComplete: () => void }) {
       {phase !== "complete" && (
         <motion.div
           initial={{ opacity: 1 }}
-          exit={{ opacity: 0, transition: { duration: 1, ease: "easeInOut" } }}
+          exit={{ opacity: 0, transition: { duration: 0.8, ease: "easeInOut" } }}
           className="fixed inset-0 z-[100] flex flex-col items-center justify-center select-none overflow-hidden"
           style={{ background: "#050706" }}
         >
@@ -35,7 +35,7 @@ export function IntroConstruction({ onComplete }: { onComplete: () => void }) {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 0.2 }}
-            transition={{ duration: 2 }}
+            transition={{ duration: 1.5 }}
             style={{
               position: "absolute",
               width: 700,
@@ -59,7 +59,7 @@ export function IntroConstruction({ onComplete }: { onComplete: () => void }) {
                   key="stitch"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  exit={{ opacity: 0, transition: { duration: 0.5 } }}
+                  exit={{ opacity: 0, transition: { duration: 0.4 } }}
                   className="absolute inset-0 flex items-center justify-center"
                 >
                   <svg
@@ -118,7 +118,7 @@ export function IntroConstruction({ onComplete }: { onComplete: () => void }) {
                       strokeWidth="0.5"
                       initial={{ scale: 0, opacity: 0 }}
                       animate={{ scale: 1, opacity: 0.9 }}
-                      transition={{ delay: 0.4, duration: 0.5, type: "spring" }}
+                      transition={{ delay: 0.3, duration: 0.4, type: "spring" }}
                     />
 
                     {/* Cross-stitch X marks around diamond (Palestinian Flag Colors) */}
@@ -132,7 +132,7 @@ export function IntroConstruction({ onComplete }: { onComplete: () => void }) {
                         key={i}
                         initial={{ opacity: 0, scale: 0 }}
                         animate={{ opacity: 0.9, scale: 1 }}
-                        transition={{ delay: 0.5 + i * 0.12, duration: 0.4, type: "spring" }}
+                        transition={{ delay: 0.4 + i * 0.1, duration: 0.3, type: "spring" }}
                       >
                         <line
                           x1={pos.x - 5}
@@ -159,14 +159,14 @@ export function IntroConstruction({ onComplete }: { onComplete: () => void }) {
               )}
             </AnimatePresence>
 
-            {/* ── Phase 2: Flag Color Geometric Trace ── */}
+            {/* ── Phase 2: Flag Color Geometric Trace (8-pointed Bethlehem Star) ── */}
             <AnimatePresence>
               {phase === "trace" && (
                 <motion.div
                   key="trace"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  exit={{ opacity: 0, transition: { duration: 0.6 } }}
+                  exit={{ opacity: 0, transition: { duration: 0.5 } }}
                   className="absolute inset-0 flex items-center justify-center"
                 >
                   <svg
@@ -202,7 +202,7 @@ export function IntroConstruction({ onComplete }: { onComplete: () => void }) {
                       fill="rgba(206, 17, 38, 0.05)"
                       initial={{ scale: 0.7, opacity: 0 }}
                       animate={{ scale: 1, opacity: 1 }}
-                      transition={{ duration: 0.6, ease: "easeOut" }}
+                      transition={{ duration: 0.5, ease: "easeOut" }}
                       style={{ transformOrigin: "200px 200px" }}
                     />
                     <motion.path
@@ -212,16 +212,20 @@ export function IntroConstruction({ onComplete }: { onComplete: () => void }) {
                       fill="none"
                       initial={{ scale: 0.6, opacity: 0 }}
                       animate={{ scale: 1, opacity: 0.8 }}
-                      transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
+                      transition={{ duration: 0.4, delay: 0.1, ease: "easeOut" }}
                       style={{ transformOrigin: "200px 200px" }}
                     />
 
-                    {/* Cardinal beams — red & green */}
+                    {/* 8-pointed Bethlehem Star Beams — alternating red & green */}
                     {[
-                      { d: "M 200 150 L 200 10", stroke: "url(#red-beam)" },
-                      { d: "M 200 250 L 200 390", stroke: "url(#red-beam)" },
-                      { d: "M 150 200 L 10 200", stroke: "url(#green-beam)" },
-                      { d: "M 250 200 L 390 200", stroke: "url(#green-beam)" },
+                      { d: "M 200 150 L 200 20", stroke: "url(#red-beam)" },
+                      { d: "M 235 165 L 320 80", stroke: "url(#green-beam)" },
+                      { d: "M 250 200 L 380 200", stroke: "url(#red-beam)" },
+                      { d: "M 235 235 L 320 320", stroke: "url(#green-beam)" },
+                      { d: "M 200 250 L 200 380", stroke: "url(#red-beam)" },
+                      { d: "M 165 235 L 80 320", stroke: "url(#green-beam)" },
+                      { d: "M 150 200 L 20 200", stroke: "url(#red-beam)" },
+                      { d: "M 165 165 L 80 80", stroke: "url(#green-beam)" },
                     ].map((beam, i) => (
                       <motion.path
                         key={`beam-${i}`}
@@ -231,9 +235,10 @@ export function IntroConstruction({ onComplete }: { onComplete: () => void }) {
                         filter="url(#beam-glow)"
                         initial={{ pathLength: 0, opacity: 0 }}
                         animate={{ pathLength: 1, opacity: 0.8 }}
-                        transition={{ duration: 1.2, delay: 0.2 + i * 0.08, ease: "easeOut" }}
+                        transition={{ duration: 1.0, delay: 0.1 + i * 0.06, ease: "easeOut" }}
                       />
                     ))}
+
 
                     {/* Outer circle */}
                     <motion.circle

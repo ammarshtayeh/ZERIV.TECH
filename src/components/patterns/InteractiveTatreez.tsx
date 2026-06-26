@@ -57,7 +57,7 @@ const GRID_SIZE = 21;
 const COLORS = [
   { name: "أحمر كنعاني", hex: "#ce1126", id: 1 },
   { name: "أخضر زيتوني", hex: "#007a3d", id: 3 },
-  { name: "ذهبي تراثي", hex: "#bfa26a", id: 4 },
+  { name: "أبيض ناصع", hex: "#ffffff", id: 4 },
   { name: "أسود داكن", hex: "#1a1a1a", id: 2 },
 ];
 
@@ -65,7 +65,7 @@ export function InteractiveTatreez() {
   const [grid, setGrid] = useState<number[][]>(() =>
     Array(GRID_SIZE).fill(null).map(() => Array(GRID_SIZE).fill(0))
   );
-  const [selectedColor, setSelectedColor] = useState(1); // color ID (1: red, 3: green, 4: gold, 2: black)
+  const [selectedColor, setSelectedColor] = useState(1); // color ID (1: red, 3: green, 4: white, 2: black)
   const [isDrawing, setIsDrawing] = useState(false);
   const [activePreset, setActivePreset] = useState<keyof typeof PRESETS | null>(null);
   const [isWeaving, setIsWeaving] = useState(false);
@@ -85,7 +85,7 @@ export function InteractiveTatreez() {
       case 1: return "#ce1126"; // red
       case 2: return "#1a1a1a"; // black
       case 3: return "#007a3d"; // green
-      case 4: return "#bfa26a"; // gold
+      case 4: return "#ffffff"; // white
       default: return "transparent";
     }
   };
@@ -205,7 +205,7 @@ export function InteractiveTatreez() {
 
           {/* Grid Canvas Wrapper */}
           <div 
-            className="relative aspect-square w-full max-w-[420px] rounded-xl border border-zeriv-border/80 bg-[#0f1411] p-2.5 shadow-2xl overflow-hidden select-none"
+            className="relative aspect-square w-full max-w-[420px] rounded-xl border border-zeriv-border/80 bg-[#f4f1ea] dark:bg-[#0f1411] p-2.5 shadow-2xl overflow-hidden select-none"
             onMouseDown={() => setIsDrawing(true)}
             onMouseUp={() => setIsDrawing(false)}
             onMouseLeave={() => setIsDrawing(false)}

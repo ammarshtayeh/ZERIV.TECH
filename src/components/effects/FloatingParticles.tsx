@@ -17,7 +17,7 @@ export function FloatingParticles() {
       {particles.map((p) => (
         <motion.div
           key={p.id}
-          className="absolute rounded-full bg-zeriv-gold/20"
+          className={`absolute rounded-full ${p.id % 2 === 0 ? "bg-[#ce1126]/15" : "bg-[#007a3d]/15"}`}
           style={{
             left: `${p.x}%`,
             top: `${p.y}%`,

@@ -60,7 +60,7 @@ export function ServicesSection({ showAll = false }: { showAll?: boolean }) {
         <ScrollReveal>
           <div className="mb-20 sm:mb-28 text-right">
             <p className="text-[11px] font-semibold tracking-[0.2em] uppercase text-[#ce1126] mb-4">خدماتنا</p>
-            <h2 className="font-display text-[clamp(2rem,5vw,3.5rem)] font-bold leading-[1.1] text-white">
+            <h2 className="font-display text-[clamp(2rem,5vw,3.5rem)] font-bold leading-[1.1] text-zeriv-fg">
               ماذا <span className="text-[#007a3d]">نبني</span>
             </h2>
           </div>
@@ -74,19 +74,19 @@ export function ServicesSection({ showAll = false }: { showAll?: boolean }) {
                 onMouseEnter={() => setHoveredIdx(idx)}
                 onMouseLeave={() => setHoveredIdx(null)}
                 className={cn(
-                  "group relative border-t border-white/[0.06] py-8 sm:py-10 cursor-pointer transition-all duration-500",
-                  hoveredIdx === idx && "bg-white/[0.02]"
+                  "group relative border-t border-zeriv-border py-8 sm:py-10 cursor-pointer transition-all duration-500",
+                  hoveredIdx === idx && "bg-zeriv-surface/30"
                 )}
               >
                 <div className="flex items-center justify-between gap-6">
                   {/* Right side: Number + Arabic title */}
                   <div className="flex items-center gap-6 flex-row-reverse">
-                    <span className="font-display text-sm text-[#007a3d] w-8">
+                    <span className="font-serif-eng text-base text-[#007a3d] w-8">
                       {service.number}
                     </span>
                     <h3 className={cn(
                       "font-display text-2xl sm:text-3xl lg:text-4xl font-bold transition-colors duration-500",
-                      hoveredIdx === idx ? "text-[#ce1126]" : "text-white/70"
+                      hoveredIdx === idx ? "text-[#ce1126]" : "text-zeriv-fg/80"
                     )}>
                       {service.title}
                     </h3>
@@ -95,8 +95,8 @@ export function ServicesSection({ showAll = false }: { showAll?: boolean }) {
                   {/* Left side: English title + rotating plus indicator */}
                   <div className="flex items-center gap-4">
                     <span className={cn(
-                      "hidden sm:block text-xs tracking-wider transition-colors duration-500",
-                      hoveredIdx === idx ? "text-[#ce1126]" : "text-white/20"
+                      "hidden sm:block text-xs font-serif-eng italic tracking-wider transition-colors duration-500",
+                      hoveredIdx === idx ? "text-[#ce1126]" : "text-zeriv-fg/30"
                     )}>
                       {service.titleEn}
                     </span>
@@ -105,7 +105,7 @@ export function ServicesSection({ showAll = false }: { showAll?: boolean }) {
                       transition={{ duration: 0.4, ease: "easeOut" }}
                       className={cn(
                         "h-6 w-6 border flex items-center justify-center rounded-lg transition-all duration-500",
-                        hoveredIdx === idx ? "border-[#ce1126] text-[#ce1126] bg-[#ce1126]/5" : "border-white/10 text-white/25"
+                        hoveredIdx === idx ? "border-[#ce1126] text-[#ce1126] bg-[#ce1126]/5" : "border-zeriv-border text-zeriv-fg/30"
                       )}
                     >
                       <span className="text-xs font-light font-mono">+</span>
@@ -123,7 +123,7 @@ export function ServicesSection({ showAll = false }: { showAll?: boolean }) {
                       transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
                       className="overflow-hidden"
                     >
-                      <p className="pt-4 max-w-xl text-sm leading-relaxed text-white/40 text-right mr-14">
+                      <p className="pt-4 max-w-xl text-sm leading-relaxed text-zeriv-fg-muted text-right mr-14">
                         {service.description}
                       </p>
                     </motion.div>
@@ -141,7 +141,7 @@ export function ServicesSection({ showAll = false }: { showAll?: boolean }) {
             </ScrollReveal>
           ))}
           {/* Bottom border for last item */}
-          <div className="border-t border-white/[0.06]" />
+          <div className="border-t border-zeriv-border" />
         </div>
       </Container>
     </SectionShell>

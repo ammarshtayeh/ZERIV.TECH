@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Alexandria, Reem_Kufi, Amiri } from "next/font/google";
+import { Alexandria, El_Messiri, Amiri, Cormorant_Garamond } from "next/font/google";
 import { ThemeProvider } from "@/components/layout/ThemeProvider";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
@@ -13,10 +13,10 @@ const alexandria = Alexandria({
   display: "swap",
 });
 
-const reemKufi = Reem_Kufi({
+const elMessiri = El_Messiri({
   subsets: ["arabic"],
   weight: ["400", "500", "600", "700"],
-  variable: "--font-reem-kufi",
+  variable: "--font-el-messiri",
   display: "swap",
 });
 
@@ -25,6 +25,14 @@ const amiri = Amiri({
   weight: ["400", "700"],
   style: ["normal", "italic"],
   variable: "--font-amiri",
+  display: "swap",
+});
+
+const cormorantGaramond = Cormorant_Garamond({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  style: ["normal", "italic"],
+  variable: "--font-cormorant-garamond",
   display: "swap",
 });
 
@@ -65,7 +73,7 @@ export default function RootLayout({
   return (
     <html lang="ar" dir="rtl" suppressHydrationWarning>
       <body
-        className={`${alexandria.variable} ${reemKufi.variable} ${amiri.variable} font-sans antialiased`}
+        className={`${alexandria.variable} ${elMessiri.variable} ${amiri.variable} ${cormorantGaramond.variable} font-sans antialiased`}
       >
         <ThemeProvider
           attribute="class"

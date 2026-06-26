@@ -27,13 +27,13 @@ const socialLinks = [
 
 export function Footer() {
   return (
-    <footer className="relative border-t border-white/[0.06] bg-[#080808]">
+    <footer className="relative border-t border-zeriv-border bg-zeriv-bg-2">
       <div className="relative mx-auto max-w-6xl px-5 py-16 sm:px-8 sm:py-20">
         <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
           {/* Brand */}
           <div className="lg:col-span-1">
             <Logo size="md" />
-            <p className="mt-4 text-sm text-white/30 font-light">
+            <p className="mt-4 text-sm text-zeriv-fg-muted font-light">
               تقنية حديثة بروح فلسطينية 🇵🇸
             </p>
             <p className="mt-2 text-xs text-[#ce1126]">
@@ -46,7 +46,7 @@ export function Footer() {
             <h3 className="mb-4 text-xs font-semibold tracking-[0.15em] uppercase text-[#007a3d]">
               خدماتنا
             </h3>
-            <ul className="space-y-2.5 text-sm text-white/30">
+            <ul className="space-y-2.5 text-sm text-zeriv-fg-muted">
               {services.slice(0, 5).map((s) => (
                 <li key={s.id}>
                   <Link
@@ -65,7 +65,7 @@ export function Footer() {
             <h3 className="mb-4 text-xs font-semibold tracking-[0.15em] uppercase text-[#007a3d]">
               روابط سريعة
             </h3>
-            <ul className="space-y-2.5 text-sm text-white/30">
+            <ul className="space-y-2.5 text-sm text-zeriv-fg-muted">
               <li><Link href="/" className="transition-colors hover:text-[#ce1126]">الرئيسية</Link></li>
               <li><Link href="/#services" className="transition-colors hover:text-[#ce1126]">خدماتنا</Link></li>
               <li><Link href="/portfolio" className="transition-colors hover:text-[#ce1126]">أعمالنا</Link></li>
@@ -79,7 +79,7 @@ export function Footer() {
             <h3 className="mb-4 text-xs font-semibold tracking-[0.15em] uppercase text-[#007a3d]">
               تواصل
             </h3>
-            <ul className="space-y-3 text-sm text-white/30">
+            <ul className="space-y-3 text-sm text-zeriv-fg-muted">
               <li className="flex items-center gap-2">
                 <Mail className="h-3.5 w-3.5 shrink-0 text-[#ce1126]/50" />
                 <a href="mailto:ammar.shtayeh@gmail.com" className="transition-colors hover:text-[#ce1126]">
@@ -105,7 +105,7 @@ export function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={label}
-                  className="flex h-9 w-9 items-center justify-center rounded-full border border-white/[0.06] text-white/30 transition-all hover:border-[#ce1126]/40 hover:text-[#ce1126]"
+                  className="flex h-9 w-9 items-center justify-center rounded-full border border-zeriv-border text-zeriv-fg-soft transition-all hover:border-[#ce1126]/40 hover:text-[#ce1126]"
                 >
                   <Icon className="h-3.5 w-3.5" />
                 </a>
@@ -117,10 +117,10 @@ export function Footer() {
         {/* Bottom divider and copyright */}
         <div className="mt-16 h-[1px] bg-gradient-to-r from-transparent via-[#007a3d]/20 to-transparent" />
         <div className="mt-6 flex flex-col items-center justify-between gap-4 sm:flex-row">
-          <p className="text-[11px] text-white/20">
+          <p className="text-[11px] text-zeriv-fg/30">
             © {new Date().getFullYear()} ZERIV TECH. جميع الحقوق محفوظة.
           </p>
-          <p className="text-[11px] text-white/20">
+          <p className="text-[11px] text-zeriv-fg/30">
             صُنع بروح فلسطينية 🇵🇸
           </p>
         </div>

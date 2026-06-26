@@ -41,7 +41,7 @@ function ProjectCard({ project }: { project: PortfolioProject }) {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={handleMouseLeave}
       style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
-      className="group relative w-full rounded-2xl overflow-hidden border border-white/[0.06] bg-[#0f0f0f] transition-all duration-500 hover:border-[#ce1126]/30 cursor-pointer"
+      className="group relative w-full rounded-2xl overflow-hidden border border-zeriv-border bg-zeriv-card transition-all duration-500 hover:border-[#ce1126]/30 cursor-pointer"
     >
       {/* Image container */}
       <div className="relative aspect-[16/10] overflow-hidden bg-[#0a0a0a]">
@@ -88,14 +88,14 @@ function ProjectCard({ project }: { project: PortfolioProject }) {
       {/* Info */}
       <div className="p-5 sm:p-6 text-right">
         <div className="flex items-center justify-between mb-3 flex-row-reverse">
-          <span className="text-[10px] tracking-[0.15em] uppercase text-[#007a3d] font-semibold">
+          <span className="text-[10px] font-serif-eng italic tracking-[0.15em] uppercase text-[#007a3d] font-semibold">
             {project.category}
           </span>
           <div className="flex gap-1.5">
             {project.tags.slice(0, 2).map((tag) => (
               <span
                 key={tag}
-                className="rounded-full border border-white/[0.08] bg-white/[0.03] px-2.5 py-0.5 text-[9px] text-white/30"
+                className="rounded-full border border-zeriv-border bg-zeriv-surface px-2.5 py-0.5 text-[9px] text-zeriv-fg-soft"
               >
                 {tag}
               </span>
@@ -103,14 +103,22 @@ function ProjectCard({ project }: { project: PortfolioProject }) {
           </div>
         </div>
 
-        <h3 className="font-display text-lg font-bold text-white group-hover:text-[#ce1126] transition-colors duration-500">
+        <h3 className="font-display text-lg font-bold text-zeriv-fg group-hover:text-[#ce1126] transition-colors duration-500">
           {project.title}
         </h3>
         
-        <p className="mt-2 text-xs leading-relaxed text-white/40 font-light">
+        <p className="mt-2 text-xs leading-relaxed text-zeriv-fg-muted font-light">
           {project.description}
         </p>
       </div>
+
+      {/* Flag colors gradient line that appears on hover */}
+      <motion.div
+        className="absolute bottom-0 right-0 h-[2px] bg-gradient-to-r from-[#ce1126] via-[#007a3d] to-[#ce1126]"
+        initial={{ width: "0%" }}
+        animate={{ width: hovered ? "100%" : "0%" }}
+        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+      />
     </motion.div>
   );
 }
@@ -126,7 +134,7 @@ export function PortfolioSection({ showAll = false }: { showAll?: boolean }) {
         <ScrollReveal>
           <div className="mb-20 sm:mb-28 text-right">
             <p className="text-[11px] font-semibold tracking-[0.2em] uppercase text-[#ce1126] mb-4">أعمالنا</p>
-            <h2 className="font-display text-[clamp(2rem,5vw,3.5rem)] font-bold leading-[1.1] text-white">
+            <h2 className="font-display text-[clamp(2rem,5vw,3.5rem)] font-bold leading-[1.1] text-zeriv-fg">
               مشاريع <span className="text-[#007a3d]">صنعناها</span>
             </h2>
           </div>
@@ -148,7 +156,7 @@ export function PortfolioSection({ showAll = false }: { showAll?: boolean }) {
           <ScrollReveal className="mt-16 text-center">
             <Link 
               href="/portfolio" 
-              className="inline-flex items-center gap-2 rounded-full border border-white/10 px-7 py-3 text-sm font-semibold text-white/50 transition-all duration-500 hover:border-[#007a3d]/30 hover:text-[#007a3d] hover:bg-[#007a3d]/5"
+              className="inline-flex items-center gap-2 rounded-full border border-zeriv-border px-7 py-3 text-sm font-semibold text-zeriv-fg-muted transition-all duration-500 hover:border-[#007a3d]/30 hover:text-[#007a3d] hover:bg-[#007a3d]/5"
             >
               تصفح كل الأعمال
               <ArrowLeft className="h-4 w-4" />

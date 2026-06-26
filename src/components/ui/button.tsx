@@ -6,18 +6,18 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zeriv-gold/50 disabled:pointer-events-none disabled:opacity-50",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ce1126]/40 disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
       variant: {
         default:
-          "bg-zeriv-gold text-zeriv-dark hover:bg-zeriv-gold-light shadow-lg shadow-zeriv-gold/20",
+          "bg-[#ce1126] text-white hover:bg-[#9d0c1b] shadow-lg shadow-[#ce1126]/20",
         outline:
-          "border border-zeriv-gold/40 text-zeriv-gold hover:bg-zeriv-gold/10 hover:border-zeriv-gold",
+          "border border-[#ce1126]/40 text-[#ce1126] hover:bg-[#ce1126]/10 hover:border-[#ce1126]",
         ghost:
-          "text-zeriv-offwhite/80 hover:text-zeriv-gold hover:bg-white/5",
+          "text-zeriv-fg/80 hover:text-[#ce1126] hover:bg-zeriv-fg/5",
         secondary:
-          "bg-zeriv-green/20 text-zeriv-green border border-zeriv-green/30 hover:bg-zeriv-green/30",
+          "bg-[#007a3d]/20 text-[#007a3d] border border-[#007a3d]/30 hover:bg-[#007a3d]/30",
       },
       size: {
         default: "h-11 px-6 py-2",

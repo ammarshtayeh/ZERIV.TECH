@@ -32,7 +32,7 @@ export function HeroSection() {
             </h1>
 
             {/* Supporting text */}
-            <p className="mt-6 max-w-xl text-base sm:text-lg font-light leading-relaxed text-white/60">
+            <p className="mt-6 max-w-xl text-base sm:text-lg font-light leading-relaxed text-zeriv-fg-muted">
               نبني منصات رقمية وحلولاً متكاملة — بأناقة مستوحاة من تفاصيل تراثنا الفلسطيني العريق.
             </p>
 
@@ -68,7 +68,7 @@ export function HeroSection() {
         className="absolute bottom-8 left-1/2 -translate-x-1/2 pointer-events-none"
       >
         <div className="flex flex-col items-center gap-2">
-          <span className="text-[10px] tracking-[0.2em] uppercase text-white/30">اكتشف المزيد</span>
+          <span className="text-[10px] tracking-[0.2em] uppercase text-zeriv-fg/30">اكتشف المزيد</span>
           <motion.div
             animate={{ y: [0, 6, 0] }}
             transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}

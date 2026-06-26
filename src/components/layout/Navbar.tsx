@@ -40,7 +40,7 @@ function NavLink({
         "relative px-4 py-2 text-sm font-medium transition-all duration-300",
         active
           ? "text-[#ce1126]"
-          : "text-white/40 hover:text-white/70",
+          : "text-zeriv-fg-soft hover:text-zeriv-fg",
         className
       )}
     >
@@ -61,14 +61,14 @@ export function Navbar() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 bg-zeriv-bg/70 backdrop-blur-md border-b border-white/[0.04] dark:border-white/[0.04] border-black/[0.04]">
+    <header className="fixed inset-x-0 top-0 z-50 bg-zeriv-bg/70 backdrop-blur-md border-b border-zeriv-border">
       <div className="mx-auto flex h-[4.25rem] max-w-7xl items-center justify-between px-5 sm:px-8">
         {/* Logo */}
         <Logo size="nav" variant="nav" />
 
         {/* Center navigation */}
         <nav className="hidden lg:flex" aria-label="التنقل الرئيسي">
-          <ul className="flex items-center gap-1 rounded-full border border-white/[0.06] bg-black/40 backdrop-blur-xl px-2 py-1">
+          <ul className="flex items-center gap-1 rounded-full border border-zeriv-border bg-zeriv-surface/40 backdrop-blur-xl px-2 py-1">
             {navLinks.map((link) => (
               <li key={link.id}>
                 <NavLink
@@ -91,7 +91,7 @@ export function Navbar() {
             ابدأ مشروعك
           </Link>
           <button
-            className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 text-white/50 lg:hidden hover:border-[#ce1126]/30 hover:text-[#ce1126] transition-colors"
+            className="flex h-10 w-10 items-center justify-center rounded-full border border-zeriv-border text-zeriv-fg-soft lg:hidden hover:border-[#ce1126]/30 hover:text-[#ce1126] transition-colors"
             onClick={() => setOpen(!open)}
             aria-label={open ? "إغلاق القائمة" : "فتح القائمة"}
             aria-expanded={open}
@@ -108,7 +108,7 @@ export function Navbar() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="overflow-hidden border-b border-white/[0.06] bg-[#0B0B0B]/95 backdrop-blur-2xl lg:hidden"
+            className="overflow-hidden border-b border-zeriv-border bg-zeriv-bg/95 backdrop-blur-2xl lg:hidden"
           >
             <ul className="flex flex-col gap-1 px-5 py-4">
               {navLinks.map((link) => (

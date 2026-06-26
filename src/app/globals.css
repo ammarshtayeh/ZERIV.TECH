@@ -69,8 +69,9 @@
   --color-zeriv-olive: #007a3d;
   --color-zeriv-cream: #ffffff;
   --font-sans: var(--font-alexandria), system-ui, sans-serif;
-  --font-display: var(--font-reem-kufi), serif;
+  --font-display: var(--font-el-messiri), serif;
   --font-heritage: var(--font-amiri), serif;
+  --font-serif-eng: var(--font-cormorant-garamond), serif;
   --font-mono: ui-monospace, "Cascadia Code", monospace;
   --leading-body: 1.75;
   --leading-tight: 1.15;
@@ -151,6 +152,10 @@
   .font-heritage {
     font-family: var(--font-heritage);
     line-height: 1.9;
+  }
+
+  .font-serif-eng {
+    font-family: var(--font-serif-eng);
   }
 
   .text-caps {

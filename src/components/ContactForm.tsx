@@ -207,7 +207,7 @@ export function ContactForm() {
                 <SelectTrigger className="bg-black/30 border-zeriv-border text-right">
                   <SelectValue placeholder="اختر الخدمة المطلوبة" />
                 </SelectTrigger>
-                <SelectContent className="bg-[#0f1411] border-zeriv-border">
+                <SelectContent className="bg-zeriv-card border-zeriv-border">
                   {serviceTypes.map((type) => (
                     <SelectItem key={type} value={type} className="text-right justify-end">{type}</SelectItem>
                   ))}
@@ -228,7 +228,7 @@ export function ContactForm() {
               <SelectTrigger className="bg-black/30 border-zeriv-border text-right">
                 <SelectValue placeholder="اختر النطاق المتوقع" />
               </SelectTrigger>
-              <SelectContent className="bg-[#0f1411] border-zeriv-border">
+              <SelectContent className="bg-zeriv-card border-zeriv-border">
                 {budgetRanges.map((range) => (
                   <SelectItem key={range} value={range} className="text-right justify-end">{range}</SelectItem>
                 ))}

@@ -33,7 +33,7 @@ export default function ContactPage() {
 
                 <ul className="space-y-6">
                   <li className="flex items-start gap-4">
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-zeriv-gold/10 text-zeriv-gold">
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#ce1126]/10 text-[#ce1126]">
                       <Mail className="h-5 w-5" />
                     </div>
                     <div>
@@ -44,7 +44,7 @@ export default function ContactPage() {
                     </div>
                   </li>
                   <li className="flex items-start gap-4">
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-zeriv-gold/10 text-zeriv-gold">
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#007a3d]/10 text-[#007a3d]">
                       <Phone className="h-5 w-5" />
                     </div>
                     <div>
@@ -55,7 +55,7 @@ export default function ContactPage() {
                     </div>
                   </li>
                   <li className="flex items-start gap-4">
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-zeriv-gold/10 text-zeriv-gold">
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#ce1126]/10 text-[#ce1126]">
                       <MapPin className="h-5 w-5" />
                     </div>
                     <div>

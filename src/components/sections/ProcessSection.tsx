@@ -16,7 +16,7 @@ export function ProcessSection() {
         <ScrollReveal>
           <div className="mb-20 sm:mb-28 text-right">
             <p className="text-[11px] font-semibold tracking-[0.2em] uppercase text-[#ce1126] mb-4">عمليتنا</p>
-            <h2 className="font-display text-[clamp(2rem,5vw,3.5rem)] font-bold leading-[1.1] text-white">
+            <h2 className="font-display text-[clamp(2rem,5vw,3.5rem)] font-bold leading-[1.1] text-zeriv-fg">
               من الفكرة إلى <span className="text-[#007a3d]">الإطلاق</span>
             </h2>
           </div>
@@ -31,7 +31,7 @@ export function ProcessSection() {
               <ScrollReveal key={step.number} delay={i * 0.1}>
                 <div className="group flex items-start gap-6 sm:gap-10 flex-row-reverse cursor-pointer">
                   {/* Number circle */}
-                  <div className="relative flex h-10 w-10 sm:h-12 sm:w-12 shrink-0 items-center justify-center rounded-full border border-[#007a3d]/30 bg-[#0B0B0B] transition-all duration-300 group-hover:border-[#ce1126] group-hover:bg-[#ce1126]">
+                  <div className="relative flex h-10 w-10 sm:h-12 sm:w-12 shrink-0 items-center justify-center rounded-full border border-[#007a3d]/30 bg-zeriv-bg transition-all duration-300 group-hover:border-[#ce1126] group-hover:bg-[#ce1126]">
                     <span className="font-display text-sm sm:text-base font-bold text-[#ce1126] transition-colors duration-300 group-hover:text-white">
                       {step.number}
                     </span>
@@ -40,10 +40,10 @@ export function ProcessSection() {
                   
                   {/* Content */}
                   <div className="text-right pt-1 sm:pt-2 transition-transform duration-300 group-hover:-translate-x-1">
-                    <h3 className="font-display text-xl sm:text-2xl font-bold text-white transition-colors duration-300 group-hover:text-[#007a3d]">
+                    <h3 className="font-display text-xl sm:text-2xl font-bold text-zeriv-fg transition-colors duration-300 group-hover:text-[#007a3d]">
                       {step.title}
                     </h3>
-                    <p className="mt-2 text-sm leading-relaxed text-white/40 max-w-md font-light transition-colors duration-300 group-hover:text-white/70">
+                    <p className="mt-2 text-sm leading-relaxed text-zeriv-fg-muted max-w-md font-light transition-colors duration-300 group-hover:text-zeriv-fg/80">
                       {step.description}
                     </p>
                   </div>
