@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowLeft } from "lucide-react";
-import { Logo } from "@/components/brand/Logo";
+import { HeroVisual } from "@/components/brand/HeroVisual";
 import { Container, SectionShell } from "@/components/layout/SectionShell";
 import { TatreezBorder } from "@/components/patterns/Patterns";
 
@@ -17,7 +17,7 @@ export function HeroSection() {
   return (
     <SectionShell variant="hero" className="relative min-h-[92vh] pt-[4.25rem]">
       <Container className="relative flex min-h-[calc(92vh-4.25rem)] flex-col justify-center py-14 lg:py-20">
-        <div className="grid items-end gap-12 lg:grid-cols-[1.15fr_0.85fr] lg:gap-16">
+        <div className="grid items-center gap-12 lg:grid-cols-[1.15fr_0.85fr] lg:gap-16">
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
@@ -68,13 +68,7 @@ export function HeroSection() {
             transition={{ duration: 0.9, delay: 0.12 }}
             className="relative flex justify-center lg:justify-end"
           >
-            <div className="w-full max-w-[min(100%,320px)]">
-              <TatreezBorder thick />
-              <div className="flex justify-center border-x border-zeriv-border bg-black px-4 py-8 sm:px-6 sm:py-10">
-                <Logo size="hero" variant="framed" className="pointer-events-none" priority />
-              </div>
-              <TatreezBorder thick />
-            </div>
+            <HeroVisual />
           </motion.div>
         </div>
       </Container>
@@ -83,3 +77,4 @@ export function HeroSection() {
     </SectionShell>
   );
 }
+

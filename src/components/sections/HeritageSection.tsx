@@ -9,6 +9,7 @@ import {
   SectionHeader,
 } from "@/components/layout/SectionShell";
 import { TatreezBorder, OliveBranch } from "@/components/patterns/Patterns";
+import { InteractiveTatreez } from "@/components/patterns/InteractiveTatreez";
 
 const heritage = [
   {
@@ -76,6 +77,10 @@ export function HeritageSection() {
             </ScrollReveal>
           );})}
         </div>
+
+        <ScrollReveal>
+          <InteractiveTatreez />
+        </ScrollReveal>
 
         <ScrollReveal className="mt-10 flex justify-center">
           <div className="flex items-center gap-4 text-zeriv-olive/50">

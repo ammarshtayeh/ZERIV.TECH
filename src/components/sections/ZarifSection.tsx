@@ -10,6 +10,7 @@ import {
   SectionHeader,
 } from "@/components/layout/SectionShell";
 import { TatreezBorder, OliveBranch } from "@/components/patterns/Patterns";
+import { ZarifPlayer } from "@/components/brand/ZarifPlayer";
 
 const pillars = [
   {
@@ -100,6 +101,8 @@ export function ZarifSection() {
                   بطموحك، مهما كان مجال مشروعك.»
                 </p>
               </div>
+
+              <ZarifPlayer />
             </div>
           </ScrollReveal>
 
