@@ -39,7 +39,7 @@ function NavLink({
       className={cn(
         "relative px-4 py-2 text-sm font-medium transition-all duration-300",
         active
-          ? "text-[#D4AF37]"
+          ? "text-[#ce1126]"
           : "text-white/40 hover:text-white/70",
         className
       )}
@@ -48,7 +48,7 @@ function NavLink({
       {active && (
         <motion.div
           layoutId="nav-indicator"
-          className="absolute bottom-0 left-1/2 -translate-x-1/2 h-[2px] w-4 bg-[#D4AF37] rounded-full"
+          className="absolute bottom-0 left-1/2 -translate-x-1/2 h-[2px] w-4 bg-[#ce1126] rounded-full"
           transition={{ type: "spring", stiffness: 400, damping: 30 }}
         />
       )}
@@ -86,12 +86,12 @@ export function Navbar() {
           <ThemeToggle />
           <Link
             href="/contact"
-            className="hidden sm:inline-flex items-center rounded-full bg-[#D4AF37] px-5 py-2 text-xs font-bold text-black transition-all duration-300 hover:bg-[#E5C148]"
+            className="hidden sm:inline-flex items-center rounded-full bg-[#ce1126] px-5 py-2 text-xs font-bold text-white transition-all duration-300 hover:bg-[#9d0c1b]"
           >
             ابدأ مشروعك
           </Link>
           <button
-            className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 text-white/50 lg:hidden hover:border-[#D4AF37]/30 hover:text-[#D4AF37] transition-colors"
+            className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 text-white/50 lg:hidden hover:border-[#ce1126]/30 hover:text-[#ce1126] transition-colors"
             onClick={() => setOpen(!open)}
             aria-label={open ? "إغلاق القائمة" : "فتح القائمة"}
             aria-expanded={open}

@@ -41,7 +41,7 @@ function ProjectCard({ project }: { project: PortfolioProject }) {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={handleMouseLeave}
       style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
-      className="group relative w-full rounded-2xl overflow-hidden border border-white/[0.06] bg-[#0f0f0f] transition-all duration-500 hover:border-[#D4AF37]/20 cursor-pointer"
+      className="group relative w-full rounded-2xl overflow-hidden border border-white/[0.06] bg-[#0f0f0f] transition-all duration-500 hover:border-[#ce1126]/30 cursor-pointer"
     >
       {/* Image container */}
       <div className="relative aspect-[16/10] overflow-hidden bg-[#0a0a0a]">
@@ -57,13 +57,13 @@ function ProjectCard({ project }: { project: PortfolioProject }) {
             sizes="(max-width: 768px) 100vw, 50vw"
           />
         ) : (
-          <div className="absolute inset-0 bg-gradient-to-br from-[#D4AF37]/10 to-[#8b1538]/5" />
+          <div className="absolute inset-0 bg-gradient-to-br from-[#ce1126]/10 to-[#007a3d]/5" />
         )}
         
         {/* Hover overlay with link */}
         <div className={cn(
           "absolute inset-0 flex items-center justify-center transition-all duration-500",
-          hovered ? "bg-black/40" : "bg-transparent"
+          hovered ? "bg-black/50" : "bg-transparent"
         )}>
           {project.url && (
             <motion.a
@@ -76,7 +76,7 @@ function ProjectCard({ project }: { project: PortfolioProject }) {
                 y: hovered ? 0 : 10
               }}
               transition={{ duration: 0.3 }}
-              className="flex items-center gap-2 rounded-full bg-[#D4AF37] px-5 py-2.5 text-xs font-bold text-black"
+              className="flex items-center gap-2 rounded-full bg-[#ce1126] px-5 py-2.5 text-xs font-bold text-white hover:bg-[#9d0c1b] transition-colors"
             >
               معاينة المشروع
               <ArrowUpRight className="h-3.5 w-3.5" />
@@ -88,7 +88,7 @@ function ProjectCard({ project }: { project: PortfolioProject }) {
       {/* Info */}
       <div className="p-5 sm:p-6 text-right">
         <div className="flex items-center justify-between mb-3 flex-row-reverse">
-          <span className="text-[10px] tracking-[0.15em] uppercase text-[#D4AF37]/60 font-semibold">
+          <span className="text-[10px] tracking-[0.15em] uppercase text-[#007a3d] font-semibold">
             {project.category}
           </span>
           <div className="flex gap-1.5">
@@ -103,11 +103,11 @@ function ProjectCard({ project }: { project: PortfolioProject }) {
           </div>
         </div>
 
-        <h3 className="font-display text-lg font-bold text-zeriv-fg group-hover:text-[#D4AF37] transition-colors duration-500">
+        <h3 className="font-display text-lg font-bold text-white group-hover:text-[#ce1126] transition-colors duration-500">
           {project.title}
         </h3>
         
-        <p className="mt-2 text-xs leading-relaxed text-white/30 font-light">
+        <p className="mt-2 text-xs leading-relaxed text-white/40 font-light">
           {project.description}
         </p>
       </div>
@@ -120,14 +120,14 @@ export function PortfolioSection({ showAll = false }: { showAll?: boolean }) {
 
   return (
     <SectionShell id="portfolio" variant="default" className="py-24 sm:py-36 relative">
-      <div className="absolute bottom-0 left-0 w-[600px] h-[400px] bg-[radial-gradient(ellipse_at_bottom_left,rgba(212,175,55,0.03)_0%,transparent_70%)] pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-[600px] h-[400px] bg-[radial-gradient(ellipse_at_bottom_left,rgba(0,122,61,0.03)_0%,transparent_70%)] pointer-events-none" />
       
       <Container className="relative z-10">
         <ScrollReveal>
           <div className="mb-20 sm:mb-28 text-right">
-            <p className="text-[11px] font-semibold tracking-[0.2em] uppercase text-[#D4AF37] mb-4">أعمالنا</p>
-            <h2 className="font-display text-[clamp(2rem,5vw,3.5rem)] font-bold leading-[1.1] text-zeriv-fg">
-              مشاريع <span className="text-[#D4AF37]">صنعناها</span>
+            <p className="text-[11px] font-semibold tracking-[0.2em] uppercase text-[#ce1126] mb-4">أعمالنا</p>
+            <h2 className="font-display text-[clamp(2rem,5vw,3.5rem)] font-bold leading-[1.1] text-white">
+              مشاريع <span className="text-[#007a3d]">صنعناها</span>
             </h2>
           </div>
         </ScrollReveal>
@@ -144,7 +144,7 @@ export function PortfolioSection({ showAll = false }: { showAll?: boolean }) {
           <ScrollReveal className="mt-16 text-center">
             <Link 
               href="/portfolio" 
-              className="inline-flex items-center gap-2 rounded-full border border-[#D4AF37]/20 px-7 py-3 text-sm font-semibold text-[#D4AF37]/70 transition-all duration-500 hover:border-[#D4AF37]/40 hover:text-[#D4AF37] hover:bg-[#D4AF37]/5"
+              className="inline-flex items-center gap-2 rounded-full border border-white/10 px-7 py-3 text-sm font-semibold text-white/50 transition-all duration-500 hover:border-[#007a3d]/30 hover:text-[#007a3d] hover:bg-[#007a3d]/5"
             >
               تصفح كل الأعمال
               <ArrowLeft className="h-4 w-4" />

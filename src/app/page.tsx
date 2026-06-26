@@ -11,6 +11,7 @@ import { ZarifSection } from "@/components/sections/ZarifSection";
 import { HeritageSection } from "@/components/sections/HeritageSection";
 import { CTASection } from "@/components/sections/CTASection";
 import { IntroConstruction } from "@/components/effects/IntroConstruction";
+import { TatreezBorder } from "@/components/patterns/Patterns";
 
 export default function HomePage() {
   const [showIntro, setShowIntro] = useState(true);
@@ -36,26 +37,35 @@ export default function HomePage() {
       >
         <PageTransition>
           <HeroSection />
-          {/* Gold divider line */}
+          
           <div className="mx-auto max-w-6xl px-5 sm:px-8">
-            <div className="h-[1px] bg-gradient-to-r from-transparent via-[#D4AF37]/15 to-transparent" />
+            <TatreezBorder className="opacity-20" />
           </div>
+          
           <ServicesSection />
+          
           <div className="mx-auto max-w-6xl px-5 sm:px-8">
-            <div className="h-[1px] bg-gradient-to-r from-transparent via-[#D4AF37]/10 to-transparent" />
+            <TatreezBorder className="opacity-20" />
           </div>
+          
           <PortfolioSection />
+          
           <div className="mx-auto max-w-6xl px-5 sm:px-8">
-            <div className="h-[1px] bg-gradient-to-r from-transparent via-white/[0.04] to-transparent" />
+            <TatreezBorder className="opacity-20" />
           </div>
+          
           <ProcessSection />
+          
           <div className="mx-auto max-w-6xl px-5 sm:px-8">
-            <div className="h-[1px] bg-gradient-to-r from-transparent via-[#D4AF37]/10 to-transparent" />
+            <TatreezBorder className="opacity-20" />
           </div>
+          
           <ZarifSection />
+          
           <div className="mx-auto max-w-6xl px-5 sm:px-8">
-            <div className="h-[1px] bg-gradient-to-r from-transparent via-white/[0.04] to-transparent" />
+            <TatreezBorder className="opacity-20" />
           </div>
+          
           <HeritageSection />
           <CTASection />
         </PageTransition>

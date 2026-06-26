@@ -109,13 +109,13 @@ export function TatreezBorder({ className = "", thick = false }: { className?: s
       className={`flex ${h} w-full overflow-hidden ${className}`}
       aria-hidden="true"
     >
-      <div className="h-full flex-[1.5] bg-zeriv-red" />
-      <div className="h-full flex-1 bg-zeriv-black" />
+      <div className="h-full flex-[1.5] bg-zeriv-black" />
       <div className="h-full flex-1 bg-zeriv-green" />
+      <div className="h-full flex-1 bg-zeriv-red" />
       <div className="h-full flex-[2] bg-zeriv-white dark:bg-zeriv-white/90" />
+      <div className="h-full flex-1 bg-zeriv-red" />
       <div className="h-full flex-1 bg-zeriv-green" />
-      <div className="h-full flex-1 bg-zeriv-black" />
-      <div className="h-full flex-[1.5] bg-zeriv-red" />
+      <div className="h-full flex-[1.5] bg-zeriv-black" />
     </div>
   );
 }
@@ -135,8 +135,13 @@ export function OliveBranch({ className = "" }: { className?: string }) {
 export function FlagStripe({ className = "" }: { className?: string }) {
   return (
     <div className={`flex h-2 w-full overflow-hidden rounded-full ${className}`} aria-hidden="true">
+      <div className="h-full flex-1 bg-zeriv-black" />
+      <div className="h-full flex-1 bg-zeriv-green" />
+      <div className="h-full flex-1 bg-zeriv-red" />
+      <div className="h-full flex-1 bg-zeriv-white" />
       <div className="h-full flex-1 bg-zeriv-red" />
       <div className="h-full flex-1 bg-zeriv-green" />
+      <div className="h-full flex-1 bg-zeriv-black" />
     </div>
   );
 }

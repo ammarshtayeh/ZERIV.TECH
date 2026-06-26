@@ -53,15 +53,15 @@ export function ServicesSection({ showAll = false }: { showAll?: boolean }) {
 
   return (
     <SectionShell id="services" variant="default" className="py-24 sm:py-36 relative">
-      {/* Subtle gold glow */}
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[radial-gradient(ellipse_at_top_right,rgba(212,175,55,0.04)_0%,transparent_70%)] pointer-events-none" />
+      {/* Subtle green glow */}
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[radial-gradient(ellipse_at_top_right,rgba(0,122,97,0.04)_0%,transparent_70%)] pointer-events-none" />
       
       <Container className="relative z-10">
         <ScrollReveal>
           <div className="mb-20 sm:mb-28 text-right">
-            <p className="text-[11px] font-semibold tracking-[0.2em] uppercase text-[#D4AF37] mb-4">خدماتنا</p>
-            <h2 className="font-display text-[clamp(2rem,5vw,3.5rem)] font-bold leading-[1.1] text-zeriv-fg">
-              ماذا <span className="text-[#D4AF37]">نبني</span>
+            <p className="text-[11px] font-semibold tracking-[0.2em] uppercase text-[#ce1126] mb-4">خدماتنا</p>
+            <h2 className="font-display text-[clamp(2rem,5vw,3.5rem)] font-bold leading-[1.1] text-white">
+              ماذا <span className="text-[#007a3d]">نبني</span>
             </h2>
           </div>
         </ScrollReveal>
@@ -81,19 +81,19 @@ export function ServicesSection({ showAll = false }: { showAll?: boolean }) {
                 <div className="flex items-center justify-between gap-6">
                   {/* Right side: Number + Arabic title */}
                   <div className="flex items-center gap-6 flex-row-reverse">
-                    <span className="font-display text-sm text-[#D4AF37]/40 tabular-nums w-8">
+                    <span className="font-display text-sm text-[#007a3d] w-8">
                       {service.number}
                     </span>
                     <h3 className={cn(
                       "font-display text-2xl sm:text-3xl lg:text-4xl font-bold transition-colors duration-500",
-                      hoveredIdx === idx ? "text-[#D4AF37]" : "text-zeriv-fg"
+                      hoveredIdx === idx ? "text-[#ce1126]" : "text-white/70"
                     )}>
                       {service.title}
                     </h3>
                   </div>
 
                   {/* Left side: English title */}
-                  <span className="hidden sm:block text-sm text-zeriv-fg/20 tracking-wider">
+                  <span className="hidden sm:block text-sm text-white/20 tracking-wider">
                     {service.titleEn}
                   </span>
                 </div>
@@ -108,16 +108,16 @@ export function ServicesSection({ showAll = false }: { showAll?: boolean }) {
                       transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
                       className="overflow-hidden"
                     >
-                      <p className="pt-4 max-w-xl text-sm leading-relaxed text-zeriv-fg/40 text-right mr-14">
+                      <p className="pt-4 max-w-xl text-sm leading-relaxed text-white/40 text-right mr-14">
                         {service.description}
                       </p>
                     </motion.div>
                   )}
                 </AnimatePresence>
 
-                {/* Gold line that appears on hover */}
+                {/* Flag colors gradient line that appears on hover */}
                 <motion.div
-                  className="absolute bottom-0 right-0 h-[1px] bg-[#D4AF37]/40"
+                  className="absolute bottom-0 right-0 h-[1px] bg-gradient-to-r from-[#ce1126] via-[#007a3d] to-[#ce1126]"
                   initial={{ width: "0%" }}
                   animate={{ width: hoveredIdx === idx ? "100%" : "0%" }}
                   transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
