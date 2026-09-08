@@ -16,34 +16,32 @@ export function validateContactForm(data: ContactFormData): ContactFormErrors {
   const errors: ContactFormErrors = {};
 
   if (!data.name.trim()) {
-    errors.name = "الاسم مطلوب";
+    errors.name = "Please enter your name.";
   } else if (data.name.trim().length < 2) {
-    errors.name = "الاسم يجب أن يكون حرفين على الأقل";
+    errors.name = "Name must be at least 2 characters.";
   }
 
   if (!data.email.trim()) {
-    errors.email = "البريد الإلكتروني مطلوب";
+    errors.email = "Please enter your email.";
   } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
-    errors.email = "البريد الإلكتروني غير صالح";
+    errors.email = "Please enter a valid email.";
   }
 
   if (data.phone && !/^[\d\s+\-()]{7,20}$/.test(data.phone)) {
-    errors.phone = "رقم الهاتف غير صالح";
+    errors.phone = "Please enter a valid phone number.";
   }
 
   if (!data.message.trim()) {
-    errors.message = "الرسالة مطلوبة";
+    errors.message = "Please describe your project.";
   } else if (data.message.trim().length < 10) {
-    errors.message = "الرسالة يجب أن تكون 10 أحرف على الأقل";
+    errors.message = "Please share a little more (at least 10 characters).";
   }
 
   return errors;
 }
 
-export async function submitContactMock(
-  data: ContactFormData
-): Promise<ContactRequest> {
-  await new Promise((resolve) => setTimeout(resolve, 1200));
+export async function submitContactMock(data: ContactFormData): Promise<ContactRequest> {
+  await new Promise((resolve) => setTimeout(resolve, 900));
 
   const entry: ContactRequest = {
     id: crypto.randomUUID(),

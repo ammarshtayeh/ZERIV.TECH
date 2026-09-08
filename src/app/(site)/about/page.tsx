@@ -1,28 +1,23 @@
 import type { Metadata } from "next";
-import { PageTransition } from "@/components/effects/PageTransition";
-import { PageHeader } from "@/components/layout/PageHeader";
-import { AboutSection } from "@/components/sections/AboutSection";
-import { ZarifSection } from "@/components/sections/ZarifSection";
-import { ProcessSection } from "@/components/sections/ProcessSection";
-import { CTASection } from "@/components/sections/CTASection";
+import { PageShell } from "@/experience/ui/PageShell";
+import { AboutStudio } from "@/experience/studio/AboutStudio";
 
 export const metadata: Metadata = {
-  title: "عنا",
-  description: "تعرف على ZERIV TECH — وكالة رقمية فلسطينية متخصصة في تطوير المواقع والتطبيقات والتصميم.",
+  title: "About",
+  description:
+    "ZERIV is a Palestinian creative technology studio building digital products with clarity, craft and cultural intelligence.",
+  openGraph: {
+    title: "About ZERIV",
+    description: "Technology × Design × Culture — a Palestinian creative technology studio.",
+    url: "/about",
+  },
+  alternates: { canonical: "/about" },
 };
 
 export default function AboutPage() {
   return (
-    <PageTransition>
-      <PageHeader
-        label="عن ZERIV TECH"
-        title="تقنية حديثة بروح فلسطينية"
-        description="وكالة فلسطينية نبني مواقع وتطبيقات وحلول رقمية — باسم مستوحى من التراث، وعمل يصل لكل المجالات."
-      />
-      <AboutSection fullPage />
-      <ZarifSection />
-      <ProcessSection />
-      <CTASection />
-    </PageTransition>
+    <PageShell>
+      <AboutStudio />
+    </PageShell>
   );
 }

@@ -12,7 +12,7 @@ export async function POST(request: Request) {
     const errors = validateContactForm(body);
     if (Object.keys(errors).length > 0) {
       return NextResponse.json(
-        { message: "يرجى تصحيح الأخطاء في النموذج", errors },
+        { message: "Please correct the highlighted fields.", errors },
         { status: 400 }
       );
     }
@@ -21,15 +21,12 @@ export async function POST(request: Request) {
 
     return NextResponse.json(
       {
-        message: "تم استلام رسالتك بنجاح",
+        message: "Message received.",
         data: { id: entry.id, created_at: entry.created_at },
       },
       { status: 201 }
     );
   } catch {
-    return NextResponse.json(
-      { message: "حدث خطأ في الخادم" },
-      { status: 500 }
-    );
+    return NextResponse.json({ message: "Server error. Please try again." }, { status: 500 });
   }
 }

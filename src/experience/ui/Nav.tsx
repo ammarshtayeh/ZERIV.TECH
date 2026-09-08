@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState, type MouseEvent } from "react";
+import { usePathname } from "next/navigation";
 import { gsap } from "../animations/gsap";
 import { motion } from "../animations/motion";
 import { getPhase, scrollToTarget, usePhase, xp } from "../lib/experience-store";
@@ -8,26 +9,50 @@ import { contact } from "../data/contact";
 import { BrandLogo } from "./BrandLogo";
 import { TransitionLink } from "./TransitionLink";
 
-const LINKS = [
+type Mode = "home" | "site";
+
+const HOME_LINKS = [
   { href: "#work", label: "Work" },
   { href: "#services", label: "Services" },
   { href: "#about", label: "About" },
   { href: "#contact", label: "Contact" },
 ];
 
-const MENU = [
+const SITE_LINKS = [
+  { href: "/work", label: "Work" },
+  { href: "/services", label: "Services" },
+  { href: "/about", label: "About" },
+  { href: "/contact", label: "Contact" },
+];
+
+const HOME_MENU = [
   { href: "#work", label: "Work", index: "01" },
   { href: "#services", label: "Services", index: "02" },
   { href: "#about", label: "About", index: "03" },
-  { href: "#method", label: "Method", index: "04" },
-  { href: "#contact", label: "Contact", index: "05" },
+  { href: "#contact", label: "Contact", index: "04" },
 ];
 
-export function Nav() {
+const SITE_MENU = [
+  { href: "/work", label: "Work", index: "01" },
+  { href: "/services", label: "Services", index: "02" },
+  { href: "/about", label: "About", index: "03" },
+  { href: "/contact", label: "Contact", index: "04" },
+];
+
+interface Props {
+  mode?: Mode;
+}
+
+export function Nav({ mode = "home" }: Props) {
   const phase = usePhase();
+  const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const overlay = useRef<HTMLDivElement>(null);
   const tl = useRef<gsap.core.Timeline | null>(null);
+
+  const links = mode === "site" ? SITE_LINKS : HOME_LINKS;
+  const menu = mode === "site" ? SITE_MENU : HOME_MENU;
+  const visible = mode === "site" || phase !== "loading";
 
   useEffect(() => {
     const el = overlay.current;
@@ -41,29 +66,15 @@ export function Nav() {
       tl.current = gsap
         .timeline({ paused: true, defaults: { ease: motion.ease.inOut } })
         .set(el, { pointerEvents: "auto" })
-        .fromTo(
-          el,
-          { clipPath: "inset(0 0 100% 0)" },
-          { clipPath: "inset(0 0 0% 0)", duration: 0.9 }
-        )
+        .fromTo(el, { clipPath: "inset(0 0 100% 0)" }, { clipPath: "inset(0 0 0% 0)", duration: 0.75 })
         .fromTo(
           items,
           { yPercent: 110, opacity: 0 },
-          { yPercent: 0, opacity: 1, duration: 0.9, stagger: motion.stagger.items, ease: motion.ease.out },
-          0.35
+          { yPercent: 0, opacity: 1, duration: 0.8, stagger: motion.stagger.items, ease: motion.ease.out },
+          0.28
         )
-        .fromTo(
-          aside,
-          { opacity: 0, y: 10 },
-          { opacity: 1, y: 0, duration: 0.6, stagger: 0.06, ease: "power2.out" },
-          0.6
-        )
-        .fromTo(
-          foot,
-          { opacity: 0, y: 10 },
-          { opacity: 1, y: 0, duration: 0.6, stagger: 0.06, ease: "power2.out" },
-          0.7
-        );
+        .fromTo(aside, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.5, stagger: 0.05 }, 0.5)
+        .fromTo(foot, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.5, stagger: 0.05 }, 0.55);
     }, el);
 
     return () => ctx.revert();
@@ -93,42 +104,65 @@ export function Nav() {
 
   const close = useCallback(() => setOpen(false), []);
 
-  const anchor = useCallback(
+  const onHomeAnchor = useCallback(
     (e: MouseEvent<HTMLAnchorElement>, href: string) => {
       if (!href.startsWith("#")) return;
       e.preventDefault();
       setOpen(false);
-      // let the overlay start closing before the page moves
-      window.setTimeout(() => scrollToTarget(href), open ? 260 : 0);
+      window.setTimeout(() => scrollToTarget(href), open ? 220 : 0);
     },
     [open]
   );
 
+  const isActive = (href: string) => {
+    if (href.startsWith("#")) return false;
+    if (href === "/") return pathname === "/";
+    return pathname === href || pathname.startsWith(`${href}/`);
+  };
+
   return (
     <>
-      <header className="xp-nav" data-visible={phase !== "loading"} data-open={open}>
-        <a
-          href="#top"
-          className="xp-nav__logo"
-          data-cursor="expand"
-          aria-label="ZERIV — back to top"
-          onClick={(e) => anchor(e, "#top")}
-        >
-          <BrandLogo sizes="120px" decorative />
-        </a>
+      <header className="xp-nav" data-visible={visible} data-open={open}>
+        {mode === "home" ? (
+          <a
+            href="#top"
+            className="xp-nav__logo"
+            data-cursor="expand"
+            aria-label="ZERIV — back to top"
+            onClick={(e) => onHomeAnchor(e, "#top")}
+          >
+            <BrandLogo sizes="120px" decorative />
+          </a>
+        ) : (
+          <TransitionLink href="/" className="xp-nav__logo" data-cursor="expand" aria-label="ZERIV — home">
+            <BrandLogo sizes="120px" decorative />
+          </TransitionLink>
+        )}
 
         <nav className="xp-nav__links" aria-label="Primary">
-          {LINKS.map((l) => (
-            <a
-              key={l.href}
-              href={l.href}
-              className="xp-nav__link"
-              data-cursor="expand"
-              onClick={(e) => anchor(e, l.href)}
-            >
-              {l.label}
-            </a>
-          ))}
+          {links.map((l) =>
+            l.href.startsWith("#") ? (
+              <a
+                key={l.href}
+                href={l.href}
+                className="xp-nav__link"
+                data-cursor="expand"
+                onClick={(e) => onHomeAnchor(e, l.href)}
+              >
+                {l.label}
+              </a>
+            ) : (
+              <TransitionLink
+                key={l.href}
+                href={l.href}
+                className="xp-nav__link"
+                data-cursor="expand"
+                data-active={isActive(l.href) ? "true" : "false"}
+              >
+                {l.label}
+              </TransitionLink>
+            )
+          )}
         </nav>
 
         <button
@@ -153,34 +187,33 @@ export function Nav() {
         aria-label="Menu"
         aria-hidden={!open}
       >
-        <svg className="xp-menu__pattern" aria-hidden="true">
-          <defs>
-            <pattern id="xp-oct" width="72" height="72" patternUnits="userSpaceOnUse">
-              <path
-                d="M36 14 L58 36 L36 58 L14 36 Z M20.5 20.5 H51.5 V51.5 H20.5 Z"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="0.75"
-              />
-            </pattern>
-          </defs>
-          <rect width="100%" height="100%" fill="url(#xp-oct)" />
-        </svg>
-
         <div className="xp-menu__body">
           <nav className="xp-menu__list" aria-label="Menu">
-            {MENU.map((m) => (
+            {menu.map((m) => (
               <div key={m.href} className="xp-menu__item-wrap">
-                <a
-                  href={m.href}
-                  className="xp-menu__item"
-                  onClick={(e) => anchor(e, m.href)}
-                  data-cursor="expand"
-                  tabIndex={open ? 0 : -1}
-                >
-                  <span className="xp-label xp-menu__index">{m.index}</span>
-                  <span className="xp-menu__label">{m.label}</span>
-                </a>
+                {m.href.startsWith("#") ? (
+                  <a
+                    href={m.href}
+                    className="xp-menu__item"
+                    onClick={(e) => onHomeAnchor(e, m.href)}
+                    data-cursor="expand"
+                    tabIndex={open ? 0 : -1}
+                  >
+                    <span className="xp-label xp-menu__index">{m.index}</span>
+                    <span className="xp-menu__label">{m.label}</span>
+                  </a>
+                ) : (
+                  <TransitionLink
+                    href={m.href}
+                    className="xp-menu__item"
+                    onClick={close}
+                    data-cursor="expand"
+                    tabIndex={open ? 0 : -1}
+                  >
+                    <span className="xp-label xp-menu__index">{m.index}</span>
+                    <span className="xp-menu__label">{m.label}</span>
+                  </TransitionLink>
+                )}
               </div>
             ))}
           </nav>
@@ -219,7 +252,7 @@ export function Nav() {
           <a className="xp-label" href={`mailto:${contact.email}`} data-cursor="expand" tabIndex={open ? 0 : -1}>
             {contact.email}
           </a>
-          <span className="xp-label">{contact.location} · Worldwide</span>
+          <span className="xp-label">{contact.location}</span>
           <span className="xp-label">© {new Date().getFullYear()} ZERIV TECH</span>
         </div>
       </div>

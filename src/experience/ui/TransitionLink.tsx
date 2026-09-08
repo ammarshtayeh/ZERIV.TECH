@@ -59,13 +59,13 @@ export function TransitionLink({ href, onClick, children, ...rest }: Props) {
       .fromTo(
         overlay,
         { clipPath: "inset(100% 0 0 0)" },
-        { clipPath: "inset(0% 0 0 0)", duration: motion.duration.ui, ease: motion.ease.inOut }
+        { clipPath: "inset(0% 0 0 0)", duration: 0.42, ease: motion.ease.inOut }
       )
       .fromTo(
         mark,
-        { opacity: 0, scale: 0.7, rotate: -45 },
-        { opacity: 1, scale: 1, rotate: 0, duration: 0.5, ease: motion.ease.out },
-        0.3
+        { opacity: 0, scale: 0.78, rotate: -20 },
+        { opacity: 1, scale: 1, rotate: 0, duration: 0.32, ease: motion.ease.out },
+        0.16
       );
   };
 

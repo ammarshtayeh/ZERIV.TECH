@@ -21,14 +21,15 @@ import { Nav } from "./ui/Nav";
 import { Cursor } from "./ui/Cursor";
 import { RouteTransition } from "./ui/TransitionLink";
 import "./experience.css";
+import "./experience-studio.css";
 
 const ExperienceCanvas = dynamic(() => import("./webgl/ExperienceCanvas"), {
   ssr: false,
 });
 
 /**
- * Official ZERIV journey — proof early, signature once, contact clear.
- * Hero → Work → Position → Capabilities → Signature → Method → Contact
+ * Official ZERIV journey.
+ * Hero → Position → Selected Work → Capabilities → Signature → Method → Contact
  */
 export function Experience() {
   const tier = useDeviceTier();
@@ -97,19 +98,19 @@ export function Experience() {
         Skip to content
       </a>
 
-      <Nav />
+      <Nav mode="home" />
 
       <main className="xp-main">
         <HeroScene reduced={reduced} />
-        <WorkScene reduced={reduced} narrow={narrow} />
         <IdentityScene reduced={reduced} />
+        <WorkScene reduced={reduced} />
         <CapabilitiesScene reduced={reduced} />
         <SignatureScene tier={tier} reduced={reduced} />
         <ProcessScene reduced={reduced} narrow={narrow} />
         <FinalScene reduced={reduced} />
       </main>
 
-      <Footer />
+      <Footer mode="home" />
 
       {phase !== "ready" && (
         <Preloader tier={tier} reduced={reduced} onHandoff={onHandoff} onComplete={onComplete} />

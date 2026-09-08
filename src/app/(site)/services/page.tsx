@@ -1,24 +1,23 @@
 import type { Metadata } from "next";
-import { PageTransition } from "@/components/effects/PageTransition";
-import { PageHeader } from "@/components/layout/PageHeader";
-import { ServicesSection } from "@/components/sections/ServicesSection";
-import { CTASection } from "@/components/sections/CTASection";
+import { PageShell } from "@/experience/ui/PageShell";
+import { ServicesStudio } from "@/experience/studio/ServicesStudio";
 
 export const metadata: Metadata = {
-  title: "خدماتنا",
-  description: "خدمات ZERIV TECH — تطوير المواقع والتطبيقات، التصميم الجرافيكي، الهوية البصرية، UI/UX، وحلول رقمية.",
+  title: "Services",
+  description:
+    "Web development, mobile applications, UI/UX, branding, AI solutions and creative technology from ZERIV.",
+  openGraph: {
+    title: "Capabilities | ZERIV",
+    description: "What ZERIV builds — web, mobile, design, brand, AI and creative technology.",
+    url: "/services",
+  },
+  alternates: { canonical: "/services" },
 };
 
 export default function ServicesPage() {
   return (
-    <PageTransition>
-      <PageHeader
-        label="خدماتنا"
-        title="حلول رقمية متكاملة"
-        description="من المواقع والتطبيقات إلى الهوية البصرية — حلول رقمية شاملة لأي مشروع."
-      />
-      <ServicesSection showAll />
-      <CTASection />
-    </PageTransition>
+    <PageShell>
+      <ServicesStudio />
+    </PageShell>
   );
 }

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { BrandLogo } from "@/experience/ui/BrandLogo";
 import "@/experience/experience.css";
+import "@/experience/experience-studio.css";
 
 export const metadata: Metadata = {
   title: "Connection lost",
@@ -19,7 +20,7 @@ export default function NotFound() {
       <h1 className="xp-lost__code">404</h1>
       <p className="xp-lost__copy">This path is not on the system.</p>
       <Link href="/" className="xp-lost__cta" data-cursor="expand">
-        RETURN TO SYSTEM <span aria-hidden="true">→</span>
+        RETURN HOME <span aria-hidden="true">→</span>
       </Link>
     </main>
   );
