@@ -1,21 +1,26 @@
 "use client";
 
-import Link from "next/link";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, type MouseEvent } from "react";
 import { gsap } from "../animations/gsap";
-import { usePhase } from "../lib/experience-store";
+import { motion } from "../animations/motion";
+import { getPhase, scrollToTarget, usePhase, xp } from "../lib/experience-store";
+import { contact } from "../data/contact";
+import { BrandLogo } from "./BrandLogo";
+import { TransitionLink } from "./TransitionLink";
 
 const LINKS = [
-  { href: "/portfolio", label: "Work" },
-  { href: "/services", label: "Services" },
-  { href: "/about", label: "About" },
+  { href: "#work", label: "Work" },
+  { href: "#services", label: "Services" },
+  { href: "#about", label: "About" },
+  { href: "#contact", label: "Contact" },
 ];
 
 const MENU = [
-  { href: "/portfolio", label: "Work", index: "01" },
-  { href: "/services", label: "Services", index: "02" },
-  { href: "/about", label: "About", index: "03" },
-  { href: "/contact", label: "Contact", index: "04" },
+  { href: "#work", label: "Work", index: "01" },
+  { href: "#services", label: "Services", index: "02" },
+  { href: "#about", label: "About", index: "03" },
+  { href: "#method", label: "Method", index: "04" },
+  { href: "#contact", label: "Contact", index: "05" },
 ];
 
 export function Nav() {
@@ -31,9 +36,10 @@ export function Nav() {
     const ctx = gsap.context(() => {
       const items = el.querySelectorAll<HTMLElement>(".xp-menu__item");
       const foot = el.querySelectorAll<HTMLElement>(".xp-menu__foot > *");
+      const aside = el.querySelectorAll<HTMLElement>(".xp-menu__aside > *");
 
       tl.current = gsap
-        .timeline({ paused: true, defaults: { ease: "expo.inOut" } })
+        .timeline({ paused: true, defaults: { ease: motion.ease.inOut } })
         .set(el, { pointerEvents: "auto" })
         .fromTo(
           el,
@@ -43,8 +49,14 @@ export function Nav() {
         .fromTo(
           items,
           { yPercent: 110, opacity: 0 },
-          { yPercent: 0, opacity: 1, duration: 0.9, stagger: 0.07, ease: "expo.out" },
+          { yPercent: 0, opacity: 1, duration: 0.9, stagger: motion.stagger.items, ease: motion.ease.out },
           0.35
+        )
+        .fromTo(
+          aside,
+          { opacity: 0, y: 10 },
+          { opacity: 1, y: 0, duration: 0.6, stagger: 0.06, ease: "power2.out" },
+          0.6
         )
         .fromTo(
           foot,
@@ -60,11 +72,8 @@ export function Nav() {
   useEffect(() => {
     const t = tl.current;
     if (!t) return;
-    if (open) {
-      t.timeScale(1).play();
-    } else {
-      t.timeScale(1.6).reverse();
-    }
+    if (open) t.timeScale(1).play();
+    else t.timeScale(1.6).reverse();
   }, [open]);
 
   useEffect(() => {
@@ -73,23 +82,52 @@ export function Nav() {
       if (e.key === "Escape") setOpen(false);
     };
     window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
+    document.documentElement.classList.add("xp-menu-open");
+    xp.lenis?.stop();
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      document.documentElement.classList.remove("xp-menu-open");
+      if (getPhase() === "ready") xp.lenis?.start();
+    };
   }, [open]);
 
   const close = useCallback(() => setOpen(false), []);
 
+  const anchor = useCallback(
+    (e: MouseEvent<HTMLAnchorElement>, href: string) => {
+      if (!href.startsWith("#")) return;
+      e.preventDefault();
+      setOpen(false);
+      // let the overlay start closing before the page moves
+      window.setTimeout(() => scrollToTarget(href), open ? 260 : 0);
+    },
+    [open]
+  );
+
   return (
     <>
       <header className="xp-nav" data-visible={phase !== "loading"} data-open={open}>
-        <Link href="/" className="xp-nav__mark" data-cursor="expand" aria-label="ZERIV — home">
-          ZERIV
-        </Link>
+        <a
+          href="#top"
+          className="xp-nav__logo"
+          data-cursor="expand"
+          aria-label="ZERIV — back to top"
+          onClick={(e) => anchor(e, "#top")}
+        >
+          <BrandLogo sizes="120px" decorative />
+        </a>
 
         <nav className="xp-nav__links" aria-label="Primary">
           {LINKS.map((l) => (
-            <Link key={l.href} href={l.href} className="xp-nav__link" data-cursor="expand">
+            <a
+              key={l.href}
+              href={l.href}
+              className="xp-nav__link"
+              data-cursor="expand"
+              onClick={(e) => anchor(e, l.href)}
+            >
               {l.label}
-            </Link>
+            </a>
           ))}
         </nav>
 
@@ -129,28 +167,60 @@ export function Nav() {
           <rect width="100%" height="100%" fill="url(#xp-oct)" />
         </svg>
 
-        <nav className="xp-menu__list" aria-label="Menu">
-          {MENU.map((m) => (
-            <div key={m.href} className="xp-menu__item-wrap">
-              <Link
-                href={m.href}
-                className="xp-menu__item"
-                onClick={close}
-                data-cursor="expand"
-              >
-                <span className="xp-label xp-menu__index">{m.index}</span>
-                <span className="xp-menu__label">{m.label}</span>
-              </Link>
-            </div>
-          ))}
-        </nav>
+        <div className="xp-menu__body">
+          <nav className="xp-menu__list" aria-label="Menu">
+            {MENU.map((m) => (
+              <div key={m.href} className="xp-menu__item-wrap">
+                <a
+                  href={m.href}
+                  className="xp-menu__item"
+                  onClick={(e) => anchor(e, m.href)}
+                  data-cursor="expand"
+                  tabIndex={open ? 0 : -1}
+                >
+                  <span className="xp-label xp-menu__index">{m.index}</span>
+                  <span className="xp-menu__label">{m.label}</span>
+                </a>
+              </div>
+            ))}
+          </nav>
+
+          <aside className="xp-menu__aside">
+            <p className="xp-label">Start a project</p>
+            <TransitionLink
+              href="/contact"
+              className="xp-menu__cta"
+              onClick={close}
+              data-cursor="expand"
+              tabIndex={open ? 0 : -1}
+            >
+              Tell us what you&apos;re building <span aria-hidden="true">→</span>
+            </TransitionLink>
+            <p className="xp-label">Follow</p>
+            <ul className="xp-menu__socials">
+              {contact.socials.map((s) => (
+                <li key={s.label}>
+                  <a
+                    href={s.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    data-cursor="open"
+                    tabIndex={open ? 0 : -1}
+                  >
+                    {s.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </aside>
+        </div>
 
         <div className="xp-menu__foot">
-          <a className="xp-label" href="mailto:ammar.shtayeh@gmail.com" data-cursor="expand">
-            ammar.shtayeh@gmail.com
+          <a className="xp-label" href={`mailto:${contact.email}`} data-cursor="expand" tabIndex={open ? 0 : -1}>
+            {contact.email}
           </a>
-          <span className="xp-label">Palestine · Worldwide</span>
-          <span className="xp-label">© {new Date().getFullYear()} ZERIV</span>
+          <span className="xp-label">{contact.location} · Worldwide</span>
+          <span className="xp-label">© {new Date().getFullYear()} ZERIV TECH</span>
         </div>
       </div>
     </>

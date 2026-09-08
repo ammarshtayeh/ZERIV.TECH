@@ -11,11 +11,12 @@ import {
   type Seg,
 } from "../lib/octagram";
 import type { DeviceTier } from "../hooks/useDeviceTier";
+import { BrandLogo } from "../ui/BrandLogo";
 
 interface Props {
   tier: DeviceTier;
   reduced: boolean;
-  /** Hero starts revealing — particles still hold the word */
+  /** Hero starts revealing — the preloader still holds the frame */
   onHandoff: () => void;
   /** Preloader is fully transparent and can unmount */
   onComplete: () => void;
@@ -26,16 +27,22 @@ const RED = "206, 17, 38";
 const GREEN = "0, 122, 61";
 const HUES = [BONE, RED, GREEN];
 
-const PARTICLE_CAP: Record<DeviceTier, number> = { high: 3400, mid: 1900, low: 900 };
-const SAMPLE_STEP: Record<DeviceTier, number> = { high: 5, mid: 7, low: 9 };
+const PARTICLE_COUNT: Record<DeviceTier, number> = { high: 1500, mid: 1000, low: 560 };
 
 const easeInOutCubic = (t: number) =>
   t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
 const clamp01 = (v: number) => (v < 0 ? 0 : v > 1 ? 1 : v);
 
+/**
+ * Opening sequence: darkness → embroidery motif → circuit → zoom → the geometry dissolves into
+ * particles that assemble a technical frame around the mark → the actual logo asset is revealed
+ * behind a mask and a pass of light → frame disperses as the Hero takes over underneath.
+ */
 export function Preloader({ tier, reduced, onHandoff, onComplete }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const rootRef = useRef<HTMLDivElement>(null);
+  const logoRef = useRef<HTMLDivElement>(null);
+  const sweepRef = useRef<HTMLDivElement>(null);
   const tagRef = useRef<HTMLParagraphElement>(null);
   const skipRef = useRef<HTMLButtonElement>(null);
   const tlRef = useRef<gsap.core.Timeline | null>(null);
@@ -52,8 +59,10 @@ export function Preloader({ tier, reduced, onHandoff, onComplete }: Props) {
 
     const canvas = canvasRef.current;
     const root = rootRef.current;
+    const logo = logoRef.current;
+    const sweep = sweepRef.current;
     const tag = tagRef.current;
-    if (!canvas || !root || !tag) return;
+    if (!canvas || !root || !logo || !sweep || !tag) return;
     const ctx = canvas.getContext("2d", { alpha: true });
     if (!ctx) return;
 
@@ -78,9 +87,12 @@ export function Preloader({ tier, reduced, onHandoff, onComplete }: Props) {
     let ty = new Float32Array(0);
     let delay = new Float32Array(0);
     let seed = new Float32Array(0);
+    let ringFlag = new Uint8Array(0);
     let hueStart = [0, 0, 0, 0];
     let targetsReady = false;
     let pendingResume = false;
+    let lcx = 0;
+    let lcy = 0;
 
     const s = {
       motif: 0,
@@ -128,7 +140,6 @@ export function Preloader({ tier, reduced, onHandoff, onComplete }: Props) {
           d -= p.len;
         }
         if (!placed) {
-          // fall onto the motif
           for (const m of motif) {
             const len = Math.hypot(m[2] - m[0], m[3] - m[1]);
             if (d <= len) {
@@ -145,74 +156,86 @@ export function Preloader({ tier, reduced, onHandoff, onComplete }: Props) {
       return src;
     };
 
-    /* ── particle targets: rasterise the live hero letters ── */
+    /* ── particle targets: a technical frame around the hero's logo ── */
     const buildTargets = async () => {
       try {
         await document.fonts.ready;
-        await document.fonts.load("800 100px Syne");
       } catch {
-        /* font may be unavailable — sampling still works with fallback */
+        /* layout still fine with fallback fonts */
       }
 
-      const letters = Array.from(
-        document.querySelectorAll<HTMLElement>("[data-hero-letter]")
-      );
-      if (!letters.length) return;
+      const heroLogo = document.querySelector<HTMLElement>("[data-hero-logo]");
+      if (!heroLogo) return;
+      const r = heroLogo.getBoundingClientRect();
+      lcx = r.left + r.width / 2;
+      lcy = r.top + r.height / 2;
+      const R = Math.max(r.width, r.height) * 0.72;
 
-      const off = document.createElement("canvas");
-      off.width = W;
-      off.height = H;
-      const octx = off.getContext("2d");
-      if (!octx) return;
+      // mirror the DOM logo exactly over the hero's
+      logo.style.left = `${r.left}px`;
+      logo.style.top = `${r.top}px`;
+      logo.style.width = `${r.width}px`;
+      logo.style.height = `${r.height}px`;
 
-      octx.fillStyle = "#fff";
-      octx.textBaseline = "middle";
-      octx.textAlign = "left";
+      count = PARTICLE_COUNT[latest.current.tier];
+      const pts: [number, number, number][] = []; // x, y, isRing
 
-      let bottom = 0;
-      let left = Infinity;
-      for (const el of letters) {
-        const r = el.getBoundingClientRect();
-        const cs = getComputedStyle(el);
-        octx.font = `${cs.fontWeight} ${parseFloat(cs.fontSize)}px ${cs.fontFamily}`;
-        octx.fillText(el.dataset.heroLetter ?? "", r.left, r.top + r.height / 2);
-        bottom = Math.max(bottom, r.bottom);
-        left = Math.min(left, r.left);
+      // octagon ring — 72% of particles, ordered by angle so a signal can run around it
+      const ringN = Math.floor(count * 0.72);
+      for (let i = 0; i < ringN; i++) {
+        const u = i / ringN;
+        const side = Math.floor(u * 8);
+        const f = u * 8 - side;
+        const a0 = ((side + 0.5) * Math.PI) / 4;
+        const a1 = ((side + 1.5) * Math.PI) / 4;
+        const x0 = lcx + Math.cos(a0) * R;
+        const y0 = lcy + Math.sin(a0) * R;
+        const x1 = lcx + Math.cos(a1) * R;
+        const y1 = lcy + Math.sin(a1) * R;
+        const jitter = (rng() - 0.5) * 2.2;
+        pts.push([x0 + (x1 - x0) * f + jitter, y0 + (y1 - y0) * f + jitter, 1]);
       }
 
-      const step = SAMPLE_STEP[latest.current.tier];
-      const img = octx.getImageData(0, 0, W, H).data;
-      const pts: number[] = [];
-      for (let y = 0; y < H; y += step) {
-        for (let x = 0; x < W; x += step) {
-          if (img[(y * W + x) * 4 + 3] > 110) {
-            pts.push(x + (rng() - 0.5) * step * 0.7, y + (rng() - 0.5) * step * 0.7);
-          }
-        }
+      // corner brackets on the logo's bounding box — 16%
+      const bracketN = Math.floor(count * 0.16);
+      const bl = Math.min(r.width, r.height) * 0.14;
+      const gap = Math.min(r.width, r.height) * 0.08;
+      const corners: [number, number, number, number][] = [
+        [r.left - gap, r.top - gap, 1, 1],
+        [r.right + gap, r.top - gap, -1, 1],
+        [r.right + gap, r.bottom + gap, -1, -1],
+        [r.left - gap, r.bottom + gap, 1, -1],
+      ];
+      for (let i = 0; i < bracketN; i++) {
+        const [bx, by, sx, sy] = corners[i % 4];
+        const along = rng() * bl;
+        if (rng() < 0.5) pts.push([bx + sx * along, by, 0]);
+        else pts.push([bx, by + sy * along, 0]);
       }
 
-      // cap & shuffle down if needed
-      const cap = PARTICLE_CAP[latest.current.tier];
-      let pairs: [number, number][] = [];
-      for (let i = 0; i < pts.length; i += 2) pairs.push([pts[i], pts[i + 1]]);
-      if (pairs.length > cap) {
-        for (let i = pairs.length - 1; i > 0; i--) {
-          const j = Math.floor(rng() * (i + 1));
-          [pairs[i], pairs[j]] = [pairs[j], pairs[i]];
-        }
-        pairs = pairs.slice(0, cap);
+      // hairlines running out from the ring on the horizontal axis — remainder
+      while (pts.length < count) {
+        const dir = rng() < 0.5 ? -1 : 1;
+        const d = R * (1.12 + rng() * 0.55);
+        pts.push([lcx + dir * d, lcy + (rng() - 0.5) * 1.5, 0]);
       }
-      count = pairs.length;
 
-      // sweep: sort both sets by x so the flow reads left → right
-      pairs.sort((p, q) => p[0] - q[0]);
-      const sources = buildSources(count).sort((p, q) => p[0] - q[0]);
+      const sources = buildSources(count);
+      // pair sources → targets by angle so the flow reads as a rotation into place
+      const ang = (x: number, y: number) => Math.atan2(y - lcy, x - lcx);
+      const srcSorted = sources
+        .map((p, i) => ({ p, k: ang(cx + p[0], cy + p[1]) + i * 1e-6 }))
+        .sort((m, n) => m.k - n.k)
+        .map((m) => m.p);
+      const dstSorted = pts
+        .map((p) => ({ p, k: ang(p[0], p[1]) }))
+        .sort((m, n) => m.k - n.k)
+        .map((m) => m.p);
 
-      // group by hue so we can batch fillStyle changes
       const hue = new Uint8Array(count);
       for (let i = 0; i < count; i++) {
-        const r = rng();
-        hue[i] = r < 0.8 ? 0 : r < 0.91 ? 1 : 2;
+        const v = rng();
+        hue[i] = v < 0.82 ? 0 : v < 0.92 ? 1 : 2;
       }
       const order = Array.from({ length: count }, (_, i) => i).sort((i, j) => hue[i] - hue[j]);
 
@@ -222,6 +245,7 @@ export function Preloader({ tier, reduced, onHandoff, onComplete }: Props) {
       ty = new Float32Array(count);
       delay = new Float32Array(count);
       seed = new Float32Array(count);
+      ringFlag = new Uint8Array(count);
       const starts = [0, 0, 0, count];
       let seen = 0;
       for (let k = 0; k < count; k++) {
@@ -230,19 +254,20 @@ export function Preloader({ tier, reduced, onHandoff, onComplete }: Props) {
           for (let h = seen + 1; h <= hue[i]; h++) starts[h] = k;
           seen = hue[i];
         }
-        ox[k] = sources[i][0];
-        oy[k] = sources[i][1];
-        tx[k] = pairs[i][0];
-        ty[k] = pairs[i][1];
+        ox[k] = srcSorted[i][0];
+        oy[k] = srcSorted[i][1];
+        tx[k] = dstSorted[i][0];
+        ty[k] = dstSorted[i][1];
+        ringFlag[k] = dstSorted[i][2];
         delay[k] = rng() * 0.4;
         seed[k] = rng() * 6.283;
       }
       for (let h = seen + 1; h < 3; h++) starts[h] = count;
       hueStart = starts;
 
-      // position the tagline under the word
-      tag.style.left = `${left}px`;
-      tag.style.top = `${bottom + Math.max(16, H * 0.02)}px`;
+      // tagline under the frame
+      tag.style.left = `${lcx}px`;
+      tag.style.top = `${lcy + R + Math.max(18, H * 0.03)}px`;
 
       targetsReady = true;
       if (pendingResume) tlRef.current?.resume();
@@ -282,18 +307,13 @@ export function Preloader({ tier, reduced, onHandoff, onComplete }: Props) {
         budget -= len;
       }
 
-      // stitch nodes at the vertices once the motif is complete
       if (p > 0.85) {
         const alpha = (p - 0.85) / 0.15;
         ctx.fillStyle = `rgba(${RED}, ${alpha})`;
         const sz = 3.2 / s.zoom;
-        for (const m of motif.slice(0, 8)) {
-          ctx.fillRect(m[0] - sz / 2, m[1] - sz / 2, sz, sz);
-        }
+        for (const m of motif.slice(0, 8)) ctx.fillRect(m[0] - sz / 2, m[1] - sz / 2, sz, sz);
         ctx.fillStyle = `rgba(${GREEN}, ${alpha})`;
-        for (const m of motif.slice(8, 16)) {
-          ctx.fillRect(m[0] - sz / 2, m[1] - sz / 2, sz, sz);
-        }
+        for (const m of motif.slice(8, 16)) ctx.fillRect(m[0] - sz / 2, m[1] - sz / 2, sz, sz);
       }
     };
 
@@ -310,7 +330,6 @@ export function Preloader({ tier, reduced, onHandoff, onComplete }: Props) {
         const eased = 1 - Math.pow(1 - p, 3);
         const visible = eased * path.len;
 
-        // trace
         ctx.strokeStyle = `rgba(${BONE}, 0.42)`;
         ctx.lineWidth = 1 / s.zoom;
         ctx.beginPath();
@@ -326,14 +345,12 @@ export function Preloader({ tier, reduced, onHandoff, onComplete }: Props) {
         }
         ctx.stroke();
 
-        // nodes at reached corners
         ctx.fillStyle = `rgba(${BONE}, 0.85)`;
         for (let k = 1; k < i; k++) {
           const pt = path.pts[k];
           ctx.fillRect(pt[0] - nodeSize / 2, pt[1] - nodeSize / 2, nodeSize, nodeSize);
         }
 
-        // terminal pad
         if (p >= 1) {
           const end = path.pts[path.pts.length - 1];
           const pad = 6 / s.zoom;
@@ -342,7 +359,6 @@ export function Preloader({ tier, reduced, onHandoff, onComplete }: Props) {
           ctx.strokeRect(end[0] - pad / 2, end[1] - pad / 2, pad, pad);
         }
 
-        // signal pulse travelling along the visible trace
         if (visible > 0) {
           const speed = 90 + path.hue * 30;
           const d = ((s.time * speed + path.t0 * 400) % (visible + 40)) - 20;
@@ -372,18 +388,22 @@ export function Preloader({ tier, reduced, onHandoff, onComplete }: Props) {
       const alphaBase = Math.min(1, dis * 1.4) * (1 - disp);
       if (alphaBase <= 0.01) return;
 
+      // a signal running around the ring once it has formed
+      const formed = s.form > 0.92;
+      const head = (t * 0.55) % 1;
+
       for (let h = 0; h < 3; h++) {
         const start = hueStart[h];
         const end = hueStart[h + 1];
         if (end <= start) continue;
-        ctx.fillStyle = `rgba(${HUES[h]}, ${alphaBase * (h === 0 ? 0.92 : 1)})`;
+        const base = alphaBase * (h === 0 ? 0.9 : 1);
+        ctx.fillStyle = `rgba(${HUES[h]}, ${base})`;
 
         for (let k = start; k < end; k++) {
           const f = easeInOutCubic(clamp01((s.form - delay[k]) / (1 - delay[k])));
           const sx = cx + ox[k] * z;
           const sy = cy + oy[k] * z;
 
-          // loose drift while the geometry is dissolving
           const wob = dis * (1 - f) * 10;
           const dx = Math.sin(t * 1.4 + seed[k]) * wob;
           const dy = Math.cos(t * 1.1 + seed[k] * 1.3) * wob;
@@ -393,11 +413,18 @@ export function Preloader({ tier, reduced, onHandoff, onComplete }: Props) {
 
           if (disp > 0) {
             const e = disp * disp;
-            x += (x - cx) * 0.18 * e + Math.sin(seed[k]) * 30 * e;
-            y -= (40 + (seed[k] / 6.283) * 160) * e;
+            const rx = x - lcx;
+            const ry = y - lcy;
+            x += rx * 0.9 * e + Math.sin(seed[k]) * 24 * e;
+            y += ry * 0.9 * e + Math.cos(seed[k]) * 24 * e;
           }
 
-          const size = 1.1 + (1 - f) * 1.2;
+          let size = 1.15 + (1 - f) * 1.2;
+          if (formed && ringFlag[k]) {
+            const ang = (Math.atan2(y - lcy, x - lcx) / (Math.PI * 2) + 1.25) % 1;
+            const d = (ang - head + 1) % 1;
+            if (d < 0.08) size += (1 - d / 0.08) * 1.8;
+          }
           ctx.fillRect(x, y, size, size);
         }
       }
@@ -432,35 +459,38 @@ export function Preloader({ tier, reduced, onHandoff, onComplete }: Props) {
     const tl = gsap.timeline({ defaults: { ease: "none" } });
     tlRef.current = tl;
 
-    tl.to(s, { motif: 1, duration: 1.4, ease: "power2.inOut" }, 0.25)
-      .to(s, { circuit: 1, duration: 2.0, ease: "power1.inOut" }, 1.15)
-      .to(s, { zoom: 2.15, duration: 2.1, ease: "power2.inOut" }, 1.7)
+    tl.to(s, { motif: 1, duration: 0.95, ease: "power2.inOut" }, 0.12)
+      .to(s, { circuit: 1, duration: 1.35, ease: "power1.inOut" }, 0.7)
+      .to(s, { zoom: 2.15, duration: 1.45, ease: "power2.inOut" }, 1.0)
       .add(() => {
         if (!targetsReady) {
           pendingResume = true;
           tl.pause();
         }
-      }, 3.45)
-      .to(s, { dissolve: 1, duration: 0.9, ease: "power2.in" }, 3.5)
-      .to(s, { form: 1, duration: 1.45, ease: "power3.inOut" }, 3.85)
+      }, 2.2)
+      .to(s, { dissolve: 1, duration: 0.6, ease: "power2.in" }, 2.25)
+      .to(s, { form: 1, duration: 1.0, ease: "power3.inOut" }, 2.4)
+      .fromTo(
+        logo,
+        { clipPath: "inset(50% 0 50% 0)", opacity: 1 },
+        { clipPath: "inset(0% 0 0% 0)", duration: 0.85, ease: "power3.inOut" },
+        2.95
+      )
+      .fromTo(sweep, { xPercent: -130 }, { xPercent: 130, duration: 0.95, ease: "power2.inOut" }, 3.15)
       .fromTo(
         tag,
-        { opacity: 0, y: 12 },
-        { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" },
-        4.95
+        { opacity: 0, y: 10 },
+        { opacity: 1, y: 0, duration: 0.55, ease: "power2.out" },
+        3.45
       )
-      .add(() => latest.current.onHandoff(), 5.75)
-      .to(s, { disperse: 1, duration: 1.05, ease: "power2.in" }, 5.8)
-      .to(tag, { opacity: 0, duration: 0.45, ease: "power1.in" }, 5.8)
-      .to(
-        root,
-        { backgroundColor: "rgba(7, 8, 10, 0)", duration: 0.95, ease: "power2.inOut" },
-        5.85
-      )
-      .set(root, { pointerEvents: "none" }, 5.85)
-      .add(() => latest.current.onComplete(), 6.95);
+      .add(() => latest.current.onHandoff(), 3.95)
+      .to(s, { disperse: 1, duration: 0.75, ease: "power2.in" }, 4.0)
+      .to(tag, { opacity: 0, duration: 0.35, ease: "power1.in" }, 4.0)
+      .to(root, { backgroundColor: "rgba(7, 8, 10, 0)", duration: 0.7, ease: "power2.inOut" }, 4.05)
+      .set(root, { pointerEvents: "none" }, 4.05)
+      .to(logo, { opacity: 0, duration: 0.4, ease: "power1.inOut" }, 4.35)
+      .add(() => latest.current.onComplete(), 4.85);
 
-    // skip control appears after the motif settles
     if (skipRef.current) {
       gsap.fromTo(
         skipRef.current,
@@ -488,8 +518,12 @@ export function Preloader({ tier, reduced, onHandoff, onComplete }: Props) {
   if (reduced) return null;
 
   return (
-    <div ref={rootRef} className="xp-preloader" aria-hidden="true">
-      <canvas ref={canvasRef} className="xp-preloader__canvas" />
+    <div ref={rootRef} className="xp-preloader" role="dialog" aria-label="Opening sequence">
+      <canvas ref={canvasRef} className="xp-preloader__canvas" aria-hidden="true" />
+      <div ref={logoRef} className="xp-preloader__logo">
+        <BrandLogo priority decorative sizes="(max-width: 900px) 60vw, 24vw" />
+        <div ref={sweepRef} className="xp-preloader__sweep" />
+      </div>
       <p ref={tagRef} className="xp-preloader__tag">
         TECHNOLOGY <span>×</span> DESIGN <span>×</span> CULTURE
       </p>

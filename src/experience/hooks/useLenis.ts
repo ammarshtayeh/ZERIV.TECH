@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import Lenis from "lenis";
 import { gsap, ScrollTrigger } from "../animations/gsap";
+import { xp } from "../lib/experience-store";
 
 /**
  * Smooth scrolling synced to GSAP's ticker so ScrollTrigger and Lenis share one clock.
@@ -21,6 +22,7 @@ export function useLenis(enabled: boolean, disabled = false) {
       syncTouch: false,
     });
     lenisRef.current = lenis;
+    xp.lenis = lenis;
     lenis.stop();
 
     lenis.on("scroll", ScrollTrigger.update);
@@ -32,6 +34,7 @@ export function useLenis(enabled: boolean, disabled = false) {
       gsap.ticker.remove(tick);
       lenis.destroy();
       lenisRef.current = null;
+      xp.lenis = null;
     };
   }, [disabled]);
 

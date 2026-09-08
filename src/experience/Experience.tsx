@@ -3,24 +3,38 @@
 import dynamic from "next/dynamic";
 import { useCallback, useEffect } from "react";
 import { useDeviceTier } from "./hooks/useDeviceTier";
+import { useNarrow } from "./hooks/useNarrow";
 import { useReducedMotion } from "./hooks/useReducedMotion";
 import { useLenis } from "./hooks/useLenis";
-import { setPhase, usePhase, xp } from "./lib/experience-store";
+import { setPhase, scrollToTarget, usePhase, xp } from "./lib/experience-store";
+import { ScrollTrigger } from "./animations/gsap";
 import { Preloader } from "./scenes/Preloader";
 import { HeroScene } from "./scenes/HeroScene";
 import { IdentityScene } from "./scenes/IdentityScene";
-import { EndCap } from "./scenes/EndCap";
+import { CapabilitiesScene } from "./scenes/CapabilitiesScene";
+import { WorkScene } from "./scenes/WorkScene";
+import { SignatureScene } from "./scenes/SignatureScene";
+import { ProcessScene } from "./scenes/ProcessScene";
+import { FinalScene } from "./scenes/FinalScene";
+import { Footer } from "./ui/Footer";
 import { Nav } from "./ui/Nav";
 import { Cursor } from "./ui/Cursor";
+import { RouteTransition } from "./ui/TransitionLink";
 import "./experience.css";
 
 const ExperienceCanvas = dynamic(() => import("./webgl/ExperienceCanvas"), {
   ssr: false,
 });
 
+/**
+ * The ZERIV journey — one page, seven scenes, one shared WebGL surface.
+ * Scenes never talk to each other directly; they write progress into `xp` and the
+ * lattice reads it every frame.
+ */
 export function Experience() {
   const tier = useDeviceTier();
   const reduced = useReducedMotion();
+  const narrow = useNarrow();
   const phase = usePhase();
 
   useLenis(phase === "ready", reduced);
@@ -51,6 +65,19 @@ export function Experience() {
     return () => document.documentElement.classList.remove("xp-locked");
   }, [phase]);
 
+  useEffect(() => {
+    let cancelled = false;
+    const refresh = () => {
+      if (!cancelled) ScrollTrigger.refresh();
+    };
+    void document.fonts.ready.then(refresh);
+    window.addEventListener("load", refresh);
+    return () => {
+      cancelled = true;
+      window.removeEventListener("load", refresh);
+    };
+  }, []);
+
   const onHandoff = useCallback(() => setPhase("revealing"), []);
   const onComplete = useCallback(() => setPhase("ready"), []);
 
@@ -60,23 +87,44 @@ export function Experience() {
       <div className="xp-grid" aria-hidden="true" />
       <div className="xp-vignette" aria-hidden="true" />
 
+      <a
+        className="xp-skip"
+        href="#about"
+        onClick={(e) => {
+          e.preventDefault();
+          xp.reveal = 1;
+          setPhase("ready");
+          window.setTimeout(() => scrollToTarget("#about"), 120);
+        }}
+      >
+        Skip to content
+      </a>
+
       <Nav />
 
       <main className="xp-main">
         <HeroScene reduced={reduced} />
+        <div className="xp-join" aria-hidden="true" />
         <IdentityScene reduced={reduced} />
-        <EndCap />
+        <div className="xp-join" aria-hidden="true" />
+        <CapabilitiesScene reduced={reduced} />
+        <div className="xp-join" aria-hidden="true" />
+        <WorkScene reduced={reduced} narrow={narrow} />
+        <div className="xp-join" aria-hidden="true" />
+        <SignatureScene tier={tier} reduced={reduced} />
+        <div className="xp-join" aria-hidden="true" />
+        <ProcessScene reduced={reduced} narrow={narrow} />
+        <div className="xp-join" aria-hidden="true" />
+        <FinalScene reduced={reduced} />
       </main>
 
+      <Footer />
+
       {phase !== "ready" && (
-        <Preloader
-          tier={tier}
-          reduced={reduced}
-          onHandoff={onHandoff}
-          onComplete={onComplete}
-        />
+        <Preloader tier={tier} reduced={reduced} onHandoff={onHandoff} onComplete={onComplete} />
       )}
 
+      <RouteTransition />
       <Cursor />
     </div>
   );

@@ -1,6 +1,7 @@
 "use client";
 
 import { Canvas } from "@react-three/fiber";
+import { useEffect, useState } from "react";
 import { TatreezLattice } from "./TatreezLattice";
 import type { DeviceTier } from "../hooks/useDeviceTier";
 
@@ -14,6 +15,15 @@ interface Props {
  * Fixed behind the DOM; scenes talk to it through the `xp` store, never through props.
  */
 export default function ExperienceCanvas({ tier, reduced }: Props) {
+  const [visible, setVisible] = useState(true);
+
+  useEffect(() => {
+    const sync = () => setVisible(document.visibilityState === "visible");
+    sync();
+    document.addEventListener("visibilitychange", sync);
+    return () => document.removeEventListener("visibilitychange", sync);
+  }, []);
+
   return (
     <div className="xp-canvas" aria-hidden="true">
       <Canvas
@@ -25,7 +35,7 @@ export default function ExperienceCanvas({ tier, reduced }: Props) {
           powerPreference: "high-performance",
           stencil: false,
         }}
-        frameloop="always"
+        frameloop={visible ? "always" : "never"}
       >
         <TatreezLattice tier={tier} reduced={reduced} />
       </Canvas>

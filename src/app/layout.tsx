@@ -1,4 +1,5 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
+import { SITE_URL } from "@/lib/site";
 import {
   Syne,
   Space_Grotesk,
@@ -51,25 +52,60 @@ const notoNaskh = Noto_Naskh_Arabic({
   display: "swap",
 });
 
+const DESCRIPTION =
+  "ZERIV is a Palestinian creative technology studio building websites, mobile applications, brands, AI-powered solutions and interactive digital experiences.";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: {
     default: "ZERIV — Technology × Design × Culture",
     template: "%s | ZERIV",
   },
-  description:
-    "ZERIV is a Palestinian technology and creative agency building websites, mobile applications, brands and AI-powered digital experiences.",
-  keywords: ["ZERIV", "creative agency", "web development", "Palestine", "digital experiences"],
+  description: DESCRIPTION,
+  applicationName: "ZERIV",
+  keywords: [
+    "ZERIV",
+    "ZERIV TECH",
+    "creative technology studio",
+    "web development",
+    "mobile applications",
+    "UI/UX design",
+    "branding",
+    "AI solutions",
+    "Palestine",
+    "digital experiences",
+  ],
   authors: [{ name: "ZERIV TECH" }],
+  creator: "ZERIV TECH",
   openGraph: {
+    type: "website",
+    siteName: "ZERIV",
+    locale: "en_US",
+    url: "/",
     title: "ZERIV — Technology × Design × Culture",
     description: "We build digital experiences worth remembering.",
-    type: "website",
-    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "ZERIV" }],
+    images: [{ url: "/brand/logo.png", width: 1024, height: 1024, alt: "ZERIV TECH" }],
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "ZERIV — Technology × Design × Culture",
+    description: "We build digital experiences worth remembering.",
+    images: ["/brand/logo.png"],
+  },
+  robots: { index: true, follow: true },
+  alternates: { canonical: "/" },
   icons: {
     icon: "/brand/logo.png",
     apple: "/brand/logo.png",
   },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#07080a",
+  colorScheme: "dark",
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
 };
 
 export default function RootLayout({

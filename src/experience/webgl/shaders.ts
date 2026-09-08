@@ -2,6 +2,7 @@ export const latticeVertex = /* glsl */ `
   uniform float uTime;
   uniform float uWire;
   uniform float uScatter;
+  uniform float uFlow;
   uniform float uReveal;
   uniform vec3 uLightDir;
 
@@ -34,7 +35,13 @@ export const latticeVertex = /* glsl */ `
     );
     vec3 scatter = aRand * uScatter * vec3(4.2, 2.6, 2.0) + drift * uScatter * 0.3;
 
-    vec3 p = position * scl + aOffset + scatter;
+    // fluid surface — a slow wave travelling through the lattice
+    float wave = sin(aOffset.x * 2.4 + uTime * 1.5) * 0.16
+               + sin(aOffset.z * 3.1 - uTime * 1.1) * 0.1
+               + cos((aOffset.x + aOffset.y) * 1.7 + uTime * 0.8) * 0.08;
+    vec3 flow = vec3(0.0, wave, wave * 0.35) * uFlow;
+
+    vec3 p = position * scl + aOffset + scatter + flow;
     vec4 mv = modelViewMatrix * vec4(p, 1.0);
     gl_Position = projectionMatrix * mv;
 
@@ -49,6 +56,7 @@ export const latticeVertex = /* glsl */ `
 
 export const latticeFragment = /* glsl */ `
   uniform float uScatter;
+  uniform float uOpacity;
 
   varying vec3 vColor;
   varying float vLight;
@@ -62,6 +70,6 @@ export const latticeFragment = /* glsl */ `
     vec3 col = vColor * vLight * mix(1.0, 1.5, uScatter);
     // atmospheric depth
     col = mix(col, BG, smoothstep(9.5, 17.0, vDepth));
-    gl_FragColor = vec4(col, vAlpha * mix(1.0, 0.75, uScatter));
+    gl_FragColor = vec4(col, vAlpha * mix(1.0, 0.75, uScatter) * uOpacity);
   }
 `;
