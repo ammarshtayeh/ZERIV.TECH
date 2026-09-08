@@ -1,63 +1,70 @@
 import type { Metadata } from "next";
-import { Alexandria, El_Messiri, Amiri, Cormorant_Garamond } from "next/font/google";
-import { ThemeProvider } from "@/components/layout/ThemeProvider";
-import { Navbar } from "@/components/layout/Navbar";
-import { Footer } from "@/components/layout/Footer";
-import { TatreezSideRails } from "@/components/patterns/TatreezSideRails";
+import {
+  Syne,
+  Space_Grotesk,
+  JetBrains_Mono,
+  IBM_Plex_Sans_Arabic,
+  El_Messiri,
+  Noto_Naskh_Arabic,
+} from "next/font/google";
 import "./globals.css";
 
-const alexandria = Alexandria({
+/* ── Experience typography ── */
+const syne = Syne({
+  subsets: ["latin"],
+  variable: "--font-syne",
+  display: "swap",
+});
+
+const grotesk = Space_Grotesk({
+  subsets: ["latin"],
+  variable: "--font-grotesk",
+  display: "swap",
+});
+
+const mono = JetBrains_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  variable: "--font-mono",
+  display: "swap",
+});
+
+/* ── Legacy Arabic pages ── */
+const plex = IBM_Plex_Sans_Arabic({
   subsets: ["arabic", "latin"],
   weight: ["300", "400", "500", "600", "700"],
-  variable: "--font-alexandria",
+  variable: "--font-plex",
   display: "swap",
 });
 
-const elMessiri = El_Messiri({
-  subsets: ["arabic"],
+const messiri = El_Messiri({
+  subsets: ["arabic", "latin"],
   weight: ["400", "500", "600", "700"],
-  variable: "--font-el-messiri",
+  variable: "--font-messiri",
   display: "swap",
 });
 
-const amiri = Amiri({
+const notoNaskh = Noto_Naskh_Arabic({
   subsets: ["arabic"],
   weight: ["400", "700"],
-  style: ["normal", "italic"],
-  variable: "--font-amiri",
-  display: "swap",
-});
-
-const cormorantGaramond = Cormorant_Garamond({
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
-  style: ["normal", "italic"],
-  variable: "--font-cormorant-garamond",
+  variable: "--font-noto-naskh",
   display: "swap",
 });
 
 export const metadata: Metadata = {
   title: {
-    default: "ZERIV TECH | وكالة رقمية فلسطينية",
-    template: "%s | ZERIV TECH",
+    default: "ZERIV — Technology × Design × Culture",
+    template: "%s | ZERIV",
   },
   description:
-    "ZERIV TECH — وكالة رقمية فلسطينية متخصصة في تطوير المواقع والتطبيقات والمنصات، التصميم الجرافيكي، الهوية البصرية، وUI/UX.",
-  keywords: [
-    "ZERIV TECH",
-    "وكالة رقمية",
-    "تطوير مواقع",
-    "تصميم جرافيك",
-    "هوية بصرية",
-    "فلسطين",
-  ],
+    "ZERIV is a Palestinian technology and creative agency building websites, mobile applications, brands and AI-powered digital experiences.",
+  keywords: ["ZERIV", "creative agency", "web development", "Palestine", "digital experiences"],
   authors: [{ name: "ZERIV TECH" }],
   openGraph: {
-    title: "ZERIV TECH | وكالة رقمية فلسطينية",
-    description: "نصمم ونبرمج مواقع وتطبيقات وحلول رقمية — بروح فلسطينية.",
-    locale: "ar_PS",
+    title: "ZERIV — Technology × Design × Culture",
+    description: "We build digital experiences worth remembering.",
     type: "website",
-    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "ZERIV TECH" }],
+    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "ZERIV" }],
   },
   icons: {
     icon: "/brand/logo.png",
@@ -71,24 +78,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="ar" dir="rtl" suppressHydrationWarning>
+    <html lang="en" className="dark" suppressHydrationWarning>
       <body
-        className={`${alexandria.variable} ${elMessiri.variable} ${amiri.variable} ${cormorantGaramond.variable} font-sans antialiased`}
+        className={`${syne.variable} ${grotesk.variable} ${mono.variable} ${plex.variable} ${messiri.variable} ${notoNaskh.variable} antialiased`}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem={false}
-          disableTransitionOnChange={false}
-        >
-          <div className="relative min-h-screen bg-zeriv-bg text-zeriv-fg">
-            <div className="site-grain pointer-events-none fixed inset-0 z-[1]" aria-hidden="true" />
-            <TatreezSideRails />
-            <Navbar />
-            <main className="relative z-[2]">{children}</main>
-            <Footer />
-          </div>
-        </ThemeProvider>
+        {children}
       </body>
     </html>
   );
