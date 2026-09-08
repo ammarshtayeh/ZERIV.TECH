@@ -149,6 +149,17 @@ html.xp-html::-webkit-scrollbar {
 
 .xp-scene {
   position: relative;
+  z-index: 1;
+  background-color: var(--xp-bg);
+  isolation: isolate;
+}
+.xp-main {
+  display: flex;
+  flex-direction: column;
+}
+.xp-main > .xp-scene {
+  flex: 0 0 auto;
+  width: 100%;
 }
 
 /* quiet connectors — a line and a node, not another section */
@@ -532,6 +543,7 @@ html[data-xp-docked="true"] .xp-nav__logo {
   height: 100vh;
   height: 100svh;
   overflow: hidden;
+  background-color: var(--xp-bg);
 }
 
 .xp-hero__chrome {
@@ -615,28 +627,27 @@ html[data-xp-docked="true"] .xp-nav__logo {
   color: var(--xp-muted);
 }
 
-/* the mark */
+/* the mark — sits in the upper band so it never fights the statement */
 .xp-hero__logo {
   position: absolute;
   left: var(--xp-gutter);
-  top: 50%;
-  width: clamp(200px, 22vw, 340px);
+  top: max(5.75rem, 11vh);
+  width: clamp(140px, 16vw, 260px);
   margin: 0;
-  /* `translate` (not `transform`) so GSAP's x/y/scale flight composes on top of it */
-  translate: 0 -56%;
+  translate: 0 0;
   opacity: 0;
   will-change: transform, opacity;
 }
-/* the statement — right-anchored; the longest line is wider than the viewport and bleeds out on the left by design */
+/* the statement — right-anchored; longest line may bleed left by design */
 .xp-hero__statement {
   position: absolute;
   left: 0;
   right: 0;
-  bottom: 8vh;
+  bottom: max(5.5rem, 11vh);
   margin: 0;
   font-family: var(--font-syne), sans-serif;
   font-weight: 800;
-  font-size: clamp(2.6rem, 8.8vw, 10.8rem);
+  font-size: clamp(2.4rem, 7.6vw, 9.2rem);
   line-height: 0.9;
   letter-spacing: -0.045em;
   white-space: nowrap;
@@ -669,11 +680,11 @@ html[data-xp-docked="true"] .xp-nav__logo {
    Scene 02 — Identity
    ════════════════════════════════════════════════════════════ */
 .xp-identity {
-  height: 100vh;
-  height: 100svh;
+  height: auto;
+  min-height: auto;
   display: flex;
   align-items: center;
-  padding: 0 var(--xp-gutter);
+  padding: clamp(5.5rem, 14vh, 9rem) var(--xp-gutter) clamp(4rem, 10vh, 7rem);
 }
 .xp-identity__inner {
   position: relative;
@@ -705,7 +716,6 @@ html[data-xp-docked="true"] .xp-nav__logo {
 }
 .xp-identity__pos-line {
   display: block;
-  transform: translateY(110%);
   will-change: transform;
 }
 .xp-identity__statement {
@@ -723,7 +733,6 @@ html[data-xp-docked="true"] .xp-nav__logo {
   font-size: clamp(0.95rem, 1.15vw, 1.15rem);
   line-height: 1.55;
   color: var(--xp-muted);
-  opacity: 0;
 }
 .xp-identity__sentence {
   display: block;
@@ -734,14 +743,13 @@ html[data-xp-docked="true"] .xp-nav__logo {
   padding-left: 0;
 }
 .xp-identity__word {
-  --w: 400;
+  --w: 800;
   display: inline-block;
   margin-right: 0.24em;
   font-weight: var(--w);
   font-variation-settings: "wght" var(--w);
-  opacity: 0.14;
-  filter: blur(5px);
-  will-change: opacity, filter, font-weight;
+  opacity: 1;
+  filter: none;
 }
 .xp-identity__index {
   position: absolute;
@@ -754,7 +762,8 @@ html[data-xp-docked="true"] .xp-nav__logo {
    Scene 03 — Capabilities
    ════════════════════════════════════════════════════════════ */
 .xp-caps {
-  padding: 22vh var(--xp-gutter) 18vh;
+  padding: clamp(5rem, 12vh, 8rem) var(--xp-gutter);
+  border-top: 1px solid var(--xp-line);
 }
 .xp-caps__head {
   display: flex;
@@ -793,7 +802,7 @@ html[data-xp-docked="true"] .xp-nav__logo {
 }
 .xp-caps__row {
   position: relative;
-  opacity: 0;
+  opacity: 1;
   transition: opacity 0.5s ease;
 }
 .xp-caps__rule {
@@ -1512,6 +1521,7 @@ html[data-xp-docked="true"] .xp-nav__logo {
   height: 100vh;
   height: 100svh;
   overflow: hidden;
+  background-color: var(--xp-bg);
 }
 .xp-sig__canvas {
   position: absolute;
@@ -1780,18 +1790,19 @@ html[data-xp-docked="true"] .xp-nav__logo {
    Scene 07 — Method
    ════════════════════════════════════════════════════════════ */
 .xp-proc {
-  height: 100vh;
-  height: 100svh;
+  height: auto;
+  min-height: auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 0 var(--xp-gutter);
+  padding: clamp(5rem, 12vh, 8rem) var(--xp-gutter);
+  border-top: 1px solid var(--xp-line);
 }
 .xp-proc__head {
   display: flex;
   flex-direction: column;
   gap: 0.7rem;
-  margin-bottom: 5vh;
+  margin-bottom: clamp(2rem, 5vh, 3.5rem);
 }
 .xp-proc__title {
   margin: 0;
@@ -1810,7 +1821,7 @@ html[data-xp-docked="true"] .xp-nav__logo {
 .xp-proc__track {
   position: relative;
   height: 1px;
-  margin: 0 0 4.5vh;
+  margin: 0 0 clamp(2rem, 4.5vh, 3.5rem);
   background: var(--xp-line);
 }
 .xp-proc__spine {
@@ -1834,7 +1845,7 @@ html[data-xp-docked="true"] .xp-nav__logo {
 }
 .xp-proc__step {
   min-width: 0;
-  opacity: 0.28;
+  opacity: 1;
   transition: opacity 0.45s ease;
 }
 .xp-proc__step[data-on="true"],
@@ -1877,6 +1888,8 @@ html[data-xp-docked="true"] .xp-nav__logo {
   min-height: 100svh;
   padding: 22vh var(--xp-gutter) 16vh;
   overflow: hidden;
+  border-top: 1px solid var(--xp-line);
+  background-color: var(--xp-bg);
 }
 .xp-final__label {
   margin-bottom: 4vh;

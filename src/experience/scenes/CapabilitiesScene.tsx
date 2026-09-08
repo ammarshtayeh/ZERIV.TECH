@@ -47,9 +47,9 @@ export function CapabilitiesScene({ reduced }: Props) {
             scrollTrigger: { trigger: row, start: "top 88%", once: true },
             defaults: { ease: motion.ease.out },
           })
-          .to(row, { opacity: 1, duration: 0.4, ease: "none" }, 0)
+          .to(row, { opacity: 1, duration: 0.35, ease: "none" }, 0)
           .fromTo(rule, { scaleX: 0 }, { scaleX: 1, duration: 1.1, transformOrigin: "0% 50%" }, 0)
-          .fromTo(inner, { yPercent: 105 }, { yPercent: 0, duration: motion.duration.cinematic }, 0.05);
+          .fromTo(inner, { yPercent: 105 }, { yPercent: 0, duration: 0.95 }, 0.05);
       });
       gsap.fromTo(
         el.querySelectorAll(".xp-caps__head > *"),

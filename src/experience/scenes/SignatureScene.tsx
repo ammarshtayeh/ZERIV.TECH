@@ -77,15 +77,19 @@ export function SignatureScene({ tier, reduced }: Props) {
         return;
       }
 
+      const mobile = window.matchMedia("(max-width: 900px)").matches;
+
       const tl = gsap.timeline({
         defaults: { ease: "none" },
         scrollTrigger: {
           trigger: el,
           start: "top top",
-          end: () => (window.matchMedia("(max-width: 900px)").matches ? "+=220%" : "+=280%"),
+          end: mobile ? "+=110%" : "+=180%",
           pin: true,
-          scrub: motion.scrub,
+          pinSpacing: true,
+          scrub: 0.7,
           anticipatePin: 1,
+          invalidateOnRefresh: true,
           onUpdate: (st) => {
             sys.setProgress(st.progress);
             setStage(Math.min(6, Math.round(st.progress * 6)));

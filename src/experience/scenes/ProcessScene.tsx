@@ -11,10 +11,10 @@ interface Props {
 }
 
 /**
- * How ZERIV works — a single horizontal timeline, not five cards.
- * Scroll fills the spine; each step takes the floor in sequence.
+ * Method — vertical timeline without pin.
+ * Pinning here stacked into Signature / Final and broke scroll rhythm.
  */
-export function ProcessScene({ reduced, narrow }: Props) {
+export function ProcessScene({ reduced }: Props) {
   const root = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -24,42 +24,52 @@ export function ProcessScene({ reduced, narrow }: Props) {
       const steps = el.querySelectorAll<HTMLElement>(".xp-proc__step");
       const fill = el.querySelector<HTMLElement>(".xp-proc__fill");
 
-      const setActive = (p: number) => {
-        const i = Math.min(steps.length - 1, Math.floor(p * steps.length + 0.12));
-        steps.forEach((s, k) => {
-          s.dataset.on = k === i ? "true" : "false";
-          s.dataset.done = k < i ? "true" : "false";
-        });
-      };
-
-      if (reduced || narrow) {
-        gsap.set(steps, { opacity: 1 });
+      if (reduced) {
+        gsap.set(steps, { opacity: 1, y: 0 });
         gsap.set(fill, { scaleX: 1 });
-        if (reduced) setActive(1);
+        steps.forEach((s) => {
+          s.dataset.on = "true";
+          s.dataset.done = "true";
+        });
         return;
       }
 
-      gsap.fromTo(
-        fill,
-        { scaleX: 0 },
-        {
-          scaleX: 1,
-          transformOrigin: "0% 50%",
-          ease: "none",
+      gsap.set(steps, { opacity: 0.35, y: 18 });
+      gsap.set(fill, { scaleX: 0, transformOrigin: "0% 50%" });
+
+      gsap.to(fill, {
+        scaleX: 1,
+        ease: "none",
+        scrollTrigger: {
+          trigger: el,
+          start: "top 65%",
+          end: "bottom 55%",
+          scrub: 0.6,
+        },
+      });
+
+      steps.forEach((step, i) => {
+        gsap.to(step, {
+          opacity: 1,
+          y: 0,
+          duration: 0.7,
+          ease: motion.ease.out,
           scrollTrigger: {
-            trigger: el,
-            start: "top top",
-            end: "+=220%",
-            pin: true,
-            scrub: motion.scrub,
-            anticipatePin: 1,
-            onUpdate: (st) => setActive(st.progress),
+            trigger: step,
+            start: "top 82%",
+            once: true,
+            onEnter: () => {
+              steps.forEach((s, k) => {
+                s.dataset.on = k === i ? "true" : "false";
+                s.dataset.done = k < i ? "true" : "false";
+              });
+            },
           },
-        }
-      );
+        });
+      });
     }, el);
     return () => ctx.revert();
-  }, [reduced, narrow]);
+  }, [reduced]);
 
   return (
     <section ref={root} id="method" className="xp-scene xp-proc" aria-labelledby="xp-proc-heading">

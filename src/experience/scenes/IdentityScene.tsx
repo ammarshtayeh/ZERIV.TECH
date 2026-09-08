@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { gsap } from "../animations/gsap";
+import { motion } from "../animations/motion";
 import { xp } from "../lib/experience-store";
 
 const POSITION = ["WE TURN", "IDEAS INTO", "DIGITAL SYSTEMS."];
@@ -12,9 +13,8 @@ interface Props {
 }
 
 /**
- * Scene 02 — positioning, then the editorial statement.
- * Words gain weight and light as the user scrolls; behind them the lattice
- * lets go of its stitched form and becomes a field of particles.
+ * Positioning — editorial, no pin.
+ * A long pin here was colliding with Selected Work; reveal once on enter instead.
  */
 export function IdentityScene({ reduced }: Props) {
   const root = useRef<HTMLElement>(null);
@@ -25,38 +25,44 @@ export function IdentityScene({ reduced }: Props) {
 
     const ctx = gsap.context(() => {
       const pos = el.querySelectorAll<HTMLElement>(".xp-identity__pos-line");
-      const first = el.querySelectorAll<HTMLElement>('[data-s="0"] .xp-identity__word');
-      const second = el.querySelectorAll<HTMLElement>('[data-s="1"] .xp-identity__word');
+      const words = el.querySelectorAll<HTMLElement>(".xp-identity__word");
       const copy = el.querySelector<HTMLElement>(".xp-identity__copy");
 
       if (reduced) {
         gsap.set(pos, { yPercent: 0, opacity: 1 });
-        gsap.set([first, second], { "--w": 800, opacity: 1, filter: "blur(0px)" });
+        gsap.set(words, { "--w": 800, opacity: 1, filter: "blur(0px)" });
         gsap.set(copy, { opacity: 1, y: 0 });
+        xp.identity = 1;
         return;
       }
 
-      const tl = gsap.timeline({
-        defaults: { ease: "none" },
+      gsap.set(pos, { yPercent: 110, opacity: 1 });
+      gsap.set(words, { "--w": 400, opacity: 0.2, filter: "blur(4px)" });
+      gsap.set(copy, { opacity: 0, y: 16 });
+
+      gsap
+        .timeline({
+          scrollTrigger: {
+            trigger: el,
+            start: "top 70%",
+            once: true,
+          },
+          defaults: { ease: motion.ease.out },
+        })
+        .to(pos, { yPercent: 0, duration: 1, stagger: 0.1 }, 0)
+        .to(words, { "--w": 800, opacity: 1, filter: "blur(0px)", duration: 0.9, stagger: 0.04 }, 0.35)
+        .to(copy, { opacity: 1, y: 0, duration: 0.7 }, 0.7);
+
+      gsap.to(xp, {
+        identity: 1,
+        ease: "none",
         scrollTrigger: {
           trigger: el,
-          start: "top top",
-          end: () => (window.matchMedia("(max-width: 900px)").matches ? "+=140%" : "+=180%"),
-          pin: true,
-          scrub: 0.9,
-          anticipatePin: 1,
-          onUpdate: (st) => {
-            xp.identity = st.progress;
-          },
+          start: "top bottom",
+          end: "bottom top",
+          scrub: true,
         },
       });
-
-      tl.fromTo(pos, { yPercent: 110, opacity: 1 }, { yPercent: 0, duration: 0.8, stagger: 0.12 }, 0)
-        .to(pos, { opacity: 0.18, duration: 0.45 }, 1.15)
-        .to(first, { "--w": 800, opacity: 1, filter: "blur(0px)", duration: 0.85, stagger: 0.18 }, 1.2)
-        .to(first, { opacity: 0.22, duration: 0.45 }, 2.35)
-        .to(second, { "--w": 800, opacity: 1, filter: "blur(0px)", duration: 0.85, stagger: 0.2 }, 2.4)
-        .fromTo(copy, { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.5 }, 2.9);
     }, el);
 
     return () => ctx.revert();

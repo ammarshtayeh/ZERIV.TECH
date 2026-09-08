@@ -76,6 +76,17 @@ export function Experience() {
     };
   }, []);
 
+  /* Re-measure pins after the preloader unlocks scroll — prevents stacked section jumps. */
+  useEffect(() => {
+    if (phase !== "ready") return;
+    const id = window.setTimeout(() => ScrollTrigger.refresh(), 80);
+    const id2 = window.setTimeout(() => ScrollTrigger.refresh(), 420);
+    return () => {
+      window.clearTimeout(id);
+      window.clearTimeout(id2);
+    };
+  }, [phase]);
+
   const onHandoff = useCallback(() => setPhase("revealing"), []);
   const onComplete = useCallback(() => setPhase("ready"), []);
 

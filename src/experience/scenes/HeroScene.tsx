@@ -107,15 +107,16 @@ export function HeroScene({ reduced }: Props) {
         scrollTrigger: {
           trigger: el,
           start: "top top",
-          end: "+=90%",
+          end: () => (window.matchMedia("(max-width: 900px)").matches ? "+=55%" : "+=70%"),
           pin: true,
-          scrub: motion.scrub,
+          pinSpacing: true,
+          scrub: 0.65,
           anticipatePin: 1,
           invalidateOnRefresh: true,
           onRefreshInit: measure,
           onUpdate: (st) => {
             xp.hero = st.progress;
-            dock(st.progress > 0.985);
+            dock(st.progress > 0.92);
           },
           onLeave: () => dock(true),
           onEnterBack: () => dock(false),
