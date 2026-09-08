@@ -7,6 +7,7 @@ import { projects } from "../data/projects";
 import { useSceneProgress } from "../hooks/useSceneProgress";
 import { xp } from "../lib/experience-store";
 import { CinematicMedia } from "../ui/CinematicMedia";
+import { TransitionLink } from "../ui/TransitionLink";
 
 interface Props {
   reduced: boolean;
@@ -166,7 +167,9 @@ export function WorkScene({ reduced, narrow }: Props) {
     <section ref={root} id="work" className="xp-scene xp-work" aria-labelledby="xp-work-heading" data-layout={narrow ? "stack" : "track"}>
       <div className="xp-work__pin">
         <header className="xp-work__head">
-          <p className="xp-label">SCN_04 — SELECTED WORK</p>
+          <h2 id="xp-work-heading" className="xp-work__heading-static">
+            Selected work
+          </h2>
           <p className="xp-label xp-work__counter" aria-hidden="true">
             <span ref={counter}>01</span> / {String(projects.length).padStart(2, "0")}
           </p>
@@ -174,16 +177,9 @@ export function WorkScene({ reduced, narrow }: Props) {
 
         <div ref={track} className="xp-work__track" data-cursor={narrow ? undefined : "drag"}>
           <div className="xp-work__intro">
-            <h2 id="xp-work-heading" className="xp-work__title">
-              <span>SELECTED</span>
-              <span>WORK</span>
-            </h2>
             <p className="xp-work__intro-copy">
               Real products, live in the world — platforms, marketplaces and stores built for
               Palestinian founders and beyond.
-            </p>
-            <p className="xp-label xp-work__hint" aria-hidden="true">
-              {narrow ? "SCROLL" : "SCROLL · DRAG"} →
             </p>
           </div>
 
@@ -231,8 +227,9 @@ export function WorkScene({ reduced, narrow }: Props) {
           ))}
 
           <div className="xp-work__outro">
-            <p className="xp-label">MORE IN PRODUCTION</p>
-            <p className="xp-work__outro-copy">Your project could be frame 05.</p>
+            <TransitionLink href="/portfolio" className="xp-work__all" data-cursor="expand">
+              View all work <span aria-hidden="true">→</span>
+            </TransitionLink>
           </div>
         </div>
       </div>

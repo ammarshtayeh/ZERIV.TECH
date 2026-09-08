@@ -62,7 +62,7 @@ export function FinalScene({ reduced }: Props) {
 
   return (
     <section ref={root} id="contact" className="xp-scene xp-final" aria-labelledby="xp-final-heading">
-      <p className="xp-label xp-final__label">SCN_07 — START</p>
+      <p className="xp-label xp-final__label">Start a project</p>
 
       <h2 id="xp-final-heading" className="xp-final__statement" aria-label={STATEMENT.join(" ")}>
         {STATEMENT.map((l) => (

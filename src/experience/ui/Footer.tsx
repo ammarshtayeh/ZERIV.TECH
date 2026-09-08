@@ -76,12 +76,11 @@ export function Footer() {
 
       <div className="xp-footer__bottom">
         <span className="xp-label">© {year} {contact.company}. All rights reserved.</span>
-        <span className="xp-label xp-footer__sys">SYSTEM COMPLETE</span>
         <span className="xp-label xp-footer__made">
           Made in <em>Palestine</em>
         </span>
         <a href="#top" className="xp-label xp-footer__up" onClick={(e) => go(e, "#top")} data-cursor="expand">
-          Return to origin ↑
+          Back to top ↑
         </a>
       </div>
     </footer>

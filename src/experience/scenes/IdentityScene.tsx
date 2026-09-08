@@ -28,7 +28,6 @@ export function IdentityScene({ reduced }: Props) {
       const first = el.querySelectorAll<HTMLElement>('[data-s="0"] .xp-identity__word');
       const second = el.querySelectorAll<HTMLElement>('[data-s="1"] .xp-identity__word');
       const copy = el.querySelector<HTMLElement>(".xp-identity__copy");
-      const index = el.querySelector<HTMLElement>(".xp-identity__index");
 
       if (reduced) {
         gsap.set(pos, { yPercent: 0, opacity: 1 });
@@ -42,7 +41,7 @@ export function IdentityScene({ reduced }: Props) {
         scrollTrigger: {
           trigger: el,
           start: "top top",
-          end: "+=280%",
+          end: () => (window.matchMedia("(max-width: 900px)").matches ? "+=140%" : "+=180%"),
           pin: true,
           scrub: 0.9,
           anticipatePin: 1,
@@ -58,8 +57,6 @@ export function IdentityScene({ reduced }: Props) {
         .to(first, { opacity: 0.22, duration: 0.45 }, 2.35)
         .to(second, { "--w": 800, opacity: 1, filter: "blur(0px)", duration: 0.85, stagger: 0.2 }, 2.4)
         .fromTo(copy, { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.5 }, 2.9);
-
-      if (index) tl.to(index, { opacity: 1, duration: 0.4 }, 0.25);
     }, el);
 
     return () => ctx.revert();
@@ -68,8 +65,6 @@ export function IdentityScene({ reduced }: Props) {
   return (
     <section ref={root} id="about" className="xp-scene xp-identity" aria-labelledby="xp-identity-heading">
       <div className="xp-identity__inner">
-        <p className="xp-label xp-identity__label">SCN_02 — POSITION</p>
-
         <h2 id="xp-identity-heading" className="xp-identity__position" aria-label={POSITION.join(" ")}>
           {POSITION.map((line) => (
             <span key={line} className="xp-identity__pos-wrap" aria-hidden="true">
@@ -94,10 +89,6 @@ export function IdentityScene({ reduced }: Props) {
         <p className="xp-identity__copy">
           A Palestinian studio. Strategy, design and engineering — websites, products, brands and
           interactive systems, built as one piece of work.
-        </p>
-
-        <p className="xp-label xp-identity__index" aria-hidden="true">
-          02 / 07
         </p>
       </div>
     </section>

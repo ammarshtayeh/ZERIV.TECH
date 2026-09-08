@@ -27,9 +27,8 @@ const ExperienceCanvas = dynamic(() => import("./webgl/ExperienceCanvas"), {
 });
 
 /**
- * The ZERIV journey — one page, seven scenes, one shared WebGL surface.
- * Scenes never talk to each other directly; they write progress into `xp` and the
- * lattice reads it every frame.
+ * Official ZERIV journey — proof early, signature once, contact clear.
+ * Hero → Work → Position → Capabilities → Signature → Method → Contact
  */
 export function Experience() {
   const tier = useDeviceTier();
@@ -39,7 +38,6 @@ export function Experience() {
 
   useLenis(phase === "ready", reduced);
 
-  /* pointer → normalised coordinates for the WebGL layer */
   useEffect(() => {
     const onMove = (e: PointerEvent) => {
       xp.pointer.tx = (e.clientX / window.innerWidth) * 2 - 1;
@@ -49,7 +47,6 @@ export function Experience() {
     return () => window.removeEventListener("pointermove", onMove);
   }, []);
 
-  /* always begin the journey from the top; lock scroll until the hand-off */
   useEffect(() => {
     if ("scrollRestoration" in history) history.scrollRestoration = "manual";
     window.scrollTo(0, 0);
@@ -89,12 +86,12 @@ export function Experience() {
 
       <a
         className="xp-skip"
-        href="#about"
+        href="#work"
         onClick={(e) => {
           e.preventDefault();
           xp.reveal = 1;
           setPhase("ready");
-          window.setTimeout(() => scrollToTarget("#about"), 120);
+          window.setTimeout(() => scrollToTarget("#work"), 120);
         }}
       >
         Skip to content
@@ -104,17 +101,11 @@ export function Experience() {
 
       <main className="xp-main">
         <HeroScene reduced={reduced} />
-        <div className="xp-join" aria-hidden="true" />
-        <IdentityScene reduced={reduced} />
-        <div className="xp-join" aria-hidden="true" />
-        <CapabilitiesScene reduced={reduced} />
-        <div className="xp-join" aria-hidden="true" />
         <WorkScene reduced={reduced} narrow={narrow} />
-        <div className="xp-join" aria-hidden="true" />
+        <IdentityScene reduced={reduced} />
+        <CapabilitiesScene reduced={reduced} />
         <SignatureScene tier={tier} reduced={reduced} />
-        <div className="xp-join" aria-hidden="true" />
         <ProcessScene reduced={reduced} narrow={narrow} />
-        <div className="xp-join" aria-hidden="true" />
         <FinalScene reduced={reduced} />
       </main>
 

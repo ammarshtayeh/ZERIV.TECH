@@ -64,7 +64,7 @@ export function ProcessScene({ reduced, narrow }: Props) {
   return (
     <section ref={root} id="method" className="xp-scene xp-proc" aria-labelledby="xp-proc-heading">
       <header className="xp-proc__head">
-        <p className="xp-label">SCN_06 — METHOD</p>
+        <p className="xp-label">Method</p>
         <h2 id="xp-proc-heading" className="xp-proc__title">
           HOW WE <em>WORK</em>
         </h2>

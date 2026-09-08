@@ -82,7 +82,7 @@ export function SignatureScene({ tier, reduced }: Props) {
         scrollTrigger: {
           trigger: el,
           start: "top top",
-          end: "+=520%",
+          end: () => (window.matchMedia("(max-width: 900px)").matches ? "+=220%" : "+=280%"),
           pin: true,
           scrub: motion.scrub,
           anticipatePin: 1,
@@ -117,9 +117,8 @@ export function SignatureScene({ tier, reduced }: Props) {
         <canvas ref={canvas} className="xp-sig__canvas" aria-hidden="true" />
 
         <header className="xp-sig__head">
-          <p className="xp-label">SCN_05 — SIGNATURE</p>
-          <h2 id="xp-sig-heading" className="xp-label">
-          PALESTINIAN EMBROIDERY → ZERIV
+          <h2 id="xp-sig-heading" className="xp-sig__title">
+            From embroidery to digital systems
           </h2>
         </header>
 

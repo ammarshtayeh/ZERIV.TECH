@@ -82,7 +82,7 @@ export function CapabilitiesScene({ reduced }: Props) {
       data-active={current}
     >
       <header className="xp-caps__head">
-        <p className="xp-label">SCN_03 — CAPABILITIES</p>
+        <p className="xp-label">Capabilities</p>
         <h2 id="xp-caps-heading" className="xp-caps__heading">
           <span>SIX DISCIPLINES.</span>
           <span>ONE STUDIO.</span>
