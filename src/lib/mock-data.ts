@@ -87,7 +87,7 @@ export const portfolioProjects: PortfolioProject[] = [
     description:
       "منصة فلسطينية متخصصة في توفير سكن آمن وموثّق لطلاب جامعة النجاح الوطنية في نابلس.",
     tags: ["Next.js", "سكن طلابي", "نابلس"],
-    image: "/portfolio/sakannu.png",
+    image: "/portfolio/sakannu.jpg",
     url: "https://www.sakannu.com/",
   },
   {
@@ -98,7 +98,7 @@ export const portfolioProjects: PortfolioProject[] = [
     description:
       "منصة تعليمية ذكية ترفع ملفاتك وتُنشئ أسئلة اختبار مخصصة لك في ثوانٍ.",
     tags: ["AI", "تعليم", "اختبارات"],
-    image: "/portfolio/mindar.png",
+    image: "/portfolio/mindar.jpg",
     url: "https://www.mindar.tech/",
   },
   {
@@ -109,7 +109,7 @@ export const portfolioProjects: PortfolioProject[] = [
     description:
       "منصة فلسطينية شاملة لحجز الأطباء والعيادات والخدمات الصحية والتجميلية.",
     tags: ["حجز مواعيد", "صحة", "فلسطين"],
-    image: "/portfolio/malamih.png",
+    image: "/portfolio/malamih.jpg",
     url: "https://www.malamih.ps/",
   },
   {
@@ -120,7 +120,7 @@ export const portfolioProjects: PortfolioProject[] = [
     description:
       "متجر إلكتروني فاخر لمنتجات مختارة — حقائب، ساعات، وإكسسوارات بأناقة عالمية.",
     tags: ["E-commerce", "متجر", "فاخر"],
-    image: "/portfolio/flora-style.png",
+    image: "/portfolio/flora-style.jpg",
     url: "https://www.flora-style.shop/",
   },
 ];

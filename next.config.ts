@@ -8,12 +8,8 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
+        /* Page only — do not catch /portfolio/*.png assets */
         source: "/portfolio",
-        destination: "/work",
-        permanent: true,
-      },
-      {
-        source: "/portfolio/:path*",
         destination: "/work",
         permanent: true,
       },
