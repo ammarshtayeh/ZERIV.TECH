@@ -102,21 +102,23 @@ export function HeroScene({ reduced }: Props) {
       };
       measure();
 
+      const mobile = window.matchMedia("(max-width: 900px)").matches;
+
       const tl = gsap.timeline({
         defaults: { ease: "none" },
         scrollTrigger: {
           trigger: el,
           start: "top top",
-          end: () => (window.matchMedia("(max-width: 900px)").matches ? "+=55%" : "+=70%"),
-          pin: true,
+          end: mobile ? "bottom top" : "+=70%",
+          pin: !mobile,
           pinSpacing: true,
-          scrub: 0.65,
-          anticipatePin: 1,
+          scrub: mobile ? 0.45 : 0.65,
+          anticipatePin: mobile ? 0 : 1,
           invalidateOnRefresh: true,
           onRefreshInit: measure,
           onUpdate: (st) => {
             xp.hero = st.progress;
-            dock(st.progress > 0.92);
+            dock(st.progress > (mobile ? 0.4 : 0.92));
           },
           onLeave: () => dock(true),
           onEnterBack: () => dock(false),

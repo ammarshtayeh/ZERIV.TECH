@@ -2,7 +2,6 @@
 
 import { useEffect, useRef } from "react";
 import { gsap } from "../animations/gsap";
-import { motion } from "../animations/motion";
 import type { DeviceTier } from "../hooks/useDeviceTier";
 import { useInView } from "../hooks/useInView";
 import { useSceneProgress } from "../hooks/useSceneProgress";
@@ -14,17 +13,18 @@ interface Props {
   reduced: boolean;
 }
 
-const DENSITY: Record<DeviceTier, number> = { high: 1, mid: 0.7, low: 0.45 };
+const DENSITY: Record<DeviceTier, number> = { high: 1, mid: 0.65, low: 0.4 };
 
 /**
- * Scene 05 — the signature: Palestinian embroidery → geometry → grid → circuits → code →
- * particles → the ZERIV mark. Pinned; the user's scroll drives the whole transformation.
+ * Signature moment — embroidery → system → ZERIV.
+ * Desktop: short pin. Mobile: no pin (avoids empty scroll traps).
  */
 export function SignatureScene({ tier, reduced }: Props) {
   const root = useRef<HTMLElement>(null);
   const canvas = useRef<HTMLCanvasElement>(null);
   const system = useRef<Transformation | null>(null);
-  const stageWord = useRef<HTMLSpanElement>(null);
+  const label = useRef<HTMLSpanElement>(null);
+  const indexEl = useRef<HTMLSpanElement>(null);
 
   useSceneProgress(root, "signature");
 
@@ -42,32 +42,22 @@ export function SignatureScene({ tier, reduced }: Props) {
     system.current = sys;
     const onResize = () => sys.resize();
     window.addEventListener("resize", onResize);
-    const onMove = (e: PointerEvent) => {
-      const r = cv.getBoundingClientRect();
-      sys.setPointer(e.clientX - r.left, e.clientY - r.top);
-    };
-    el.addEventListener("pointermove", onMove, { passive: true });
 
     const ctx = gsap.context(() => {
-      const rail = el.querySelectorAll<HTMLElement>(".xp-sig__stage");
+      const steps = el.querySelectorAll<HTMLElement>(".xp-sig__step");
       const logo = el.querySelector<HTMLElement>(".xp-sig__logo");
       const sweep = el.querySelector<HTMLElement>(".xp-sig__sweep");
-      const word = stageWord.current;
       let current = -1;
 
       const setStage = (idx: number) => {
         if (idx === current) return;
         current = idx;
-        rail.forEach((r, i) => {
-          r.dataset.on = i === idx ? "true" : "false";
-          r.dataset.done = i < idx ? "true" : "false";
+        steps.forEach((s, i) => {
+          s.dataset.on = i === idx ? "true" : "false";
+          s.dataset.done = i < idx ? "true" : "false";
         });
-        if (word) {
-          word.textContent = STAGES[idx];
-          word.classList.remove("is-swap");
-          void word.offsetWidth;
-          word.classList.add("is-swap");
-        }
+        if (label.current) label.current.textContent = STAGES[idx];
+        if (indexEl.current) indexEl.current.textContent = String(idx + 1).padStart(2, "0");
       };
 
       if (reduced) {
@@ -83,12 +73,12 @@ export function SignatureScene({ tier, reduced }: Props) {
         defaults: { ease: "none" },
         scrollTrigger: {
           trigger: el,
-          start: "top top",
-          end: mobile ? "+=110%" : "+=180%",
-          pin: true,
+          start: mobile ? "top 75%" : "top top",
+          end: mobile ? "bottom 25%" : "+=150%",
+          pin: !mobile,
           pinSpacing: true,
-          scrub: 0.7,
-          anticipatePin: 1,
+          scrub: mobile ? 0.5 : 0.65,
+          anticipatePin: mobile ? 0 : 1,
           invalidateOnRefresh: true,
           onUpdate: (st) => {
             sys.setProgress(st.progress);
@@ -97,19 +87,19 @@ export function SignatureScene({ tier, reduced }: Props) {
         },
       });
 
-      // logo reveal lives on the same scrubbed timeline (1 unit = full scroll)
-      tl.fromTo(
-        logo,
-        { clipPath: "inset(50% 0 50% 0)", opacity: 0, scale: 0.94 },
-        { clipPath: "inset(0% 0 0% 0)", opacity: 1, scale: 1, duration: 0.09, ease: "power2.inOut" },
-        0.885
-      ).fromTo(sweep, { xPercent: -130 }, { xPercent: 130, duration: 0.08, ease: "power1.inOut" }, 0.905);
+      if (logo && sweep) {
+        tl.fromTo(
+          logo,
+          { clipPath: "inset(50% 0 50% 0)", opacity: 0, scale: 0.96 },
+          { clipPath: "inset(0% 0 0% 0)", opacity: 1, scale: 1, duration: 0.1, ease: "power2.inOut" },
+          0.88
+        ).fromTo(sweep, { xPercent: -120 }, { xPercent: 120, duration: 0.08, ease: "power1.inOut" }, 0.9);
+      }
     }, el);
 
     return () => {
       ctx.revert();
       window.removeEventListener("resize", onResize);
-      el.removeEventListener("pointermove", onMove);
       sys.destroy();
       system.current = null;
     };
@@ -117,36 +107,47 @@ export function SignatureScene({ tier, reduced }: Props) {
 
   return (
     <section ref={root} id="signature" className="xp-scene xp-sig" aria-labelledby="xp-sig-heading">
-      <div className="xp-sig__pin">
+      <div className="xp-sig__frame">
         <canvas ref={canvas} className="xp-sig__canvas" aria-hidden="true" />
 
         <header className="xp-sig__head">
+          <p className="xp-label">Signature</p>
           <h2 id="xp-sig-heading" className="xp-sig__title">
             From embroidery to digital systems
           </h2>
         </header>
 
-        <ol className="xp-sig__rail" aria-hidden="true">
+        <div className="xp-sig__status" aria-live="polite">
+          <span ref={indexEl} className="xp-sig__status-index">
+            01
+          </span>
+          <span className="xp-sig__status-sep" aria-hidden="true">
+            /
+          </span>
+          <span className="xp-sig__status-total" aria-hidden="true">
+            07
+          </span>
+          <span ref={label} className="xp-sig__status-name">
+            EMBROIDERY
+          </span>
+        </div>
+
+        <ol className="xp-sig__steps" aria-label="Transformation stages">
           {STAGES.map((s, i) => (
-            <li key={s} className="xp-sig__stage" data-on={i === 0} data-done="false">
-              <span className="xp-sig__stage-index">0{i + 1}</span>
-              <span className="xp-sig__stage-name">{s}</span>
+            <li key={s} className="xp-sig__step" data-on={i === 0 ? "true" : "false"} data-done="false">
+              <span className="xp-sig__step-i">{String(i + 1).padStart(2, "0")}</span>
+              <span className="xp-sig__step-n">{s}</span>
             </li>
           ))}
         </ol>
 
         <div className="xp-sig__logo" aria-hidden="true">
-          <BrandLogo decorative sizes="(max-width: 900px) 52vw, 22vw" />
+          <BrandLogo decorative sizes="(max-width: 900px) 48vw, 20vw" />
           <div className="xp-sig__sweep" />
         </div>
 
-        <p className="xp-sig__word" aria-hidden="true">
-          <span ref={stageWord}>EMBROIDERY</span>
-        </p>
-
         <p className="xp-sig__caption">
-          The geometry of tatreez is a grid, a rhythm, a system — the same language a circuit
-          speaks. ZERIV is built where the two meet.
+          Tatreez geometry is a grid and a rhythm — the same language a circuit speaks.
         </p>
       </div>
     </section>
