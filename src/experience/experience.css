@@ -897,8 +897,9 @@ html[data-xp-docked="true"] .xp-nav__logo {
 .xp-caps__title-inner {
   display: block;
   position: relative;
-  transform: translateY(105%);
-  will-change: transform;
+  /* visible by default — GSAP only lifts from offset when animating */
+  transform: none;
+  will-change: auto;
 }
 .xp-caps__title-a,
 .xp-caps__title-b {
@@ -907,7 +908,8 @@ html[data-xp-docked="true"] .xp-nav__logo {
   transition: transform 0.7s var(--xp-ease), color 0.4s ease;
 }
 .xp-caps__title-a {
-  color: var(--xp-faint);
+  /* Resting titles must stay readable (especially on touch — no hover) */
+  color: var(--xp-bone);
 }
 .xp-caps__title-b {
   position: absolute;
@@ -922,7 +924,7 @@ html[data-xp-docked="true"] .xp-nav__logo {
   transform: translateY(0);
 }
 .xp-caps[data-active]:not([data-active="-1"]) .xp-caps__row[data-on="false"] .xp-caps__title-a {
-  color: rgba(232, 226, 210, 0.14);
+  color: var(--xp-muted);
 }
 .xp-caps__count {
   white-space: nowrap;
@@ -2467,14 +2469,21 @@ html[data-xp-docked="true"] .xp-nav__logo {
 
   /* capabilities */
   .xp-caps {
-    padding: 14vh var(--xp-gutter) 10vh;
+    padding: clamp(5.5rem, 12vh, 7rem) var(--xp-gutter) clamp(4rem, 10vh, 6rem);
   }
   .xp-caps__head {
     flex-direction: column;
     gap: 0.5rem;
+    margin-bottom: clamp(2rem, 5vh, 3.5rem);
   }
   .xp-caps__heading {
     font-size: clamp(1.8rem, 9vw, 3.2rem);
+  }
+  .xp-caps__heading span:last-child {
+    /* solid fill on small screens — outline stroke disappears on DPR / Safari */
+    -webkit-text-stroke: 0;
+    color: var(--xp-bone);
+    padding-left: 0;
   }
   .xp-caps__grid {
     grid-template-columns: 1fr;
@@ -2493,6 +2502,20 @@ html[data-xp-docked="true"] .xp-nav__logo {
   .xp-caps__title {
     font-size: clamp(1.45rem, 7.5vw, 2.8rem);
     white-space: normal;
+    overflow: visible;
+  }
+  .xp-caps__title-inner {
+    transform: none !important;
+  }
+  .xp-caps__title-b {
+    display: none;
+  }
+  .xp-caps__row[data-on="true"] .xp-caps__title-a {
+    transform: none;
+    color: var(--xp-red);
+  }
+  .xp-caps[data-active]:not([data-active="-1"]) .xp-caps__row[data-on="false"] .xp-caps__title-a {
+    color: var(--xp-muted);
   }
   .xp-caps__detail {
     grid-template-columns: 2.2rem minmax(0, 1fr);

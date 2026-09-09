@@ -10,6 +10,7 @@ import { ServiceVisual } from "../ui/ServiceVisual";
 
 interface Props {
   reduced: boolean;
+  narrow: boolean;
 }
 
 /**
@@ -17,7 +18,7 @@ interface Props {
  * Each row is a full-width statement; hovering (or focusing / tapping) gives it a personality:
  * the type flips, the WebGL object reshapes itself and a vector visual answers on the right.
  */
-export function CapabilitiesScene({ reduced }: Props) {
+export function CapabilitiesScene({ reduced, narrow }: Props) {
   const root = useRef<HTMLElement>(null);
   const [active, setActive] = useState<number>(-1);
   const [pinned, setPinned] = useState<number>(-1); // touch / keyboard selection
@@ -34,11 +35,15 @@ export function CapabilitiesScene({ reduced }: Props) {
     if (!el) return;
     const ctx = gsap.context(() => {
       const rows = el.querySelectorAll<HTMLElement>(".xp-caps__row");
-      if (reduced) {
+      const inners = el.querySelectorAll<HTMLElement>(".xp-caps__title-inner");
+
+      if (reduced || narrow) {
         gsap.set(rows, { opacity: 1 });
-        gsap.set(el.querySelectorAll(".xp-caps__title-inner"), { yPercent: 0 });
+        gsap.set(inners, { yPercent: 0, clearProps: "transform" });
+        gsap.set(el.querySelectorAll(".xp-caps__head > *"), { opacity: 1, y: 0 });
         return;
       }
+
       rows.forEach((row) => {
         const inner = row.querySelectorAll<HTMLElement>(".xp-caps__title-inner");
         const rule = row.querySelector<HTMLElement>(".xp-caps__rule");
@@ -47,7 +52,6 @@ export function CapabilitiesScene({ reduced }: Props) {
             scrollTrigger: { trigger: row, start: "top 88%", once: true },
             defaults: { ease: motion.ease.out },
           })
-          .to(row, { opacity: 1, duration: 0.35, ease: "none" }, 0)
           .fromTo(rule, { scaleX: 0 }, { scaleX: 1, duration: 1.1, transformOrigin: "0% 50%" }, 0)
           .fromTo(inner, { yPercent: 105 }, { yPercent: 0, duration: 0.95 }, 0.05);
       });
@@ -64,7 +68,7 @@ export function CapabilitiesScene({ reduced }: Props) {
       );
     }, el);
     return () => ctx.revert();
-  }, [reduced]);
+  }, [reduced, narrow]);
 
   const onToggle = useCallback((i: number) => {
     setPinned((p) => (p === i ? -1 : i));
@@ -80,6 +84,7 @@ export function CapabilitiesScene({ reduced }: Props) {
       className="xp-scene xp-caps"
       aria-labelledby="xp-caps-heading"
       data-active={current}
+      data-narrow={narrow ? "true" : "false"}
     >
       <header className="xp-caps__head">
         <p className="xp-label">Capabilities</p>

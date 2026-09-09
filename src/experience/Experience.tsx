@@ -115,7 +115,7 @@ export function Experience() {
         <HeroScene reduced={reduced} />
         <IdentityScene reduced={reduced} />
         <WorkScene reduced={reduced} />
-        <CapabilitiesScene reduced={reduced} />
+        <CapabilitiesScene reduced={reduced} narrow={narrow} />
         <SignatureScene tier={tier} reduced={reduced} />
         <ProcessScene reduced={reduced} narrow={narrow} />
         <FinalScene reduced={reduced} />
