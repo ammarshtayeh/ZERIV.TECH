@@ -1,9 +1,10 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { useLocale } from "@/i18n/LocaleProvider";
 import { gsap } from "../animations/gsap";
 import { motion } from "../animations/motion";
-import { methodSteps } from "../data/process";
+import { getMethodSteps } from "../data/localized";
 
 interface Props {
   reduced: boolean;
@@ -15,17 +16,19 @@ interface Props {
  */
 export function ProcessScene({ reduced }: Props) {
   const root = useRef<HTMLElement>(null);
+  const { t, locale } = useLocale();
+  const steps = getMethodSteps(locale);
 
   useEffect(() => {
     const el = root.current;
     if (!el) return;
     const ctx = gsap.context(() => {
-      const steps = el.querySelectorAll<HTMLElement>(".xp-proc__step");
+      const stepEls = el.querySelectorAll<HTMLElement>(".xp-proc__step");
       const fill = el.querySelector<HTMLElement>(".xp-proc__fill");
 
       if (reduced) {
         gsap.set(fill, { width: "100%" });
-        steps.forEach((s) => {
+        stepEls.forEach((s) => {
           s.dataset.on = "true";
           s.dataset.done = "true";
         });
@@ -47,7 +50,7 @@ export function ProcessScene({ reduced }: Props) {
         }
       );
 
-      steps.forEach((step, i) => {
+      stepEls.forEach((step, i) => {
         gsap.from(step, {
           opacity: 0.4,
           y: 14,
@@ -58,7 +61,7 @@ export function ProcessScene({ reduced }: Props) {
             start: "top 88%",
             once: true,
             onEnter: () => {
-              steps.forEach((s, k) => {
+              stepEls.forEach((s, k) => {
                 s.dataset.on = k === i ? "true" : "false";
                 s.dataset.done = k < i ? "true" : "false";
               });
@@ -68,14 +71,14 @@ export function ProcessScene({ reduced }: Props) {
       });
     }, el);
     return () => ctx.revert();
-  }, [reduced]);
+  }, [reduced, locale]);
 
   return (
     <section ref={root} id="method" className="xp-scene xp-proc xp-scene--paper" aria-labelledby="xp-proc-heading">
       <header className="xp-proc__head">
-        <p className="xp-label">Method</p>
+        <p className="xp-label">{t("proc.label")}</p>
         <h2 id="xp-proc-heading" className="xp-proc__title">
-          HOW WE <em>WORK</em>
+          {t("proc.title")} <em>{t("proc.titleEm")}</em>
         </h2>
       </header>
 
@@ -84,7 +87,7 @@ export function ProcessScene({ reduced }: Props) {
       </div>
 
       <ol className="xp-proc__list">
-        {methodSteps.map((s) => (
+        {steps.map((s) => (
           <li key={s.index} className="xp-proc__step" data-on="false" data-done="false">
             <p className="xp-label xp-proc__index">{s.index}</p>
             <h3 className="xp-proc__name">{s.title}</h3>

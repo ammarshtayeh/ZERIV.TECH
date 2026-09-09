@@ -1,12 +1,11 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { useLocale } from "@/i18n/LocaleProvider";
 import { gsap } from "../animations/gsap";
 import { motion } from "../animations/motion";
 import { getPhase, subscribePhase, xp } from "../lib/experience-store";
 import { BrandLogo } from "../ui/BrandLogo";
-
-const STATEMENT = ["WE BUILD", "DIGITAL", "EXPERIENCES."];
 
 interface Props {
   reduced: boolean;
@@ -19,6 +18,8 @@ interface Props {
 export function HeroScene({ reduced }: Props) {
   const root = useRef<HTMLElement>(null);
   const [introDone, setIntroDone] = useState(false);
+  const { t, locale } = useLocale();
+  const statement = useMemo(() => [t("hero.l1"), t("hero.l2"), t("hero.l3")], [t, locale]);
 
   useEffect(() => {
     const el = root.current;
@@ -73,7 +74,7 @@ export function HeroScene({ reduced }: Props) {
       unsubscribe();
       ctx.revert();
     };
-  }, [reduced]);
+  }, [reduced, locale]);
 
   useEffect(() => {
     if (!introDone) return;
@@ -154,19 +155,15 @@ export function HeroScene({ reduced }: Props) {
       ctx.revert();
       delete document.documentElement.dataset.xpDocked;
     };
-  }, [introDone]);
+  }, [introDone, locale]);
 
   return (
     <section ref={root} id="top" className="xp-scene xp-hero" data-intro="pending" aria-label="ZERIV">
       <div className="xp-hero__chrome">
-        <p className="xp-hero__meta xp-hero__meta--tag xp-label">
-          TECHNOLOGY <em>×</em> DESIGN <em>×</em> CULTURE
-        </p>
-        <p className="xp-hero__meta xp-hero__meta--line">
-          A Palestinian creative technology studio.
-        </p>
+        <p className="xp-hero__meta xp-hero__meta--tag xp-label">{t("hero.tag")}</p>
+        <p className="xp-hero__meta xp-hero__meta--line">{t("hero.line")}</p>
         <div className="xp-hero__meta xp-hero__meta--scroll" aria-hidden="true">
-          <span className="xp-label">SCROLL</span>
+          <span className="xp-label">{t("hero.scroll")}</span>
           <span className="xp-hero__scroll-line" />
         </div>
       </div>
@@ -175,8 +172,8 @@ export function HeroScene({ reduced }: Props) {
         <BrandLogo priority sizes="(max-width: 900px) 60vw, 24vw" />
       </h1>
 
-      <h2 className="xp-hero__statement" aria-label={STATEMENT.join(" ")}>
-        {STATEMENT.map((line) => (
+      <h2 className="xp-hero__statement" aria-label={statement.join(" ")}>
+        {statement.map((line) => (
           <span key={line} className="xp-hero__line-wrap" aria-hidden="true">
             <span className="xp-hero__line">{line}</span>
           </span>

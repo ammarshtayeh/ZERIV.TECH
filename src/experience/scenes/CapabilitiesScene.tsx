@@ -3,10 +3,12 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { gsap } from "../animations/gsap";
 import { motion } from "../animations/motion";
-import { capabilities, type ServiceVisualKind } from "../data/services";
+import { type ServiceVisualKind } from "../data/services";
+import { getCapabilities } from "../data/localized";
 import { useSceneProgress } from "../hooks/useSceneProgress";
 import { xp } from "../lib/experience-store";
 import { ServiceVisual } from "../ui/ServiceVisual";
+import { useLocale } from "@/i18n/LocaleProvider";
 
 interface Props {
   reduced: boolean;
@@ -22,6 +24,8 @@ export function CapabilitiesScene({ reduced, narrow }: Props) {
   const root = useRef<HTMLElement>(null);
   const [active, setActive] = useState<number>(-1);
   const [pinned, setPinned] = useState<number>(-1); // touch / keyboard selection
+  const { t, locale } = useLocale();
+  const caps = getCapabilities(locale);
 
   useSceneProgress(root, "capabilities");
 
@@ -68,14 +72,14 @@ export function CapabilitiesScene({ reduced, narrow }: Props) {
       );
     }, el);
     return () => ctx.revert();
-  }, [reduced, narrow]);
+  }, [reduced, narrow, locale]);
 
   const onToggle = useCallback((i: number) => {
     setPinned((p) => (p === i ? -1 : i));
   }, []);
 
   const current = active >= 0 ? active : pinned;
-  const kind: ServiceVisualKind | null = current >= 0 ? capabilities[current].id : null;
+  const kind: ServiceVisualKind | null = current >= 0 ? caps[current].id : null;
 
   return (
     <section
@@ -87,16 +91,16 @@ export function CapabilitiesScene({ reduced, narrow }: Props) {
       data-narrow={narrow ? "true" : "false"}
     >
       <header className="xp-caps__head">
-        <p className="xp-label">Capabilities</p>
+        <p className="xp-label">{t("caps.label")}</p>
         <h2 id="xp-caps-heading" className="xp-caps__heading">
-          <span>SIX DISCIPLINES.</span>
-          <span>ONE STUDIO.</span>
+          <span>{t("caps.h1")}</span>
+          <span>{t("caps.h2")}</span>
         </h2>
       </header>
 
       <div className="xp-caps__grid">
         <ul className="xp-caps__list" onPointerLeave={() => setActive(-1)}>
-          {capabilities.map((c, i) => (
+          {caps.map((c, i) => (
             <li
               key={c.id}
               className="xp-caps__row"

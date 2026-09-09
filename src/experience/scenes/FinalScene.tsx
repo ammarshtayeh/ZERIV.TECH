@@ -1,14 +1,13 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
+import { useLocale } from "@/i18n/LocaleProvider";
 import { gsap } from "../animations/gsap";
 import { motion } from "../animations/motion";
 import { contact } from "../data/contact";
 import { useSceneProgress } from "../hooks/useSceneProgress";
 import { BrandLogo } from "../ui/BrandLogo";
 import { TransitionLink } from "../ui/TransitionLink";
-
-const STATEMENT = ["LET'S BUILD", "SOMETHING", "WORTH REMEMBERING."];
 
 interface Props {
   reduced: boolean;
@@ -20,6 +19,8 @@ interface Props {
  */
 export function FinalScene({ reduced }: Props) {
   const root = useRef<HTMLElement>(null);
+  const { t, locale } = useLocale();
+  const statement = useMemo(() => [t("final.l1"), t("final.l2"), t("final.l3")], [t, locale]);
 
   useSceneProgress(root, "final", { start: "top 85%", end: "bottom bottom" });
 
@@ -43,14 +44,14 @@ export function FinalScene({ reduced }: Props) {
     }, el);
 
     return () => ctx.revert();
-  }, [reduced]);
+  }, [reduced, locale]);
 
   return (
     <section ref={root} id="contact" className="xp-scene xp-final" aria-labelledby="xp-final-heading">
-      <p className="xp-label xp-final__label">Start a project</p>
+      <p className="xp-label xp-final__label">{t("final.label")}</p>
 
-      <h2 id="xp-final-heading" className="xp-final__statement" aria-label={STATEMENT.join(" ")}>
-        {STATEMENT.map((l) => (
+      <h2 id="xp-final-heading" className="xp-final__statement" aria-label={statement.join(" ")}>
+        {statement.map((l) => (
           <span key={l} className="xp-final__line-wrap" aria-hidden="true">
             <span className="xp-final__line">{l}</span>
           </span>
@@ -59,11 +60,11 @@ export function FinalScene({ reduced }: Props) {
 
       <div className="xp-final__rest">
         <TransitionLink href="/contact" className="xp-final__cta" data-cursor="expand">
-          START A PROJECT <span aria-hidden="true">→</span>
+          {t("final.cta")} <span aria-hidden="true">→</span>
         </TransitionLink>
 
         <p className="xp-final__direct">
-          <span className="xp-label">or write directly</span>
+          <span className="xp-label">{t("final.or")}</span>
           <a href={`mailto:${contact.email}`} data-cursor="expand">
             {contact.email}
           </a>

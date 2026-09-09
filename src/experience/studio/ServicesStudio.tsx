@@ -1,24 +1,27 @@
-import { capabilities } from "../data/services";
-import { getProject } from "../data/projects";
+"use client";
+
+import { useLocale } from "@/i18n/LocaleProvider";
+import { getCapabilities, getProjectLocalized } from "../data/localized";
 import { ServiceVisual } from "../ui/ServiceVisual";
 import { TransitionLink } from "../ui/TransitionLink";
 
 export function ServicesStudio() {
+  const { t, locale } = useLocale();
+  const caps = getCapabilities(locale);
+
   return (
     <div className="xp-studio">
       <header className="xp-studio__hero">
-        <p className="xp-label">What we do</p>
+        <p className="xp-label">{t("services.label")}</p>
         <h1 className="xp-studio__display">
-          <span>CAPABILITIES</span>
+          <span>{t("services.title")}</span>
         </h1>
-        <p className="xp-studio__lede">
-          Web, mobile, design, brand, AI and creative technology — built as systems that last.
-        </p>
+        <p className="xp-studio__lede">{t("services.lede")}</p>
       </header>
 
       <div className="xp-svc">
-        {capabilities.map((c) => {
-          const related = c.related.map((id) => getProject(id)).filter(Boolean);
+        {caps.map((c) => {
+          const related = c.related.map((id) => getProjectLocalized(locale, id)).filter(Boolean);
           return (
             <article key={c.id} className="xp-svc__block" id={c.id}>
               <div className="xp-svc__intro">
@@ -33,11 +36,11 @@ export function ServicesStudio() {
                 </div>
                 <div className="xp-svc__detail">
                   <div>
-                    <p className="xp-label">Who it&apos;s for</p>
+                    <p className="xp-label">{t("services.audience")}</p>
                     <p className="xp-svc__copy">{c.audience}</p>
                   </div>
                   <div>
-                    <p className="xp-label">What it can include</p>
+                    <p className="xp-label">{t("services.includes")}</p>
                     <ul className="xp-svc__list">
                       {c.includes.map((item) => (
                         <li key={item}>{item}</li>
@@ -45,7 +48,7 @@ export function ServicesStudio() {
                     </ul>
                   </div>
                   <div>
-                    <p className="xp-label">Technology</p>
+                    <p className="xp-label">{t("services.tech")}</p>
                     <p className="xp-label xp-svc__tags">{c.tech.join(" · ")}</p>
                   </div>
                 </div>
@@ -53,7 +56,7 @@ export function ServicesStudio() {
 
               {related.length > 0 && (
                 <div className="xp-svc__related">
-                  <p className="xp-label">Related work</p>
+                  <p className="xp-label">{t("services.related")}</p>
                   <ul>
                     {related.map(
                       (p) =>
@@ -74,9 +77,9 @@ export function ServicesStudio() {
       </div>
 
       <div className="xp-studio__cta">
-        <p className="xp-studio__cta-copy">Have a project in mind?</p>
+        <p className="xp-studio__cta-copy">{t("studio.ctaCopy")}</p>
         <TransitionLink href="/contact" className="xp-studio__cta-link" data-cursor="expand">
-          Start a project <span aria-hidden="true">→</span>
+          {t("studio.ctaLink")}
         </TransitionLink>
       </div>
     </div>

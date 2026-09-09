@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
+import { useLocale } from "@/i18n/LocaleProvider";
 import type { ContactFormData } from "@/lib/contact";
 import { capabilities } from "../data/capabilities-options";
 
@@ -15,23 +16,21 @@ const initial: ContactFormData = {
   message: "",
 };
 
-function validate(data: ContactFormData) {
-  const errors: Partial<Record<keyof ContactFormData, string>> = {};
-  if (!data.name.trim() || data.name.trim().length < 2) errors.name = "Please enter your name.";
-  if (!data.email.trim()) errors.email = "Please enter your email.";
-  else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) errors.email = "Please enter a valid email.";
-  if (data.phone && !/^[\d\s+\-()]{7,20}$/.test(data.phone)) errors.phone = "Please enter a valid phone number.";
-  if (!data.message.trim() || data.message.trim().length < 10) {
-    errors.message = "Tell us a little more about the project (at least 10 characters).";
-  }
-  return errors;
-}
-
 export function StudioContactForm() {
+  const { t } = useLocale();
   const [form, setForm] = useState<ContactFormData>(initial);
   const [errors, setErrors] = useState<Partial<Record<keyof ContactFormData, string>>>({});
   const [status, setStatus] = useState<Status>("idle");
   const [errorMessage, setErrorMessage] = useState("");
+
+  const validate = (data: ContactFormData) => {
+    const next: Partial<Record<keyof ContactFormData, string>> = {};
+    if (!data.name.trim() || data.name.trim().length < 2) next.name = t("contact.required");
+    if (!data.email.trim()) next.email = t("contact.required");
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) next.email = t("contact.required");
+    if (!data.message.trim() || data.message.trim().length < 10) next.message = t("contact.required");
+    return next;
+  };
 
   const set = (field: keyof ContactFormData, value: string) => {
     setForm((prev) => ({ ...prev, [field]: value }));
@@ -57,18 +56,18 @@ export function StudioContactForm() {
       setForm(initial);
     } catch {
       setStatus("error");
-      setErrorMessage("Something went wrong. Please email us directly or try again.");
+      setErrorMessage(t("contact.error"));
     }
   };
 
   if (status === "success") {
     return (
       <div className="xp-form xp-form--success" role="status">
-        <p className="xp-label">Received</p>
-        <h3 className="xp-form__title">Thank you.</h3>
-        <p className="xp-form__copy">We&apos;ll review your note and get back to you soon.</p>
+        <p className="xp-label">{t("contact.successTitle")}</p>
+        <h3 className="xp-form__title">{t("contact.successTitle")}</h3>
+        <p className="xp-form__copy">{t("contact.successCopy")}</p>
         <button type="button" className="xp-form__btn" onClick={() => setStatus("idle")}>
-          Send another message
+          {t("contact.send")}
         </button>
       </div>
     );
@@ -78,7 +77,7 @@ export function StudioContactForm() {
     <form className="xp-form" onSubmit={onSubmit} noValidate>
       <div className="xp-form__grid">
         <label className="xp-form__field">
-          <span className="xp-label">Name</span>
+          <span className="xp-label">{t("contact.name")}</span>
           <input
             className="xp-form__input"
             name="name"
@@ -91,7 +90,7 @@ export function StudioContactForm() {
         </label>
 
         <label className="xp-form__field">
-          <span className="xp-label">Email</span>
+          <span className="xp-label">{t("contact.email")}</span>
           <input
             className="xp-form__input"
             type="email"
@@ -105,7 +104,7 @@ export function StudioContactForm() {
         </label>
 
         <label className="xp-form__field">
-          <span className="xp-label">Phone</span>
+          <span className="xp-label">{t("contact.phone")}</span>
           <input
             className="xp-form__input"
             type="tel"
@@ -119,14 +118,14 @@ export function StudioContactForm() {
         </label>
 
         <label className="xp-form__field">
-          <span className="xp-label">Project type</span>
+          <span className="xp-label">{t("contact.type")}</span>
           <select
             className="xp-form__input"
             name="service_type"
             value={form.service_type}
             onChange={(e) => set("service_type", e.target.value)}
           >
-            <option value="">Select</option>
+            <option value="">—</option>
             {capabilities.map((c) => (
               <option key={c} value={c}>
                 {c}
@@ -136,14 +135,14 @@ export function StudioContactForm() {
         </label>
 
         <label className="xp-form__field">
-          <span className="xp-label">Budget range</span>
+          <span className="xp-label">{t("contact.budget")}</span>
           <select
             className="xp-form__input"
             name="budget_range"
             value={form.budget_range}
             onChange={(e) => set("budget_range", e.target.value)}
           >
-            <option value="">Prefer not to say</option>
+            <option value="">—</option>
             <option value="under-5k">Under $5k</option>
             <option value="5k-15k">$5k – $15k</option>
             <option value="15k-40k">$15k – $40k</option>
@@ -153,7 +152,7 @@ export function StudioContactForm() {
       </div>
 
       <label className="xp-form__field">
-        <span className="xp-label">Project description</span>
+        <span className="xp-label">{t("contact.message")}</span>
         <textarea
           className="xp-form__input xp-form__textarea"
           name="message"
@@ -161,7 +160,6 @@ export function StudioContactForm() {
           value={form.message}
           onChange={(e) => set("message", e.target.value)}
           aria-invalid={!!errors.message}
-          placeholder="What are you building? Goals, timeline, links — whatever helps."
         />
         {errors.message && <span className="xp-form__error">{errors.message}</span>}
       </label>
@@ -169,7 +167,7 @@ export function StudioContactForm() {
       {status === "error" && <p className="xp-form__error">{errorMessage}</p>}
 
       <button type="submit" className="xp-form__btn" disabled={status === "loading"}>
-        {status === "loading" ? "Sending…" : "Send project brief"}
+        {status === "loading" ? t("contact.sending") : t("contact.send")}
         <span aria-hidden="true">→</span>
       </button>
     </form>

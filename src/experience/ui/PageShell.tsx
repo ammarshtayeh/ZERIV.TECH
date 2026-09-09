@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, type ReactNode } from "react";
+import { useLocale } from "@/i18n/LocaleProvider";
 import { setPhase } from "../lib/experience-store";
 import { Nav } from "./Nav";
 import { Footer } from "./Footer";
@@ -20,6 +21,8 @@ interface Props {
  * Same brand system as the homepage — no legacy card chrome.
  */
 export function PageShell({ children, ready = true }: Props) {
+  const { t, locale } = useLocale();
+
   useEffect(() => {
     document.documentElement.classList.add("xp-html");
     if (ready) setPhase("ready");
@@ -27,11 +30,11 @@ export function PageShell({ children, ready = true }: Props) {
   }, [ready]);
 
   return (
-    <div className="xp xp-page" data-phase="ready">
+    <div className="xp xp-page" data-phase="ready" data-locale={locale}>
       <div className="xp-grid" aria-hidden="true" />
       <div className="xp-vignette" aria-hidden="true" />
       <a className="xp-skip" href="#content">
-        Skip to content
+        {t("skip")}
       </a>
       <Nav mode="site" />
       <main id="content" className="xp-main xp-page__main">

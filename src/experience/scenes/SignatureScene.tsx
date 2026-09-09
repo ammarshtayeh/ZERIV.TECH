@@ -1,10 +1,12 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { useLocale } from "@/i18n/LocaleProvider";
 import { gsap } from "../animations/gsap";
 import type { DeviceTier } from "../hooks/useDeviceTier";
 import { useInView } from "../hooks/useInView";
 import { useSceneProgress } from "../hooks/useSceneProgress";
+import { STAGE_LABELS } from "../data/localized";
 import { createTransformation, STAGES, type Transformation } from "../lib/transformation";
 import { BrandLogo } from "../ui/BrandLogo";
 
@@ -25,6 +27,8 @@ export function SignatureScene({ tier, reduced }: Props) {
   const system = useRef<Transformation | null>(null);
   const label = useRef<HTMLSpanElement>(null);
   const indexEl = useRef<HTMLSpanElement>(null);
+  const { t, locale } = useLocale();
+  const stageNames = STAGE_LABELS[locale];
 
   useSceneProgress(root, "signature");
 
@@ -56,7 +60,7 @@ export function SignatureScene({ tier, reduced }: Props) {
           s.dataset.on = i === idx ? "true" : "false";
           s.dataset.done = i < idx ? "true" : "false";
         });
-        if (label.current) label.current.textContent = STAGES[idx];
+        if (label.current) label.current.textContent = stageNames[idx];
         if (indexEl.current) indexEl.current.textContent = String(idx + 1).padStart(2, "0");
       };
 
@@ -103,7 +107,7 @@ export function SignatureScene({ tier, reduced }: Props) {
       sys.destroy();
       system.current = null;
     };
-  }, [tier, reduced]);
+  }, [tier, reduced, locale, stageNames]);
 
   return (
     <section ref={root} id="signature" className="xp-scene xp-sig" aria-labelledby="xp-sig-heading">
@@ -111,9 +115,9 @@ export function SignatureScene({ tier, reduced }: Props) {
         <canvas ref={canvas} className="xp-sig__canvas" aria-hidden="true" />
 
         <header className="xp-sig__head">
-          <p className="xp-label">Signature</p>
+          <p className="xp-label">{t("sig.label")}</p>
           <h2 id="xp-sig-heading" className="xp-sig__title">
-            From embroidery to digital systems
+            {t("sig.title")}
           </h2>
         </header>
 
@@ -128,7 +132,7 @@ export function SignatureScene({ tier, reduced }: Props) {
             07
           </span>
           <span ref={label} className="xp-sig__status-name">
-            EMBROIDERY
+            {stageNames[0]}
           </span>
         </div>
 
@@ -136,7 +140,7 @@ export function SignatureScene({ tier, reduced }: Props) {
           {STAGES.map((s, i) => (
             <li key={s} className="xp-sig__step" data-on={i === 0 ? "true" : "false"} data-done="false">
               <span className="xp-sig__step-i">{String(i + 1).padStart(2, "0")}</span>
-              <span className="xp-sig__step-n">{s}</span>
+              <span className="xp-sig__step-n">{stageNames[i]}</span>
             </li>
           ))}
         </ol>
@@ -146,9 +150,7 @@ export function SignatureScene({ tier, reduced }: Props) {
           <div className="xp-sig__sweep" />
         </div>
 
-        <p className="xp-sig__caption">
-          Tatreez geometry is a grid and a rhythm — the same language a circuit speaks.
-        </p>
+        <p className="xp-sig__caption">{t("sig.caption")}</p>
       </div>
     </section>
   );

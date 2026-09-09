@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { useLocale } from "@/i18n/LocaleProvider";
 import { gsap } from "../animations/gsap";
 import {
   generateCircuit,
@@ -39,6 +40,7 @@ const clamp01 = (v: number) => (v < 0 ? 0 : v > 1 ? 1 : v);
  * behind a mask and a pass of light → frame disperses as the Hero takes over underneath.
  */
 export function Preloader({ tier, reduced, onHandoff, onComplete }: Props) {
+  const { t } = useLocale();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const rootRef = useRef<HTMLDivElement>(null);
   const logoRef = useRef<HTMLDivElement>(null);
@@ -534,7 +536,7 @@ export function Preloader({ tier, reduced, onHandoff, onComplete }: Props) {
         onClick={skip}
         data-cursor="expand"
       >
-        SKIP
+        {t("preloader.skip")}
       </button>
     </div>
   );

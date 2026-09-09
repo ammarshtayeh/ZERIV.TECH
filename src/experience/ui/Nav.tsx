@@ -2,42 +2,16 @@
 
 import { useCallback, useEffect, useRef, useState, type MouseEvent } from "react";
 import { usePathname } from "next/navigation";
+import { useLocale } from "@/i18n/LocaleProvider";
 import { gsap } from "../animations/gsap";
 import { motion } from "../animations/motion";
 import { getPhase, scrollToTarget, usePhase, xp } from "../lib/experience-store";
 import { contact } from "../data/contact";
 import { BrandLogo } from "./BrandLogo";
 import { TransitionLink } from "./TransitionLink";
+import { XpPrefs } from "./XpPrefs";
 
 type Mode = "home" | "site";
-
-const HOME_LINKS = [
-  { href: "#work", label: "Work" },
-  { href: "#services", label: "Services" },
-  { href: "#about", label: "About" },
-  { href: "#contact", label: "Contact" },
-];
-
-const SITE_LINKS = [
-  { href: "/work", label: "Work" },
-  { href: "/services", label: "Services" },
-  { href: "/about", label: "About" },
-  { href: "/contact", label: "Contact" },
-];
-
-const HOME_MENU = [
-  { href: "#work", label: "Work", index: "01" },
-  { href: "#services", label: "Services", index: "02" },
-  { href: "#about", label: "About", index: "03" },
-  { href: "#contact", label: "Contact", index: "04" },
-];
-
-const SITE_MENU = [
-  { href: "/work", label: "Work", index: "01" },
-  { href: "/services", label: "Services", index: "02" },
-  { href: "/about", label: "About", index: "03" },
-  { href: "/contact", label: "Contact", index: "04" },
-];
 
 interface Props {
   mode?: Mode;
@@ -46,12 +20,31 @@ interface Props {
 export function Nav({ mode = "home" }: Props) {
   const phase = usePhase();
   const pathname = usePathname();
+  const { t } = useLocale();
   const [open, setOpen] = useState(false);
   const overlay = useRef<HTMLDivElement>(null);
   const tl = useRef<gsap.core.Timeline | null>(null);
 
-  const links = mode === "site" ? SITE_LINKS : HOME_LINKS;
-  const menu = mode === "site" ? SITE_MENU : HOME_MENU;
+  const links =
+    mode === "site"
+      ? [
+          { href: "/work", label: t("nav.work") },
+          { href: "/services", label: t("nav.services") },
+          { href: "/about", label: t("nav.about") },
+          { href: "/contact", label: t("nav.contact") },
+        ]
+      : [
+          { href: "#work", label: t("nav.work") },
+          { href: "#services", label: t("nav.services") },
+          { href: "#about", label: t("nav.about") },
+          { href: "#contact", label: t("nav.contact") },
+        ];
+
+  const menu = links.map((l, i) => ({
+    ...l,
+    index: String(i + 1).padStart(2, "0"),
+  }));
+
   const visible = mode === "site" || phase !== "loading";
 
   useEffect(() => {
@@ -81,10 +74,10 @@ export function Nav({ mode = "home" }: Props) {
   }, []);
 
   useEffect(() => {
-    const t = tl.current;
-    if (!t) return;
-    if (open) t.timeScale(1).play();
-    else t.timeScale(1.6).reverse();
+    const tline = tl.current;
+    if (!tline) return;
+    if (open) tline.timeScale(1).play();
+    else tline.timeScale(1.6).reverse();
   }, [open]);
 
   useEffect(() => {
@@ -128,18 +121,18 @@ export function Nav({ mode = "home" }: Props) {
             href="#top"
             className="xp-nav__logo"
             data-cursor="expand"
-            aria-label="ZERIV — back to top"
+            aria-label={t("nav.top")}
             onClick={(e) => onHomeAnchor(e, "#top")}
           >
             <BrandLogo sizes="120px" decorative />
           </a>
         ) : (
-          <TransitionLink href="/" className="xp-nav__logo" data-cursor="expand" aria-label="ZERIV — home">
+          <TransitionLink href="/" className="xp-nav__logo" data-cursor="expand" aria-label={t("nav.home")}>
             <BrandLogo sizes="120px" decorative />
           </TransitionLink>
         )}
 
-        <nav className="xp-nav__links" aria-label="Primary">
+        <nav className="xp-nav__links" aria-label={t("nav.primary")}>
           {links.map((l) =>
             l.href.startsWith("#") ? (
               <a
@@ -165,17 +158,20 @@ export function Nav({ mode = "home" }: Props) {
           )}
         </nav>
 
-        <button
-          type="button"
-          className="xp-nav__menu"
-          onClick={() => setOpen((v) => !v)}
-          aria-expanded={open}
-          aria-controls="xp-menu"
-          data-cursor="expand"
-        >
-          <span className="xp-nav__menu-label">{open ? "Close" : "Menu"}</span>
-          <span className="xp-nav__menu-glyph" aria-hidden="true" />
-        </button>
+        <div className="xp-nav__end">
+          <XpPrefs compact />
+          <button
+            type="button"
+            className="xp-nav__menu"
+            onClick={() => setOpen((v) => !v)}
+            aria-expanded={open}
+            aria-controls="xp-menu"
+            data-cursor="expand"
+          >
+            <span className="xp-nav__menu-label">{open ? t("nav.close") : t("nav.menu")}</span>
+            <span className="xp-nav__menu-glyph" aria-hidden="true" />
+          </button>
+        </div>
       </header>
 
       <div
@@ -184,11 +180,11 @@ export function Nav({ mode = "home" }: Props) {
         className="xp-menu"
         role="dialog"
         aria-modal="true"
-        aria-label="Menu"
+        aria-label={t("nav.menuLabel")}
         aria-hidden={!open}
       >
         <div className="xp-menu__body">
-          <nav className="xp-menu__list" aria-label="Menu">
+          <nav className="xp-menu__list" aria-label={t("nav.menuLabel")}>
             {menu.map((m) => (
               <div key={m.href} className="xp-menu__item-wrap">
                 {m.href.startsWith("#") ? (
@@ -219,7 +215,7 @@ export function Nav({ mode = "home" }: Props) {
           </nav>
 
           <aside className="xp-menu__aside">
-            <p className="xp-label">Start a project</p>
+            <p className="xp-label">{t("nav.start")}</p>
             <TransitionLink
               href="/contact"
               className="xp-menu__cta"
@@ -227,9 +223,9 @@ export function Nav({ mode = "home" }: Props) {
               data-cursor="expand"
               tabIndex={open ? 0 : -1}
             >
-              Tell us what you&apos;re building <span aria-hidden="true">→</span>
+              {t("nav.cta")} <span aria-hidden="true">→</span>
             </TransitionLink>
-            <p className="xp-label">Follow</p>
+            <p className="xp-label">{t("nav.follow")}</p>
             <ul className="xp-menu__socials">
               {contact.socials.map((s) => (
                 <li key={s.label}>
@@ -245,6 +241,9 @@ export function Nav({ mode = "home" }: Props) {
                 </li>
               ))}
             </ul>
+            <div className="xp-menu__prefs">
+              <XpPrefs />
+            </div>
           </aside>
         </div>
 

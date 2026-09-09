@@ -1,12 +1,10 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
+import { useLocale } from "@/i18n/LocaleProvider";
 import { gsap } from "../animations/gsap";
 import { motion } from "../animations/motion";
 import { xp } from "../lib/experience-store";
-
-const POSITION = ["WE TURN", "IDEAS INTO", "DIGITAL SYSTEMS."];
-const SENTENCES = ["WE DON'T JUST BUILD WEBSITES.", "WE BUILD DIGITAL IDENTITIES."];
 
 interface Props {
   reduced: boolean;
@@ -18,6 +16,10 @@ interface Props {
  */
 export function IdentityScene({ reduced }: Props) {
   const root = useRef<HTMLElement>(null);
+  const { t, locale } = useLocale();
+
+  const position = useMemo(() => [t("identity.l1"), t("identity.l2"), t("identity.l3")], [t, locale]);
+  const sentences = useMemo(() => [t("identity.s1"), t("identity.s2")], [t, locale]);
 
   useEffect(() => {
     const el = root.current;
@@ -36,7 +38,6 @@ export function IdentityScene({ reduced }: Props) {
         return;
       }
 
-      /* Readable on paper from first paint — never near-invisible */
       gsap.set(pos, { yPercent: 110, opacity: 1 });
       gsap.set(words, { "--w": 500, opacity: 0.55, filter: "blur(0px)" });
       gsap.set(copy, { opacity: 0, y: 16 });
@@ -67,13 +68,13 @@ export function IdentityScene({ reduced }: Props) {
     }, el);
 
     return () => ctx.revert();
-  }, [reduced]);
+  }, [reduced, locale]);
 
   return (
     <section ref={root} id="about" className="xp-scene xp-identity xp-scene--paper" aria-labelledby="xp-identity-heading">
       <div className="xp-identity__inner">
-        <h2 id="xp-identity-heading" className="xp-identity__position" aria-label={POSITION.join(" ")}>
-          {POSITION.map((line) => (
+        <h2 id="xp-identity-heading" className="xp-identity__position" aria-label={position.join(" ")}>
+          {position.map((line) => (
             <span key={line} className="xp-identity__pos-wrap" aria-hidden="true">
               <span className="xp-identity__pos-line">{line}</span>
             </span>
@@ -81,8 +82,8 @@ export function IdentityScene({ reduced }: Props) {
         </h2>
 
         <p className="xp-identity__statement">
-          <span className="xp-sr">{SENTENCES.join(" ")}</span>
-          {SENTENCES.map((sentence, si) => (
+          <span className="xp-sr">{sentences.join(" ")}</span>
+          {sentences.map((sentence, si) => (
             <span key={sentence} className="xp-identity__sentence" data-s={si} aria-hidden="true">
               {sentence.split(" ").map((word, wi) => (
                 <span key={`${word}-${wi}`} className="xp-identity__word">
@@ -93,10 +94,7 @@ export function IdentityScene({ reduced }: Props) {
           ))}
         </p>
 
-        <p className="xp-identity__copy">
-          A Palestinian studio. Strategy, design and engineering — websites, products, brands and
-          interactive systems, built as one piece of work.
-        </p>
+        <p className="xp-identity__copy">{t("identity.copy")}</p>
       </div>
     </section>
   );

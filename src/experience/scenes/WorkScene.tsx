@@ -1,9 +1,10 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { useLocale } from "@/i18n/LocaleProvider";
 import { gsap } from "../animations/gsap";
 import { motion } from "../animations/motion";
-import { featuredProjects } from "../data/projects";
+import { getFeaturedProjects } from "../data/localized";
 import { useSceneProgress } from "../hooks/useSceneProgress";
 import { CinematicMedia } from "../ui/CinematicMedia";
 import { TransitionLink } from "../ui/TransitionLink";
@@ -18,6 +19,8 @@ interface Props {
  */
 export function WorkScene({ reduced }: Props) {
   const root = useRef<HTMLElement>(null);
+  const { t, locale } = useLocale();
+  const featured = getFeaturedProjects(locale);
   useSceneProgress(root, "work");
 
   useEffect(() => {
@@ -37,23 +40,24 @@ export function WorkScene({ reduced }: Props) {
       });
     }, el);
     return () => ctx.revert();
-  }, [reduced]);
+  }, [reduced, locale]);
+
+  const titleParts = t("work.title").split(/\s+/);
 
   return (
     <section ref={root} id="work" className="xp-scene xp-ed xp-scene--paper" aria-labelledby="xp-work-heading">
       <header className="xp-ed__head">
-        <p className="xp-label">Selected work</p>
+        <p className="xp-label">{t("work.label")}</p>
         <h2 id="xp-work-heading" className="xp-ed__title">
-          <span>SELECTED</span>
-          <span>WORK</span>
+          {titleParts.map((part) => (
+            <span key={part}>{part}</span>
+          ))}
         </h2>
-        <p className="xp-ed__lede">
-          Digital products, platforms and experiences built by ZERIV — live in the world.
-        </p>
+        <p className="xp-ed__lede">{t("work.lede")}</p>
       </header>
 
       <div className="xp-ed__list">
-        {featuredProjects.map((p, i) => (
+        {featured.map((p, i) => (
           <article key={p.id} className="xp-ed__row" data-accent={p.accent} data-flip={i % 2 === 1}>
             <div className="xp-ed__meta">
               <p className="xp-label xp-ed__index">{p.index}</p>
@@ -64,7 +68,7 @@ export function WorkScene({ reduced }: Props) {
                 <span>{p.year}</span>
               </p>
               <TransitionLink href={`/work/${p.id}`} className="xp-ed__cta" data-cursor="view">
-                View project <span aria-hidden="true">→</span>
+                {t("work.view")} <span aria-hidden="true">→</span>
               </TransitionLink>
             </div>
 
@@ -72,7 +76,7 @@ export function WorkScene({ reduced }: Props) {
               href={`/work/${p.id}`}
               className="xp-ed__media"
               data-cursor="view"
-              aria-label={`${p.name} — view project`}
+              aria-label={`${p.name} — ${t("work.view")}`}
             >
               <CinematicMedia source={p.media} sizes="(max-width: 900px) 92vw, 54vw" />
               <span className="xp-ed__frame" aria-hidden="true" />
@@ -83,7 +87,7 @@ export function WorkScene({ reduced }: Props) {
 
       <div className="xp-ed__foot">
         <TransitionLink href="/work" className="xp-ed__all" data-cursor="expand">
-          View all work <span aria-hidden="true">→</span>
+          {t("work.all")} <span aria-hidden="true">→</span>
         </TransitionLink>
       </div>
     </section>

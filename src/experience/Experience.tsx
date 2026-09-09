@@ -2,6 +2,7 @@
 
 import dynamic from "next/dynamic";
 import { useCallback, useEffect } from "react";
+import { useLocale } from "@/i18n/LocaleProvider";
 import { useDeviceTier } from "./hooks/useDeviceTier";
 import { useNarrow } from "./hooks/useNarrow";
 import { useReducedMotion } from "./hooks/useReducedMotion";
@@ -36,6 +37,7 @@ export function Experience() {
   const reduced = useReducedMotion();
   const narrow = useNarrow();
   const phase = usePhase();
+  const { t, locale } = useLocale();
 
   useLenis(phase === "ready", reduced);
 
@@ -87,11 +89,16 @@ export function Experience() {
     };
   }, [phase]);
 
+  useEffect(() => {
+    const id = window.setTimeout(() => ScrollTrigger.refresh(), 60);
+    return () => window.clearTimeout(id);
+  }, [locale]);
+
   const onHandoff = useCallback(() => setPhase("revealing"), []);
   const onComplete = useCallback(() => setPhase("ready"), []);
 
   return (
-    <div className="xp" data-phase={phase} data-tier={tier}>
+    <div className="xp" data-phase={phase} data-tier={tier} data-locale={locale}>
       <ExperienceCanvas tier={tier} reduced={reduced} />
       <div className="xp-grid" aria-hidden="true" />
       <div className="xp-vignette" aria-hidden="true" />
@@ -106,7 +113,7 @@ export function Experience() {
           window.setTimeout(() => scrollToTarget("#work"), 120);
         }}
       >
-        Skip to content
+        {t("skip")}
       </a>
 
       <Nav mode="home" />

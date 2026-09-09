@@ -1,43 +1,47 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { projects, type ExperienceProject } from "../data/projects";
+import { useLocale } from "@/i18n/LocaleProvider";
+import { getProjects } from "../data/localized";
+import type { ExperienceProject } from "../data/projects";
 import { CinematicMedia } from "../ui/CinematicMedia";
 import { TransitionLink } from "../ui/TransitionLink";
 
-const FILTERS = ["All", "Web", "Mobile", "UI/UX", "Branding", "AI"] as const;
-type Filter = (typeof FILTERS)[number];
+const FILTER_KEYS = ["all", "web", "mobile", "uiux", "branding", "ai"] as const;
+type FilterKey = (typeof FILTER_KEYS)[number];
 
-function matches(p: ExperienceProject, filter: Filter) {
-  if (filter === "All") return true;
+function matches(p: ExperienceProject, filter: FilterKey) {
+  if (filter === "all") return true;
   const hay = `${p.disciplines.join(" ")} ${p.industry} ${p.summary}`.toLowerCase();
-  if (filter === "Web") return /web|platform|e-?commerce|marketplace|product/.test(hay);
-  if (filter === "Mobile") return /mobile|ios|android|app/.test(hay);
-  if (filter === "UI/UX") return /ui|ux|design|product/.test(hay);
-  if (filter === "Branding") return /brand|identity|luxury/.test(hay);
-  if (filter === "AI") return /ai|edtech|llm/.test(hay);
+  if (filter === "web") return /web|platform|e-?commerce|marketplace|product|ويب|منصة|تجارة/.test(hay);
+  if (filter === "mobile") return /mobile|ios|android|app|موبايل/.test(hay);
+  if (filter === "uiux") return /ui|ux|design|product|واجهات|تصميم/.test(hay);
+  if (filter === "branding") return /brand|identity|luxury|هوية|علامة/.test(hay);
+  if (filter === "ai") return /ai|edtech|llm|ذكاء|تعليم/.test(hay);
   return true;
 }
 
 export function WorkIndex() {
-  const [filter, setFilter] = useState<Filter>("All");
-  const list = useMemo(() => projects.filter((p) => matches(p, filter)), [filter]);
+  const { t, locale } = useLocale();
+  const [filter, setFilter] = useState<FilterKey>("all");
+  const projects = getProjects(locale);
+  const list = useMemo(() => projects.filter((p) => matches(p, filter)), [projects, filter]);
+  const titleParts = t("work.pageTitle").split(/\s+/);
 
   return (
     <div className="xp-studio">
       <header className="xp-studio__hero">
-        <p className="xp-label">Portfolio</p>
+        <p className="xp-label">{t("work.label")}</p>
         <h1 className="xp-studio__display">
-          <span>SELECTED</span>
-          <span>WORK</span>
+          {titleParts.map((part) => (
+            <span key={part}>{part}</span>
+          ))}
         </h1>
-        <p className="xp-studio__lede">
-          Digital products, platforms and experiences built by ZERIV.
-        </p>
+        <p className="xp-studio__lede">{t("work.pageLede")}</p>
       </header>
 
-      <div className="xp-filters" role="tablist" aria-label="Filter projects">
-        {FILTERS.map((f) => (
+      <div className="xp-filters" role="tablist" aria-label={t("work.label")}>
+        {FILTER_KEYS.map((f) => (
           <button
             key={f}
             type="button"
@@ -47,7 +51,7 @@ export function WorkIndex() {
             data-active={filter === f ? "true" : "false"}
             onClick={() => setFilter(f)}
           >
-            {f}
+            {t(`work.filter.${f}`)}
           </button>
         ))}
       </div>
@@ -64,7 +68,7 @@ export function WorkIndex() {
                 <span>{p.year}</span>
               </p>
               <TransitionLink href={`/work/${p.id}`} className="xp-ed__cta" data-cursor="view">
-                View case study <span aria-hidden="true">→</span>
+                {t("work.case")} <span aria-hidden="true">→</span>
               </TransitionLink>
             </div>
 
@@ -72,7 +76,7 @@ export function WorkIndex() {
               href={`/work/${p.id}`}
               className="xp-ed__media"
               data-cursor="view"
-              aria-label={`${p.name} — view case study`}
+              aria-label={`${p.name} — ${t("work.case")}`}
             >
               <CinematicMedia source={p.media} sizes="(max-width: 900px) 92vw, 56vw" />
               <span className="xp-ed__frame" aria-hidden="true" />
@@ -81,9 +85,7 @@ export function WorkIndex() {
         ))}
       </div>
 
-      {list.length === 0 && (
-        <p className="xp-studio__empty">No projects in this category yet.</p>
-      )}
+      {list.length === 0 && <p className="xp-studio__empty">{t("work.empty")}</p>}
     </div>
   );
 }

@@ -8,6 +8,7 @@ import {
   El_Messiri,
   Noto_Naskh_Arabic,
 } from "next/font/google";
+import { AppProviders } from "@/components/layout/AppProviders";
 import "./globals.css";
 
 /* ── Experience typography ── */
@@ -101,8 +102,11 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#07080a",
-  colorScheme: "dark",
+  themeColor: [
+    { media: "(prefers-color-scheme: dark)", color: "#07080a" },
+    { media: "(prefers-color-scheme: light)", color: "#f3efe6" },
+  ],
+  colorScheme: "dark light",
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
@@ -118,7 +122,7 @@ export default function RootLayout({
       <body
         className={`${syne.variable} ${grotesk.variable} ${mono.variable} ${plex.variable} ${messiri.variable} ${notoNaskh.variable} antialiased`}
       >
-        {children}
+        <AppProviders>{children}</AppProviders>
       </body>
     </html>
   );

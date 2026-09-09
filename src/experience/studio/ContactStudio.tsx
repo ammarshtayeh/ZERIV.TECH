@@ -1,40 +1,42 @@
+"use client";
+
+import { useLocale } from "@/i18n/LocaleProvider";
 import { contact } from "../data/contact";
 import { StudioContactForm } from "../ui/StudioContactForm";
 
 export function ContactStudio() {
+  const { t } = useLocale();
+
   return (
     <div className="xp-studio">
       <header className="xp-studio__hero">
-        <p className="xp-label">Contact</p>
+        <p className="xp-label">{t("contact.label")}</p>
         <h1 className="xp-studio__display">
-          <span>LET&apos;S BUILD</span>
-          <span>WHAT&apos;S NEXT.</span>
+          <span>{t("contact.title")}</span>
         </h1>
-        <p className="xp-studio__lede">
-          Tell us what you&apos;re building. We&apos;ll respond with clarity — scope, approach and next steps.
-        </p>
+        <p className="xp-studio__lede">{t("contact.lede")}</p>
       </header>
 
       <div className="xp-contact">
         <aside className="xp-contact__aside">
           <div>
-            <p className="xp-label">Email</p>
+            <p className="xp-label">{t("contact.email")}</p>
             <a href={`mailto:${contact.email}`} data-cursor="expand">
               {contact.email}
             </a>
           </div>
           <div>
-            <p className="xp-label">Phone</p>
+            <p className="xp-label">{t("contact.phone")}</p>
             <a href={contact.phoneHref} data-cursor="expand">
               {contact.phone}
             </a>
           </div>
           <div>
-            <p className="xp-label">Location</p>
+            <p className="xp-label">{t("contact.location")}</p>
             <p>{contact.location}</p>
           </div>
           <div>
-            <p className="xp-label">Social</p>
+            <p className="xp-label">{t("contact.social")}</p>
             <ul className="xp-contact__socials">
               {contact.socials.map((s) => (
                 <li key={s.label}>
