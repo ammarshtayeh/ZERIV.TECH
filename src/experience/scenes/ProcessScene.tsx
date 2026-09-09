@@ -11,8 +11,7 @@ interface Props {
 }
 
 /**
- * Method — vertical timeline without pin.
- * Pinning here stacked into Signature / Final and broke scroll rhythm.
+ * Method — clean vertical/editorial steps. No pin. Progress line uses width, not scaleX.
  */
 export function ProcessScene({ reduced }: Props) {
   const root = useRef<HTMLElement>(null);
@@ -25,8 +24,7 @@ export function ProcessScene({ reduced }: Props) {
       const fill = el.querySelector<HTMLElement>(".xp-proc__fill");
 
       if (reduced) {
-        gsap.set(steps, { opacity: 1, y: 0 });
-        gsap.set(fill, { scaleX: 1 });
+        gsap.set(fill, { width: "100%" });
         steps.forEach((s) => {
           s.dataset.on = "true";
           s.dataset.done = "true";
@@ -34,29 +32,30 @@ export function ProcessScene({ reduced }: Props) {
         return;
       }
 
-      gsap.set(steps, { opacity: 0.35, y: 18 });
-      gsap.set(fill, { scaleX: 0, transformOrigin: "0% 50%" });
-
-      gsap.to(fill, {
-        scaleX: 1,
-        ease: "none",
-        scrollTrigger: {
-          trigger: el,
-          start: "top 65%",
-          end: "bottom 55%",
-          scrub: 0.6,
-        },
-      });
+      gsap.fromTo(
+        fill,
+        { width: "0%" },
+        {
+          width: "100%",
+          ease: "none",
+          scrollTrigger: {
+            trigger: el,
+            start: "top 70%",
+            end: "bottom 60%",
+            scrub: 0.5,
+          },
+        }
+      );
 
       steps.forEach((step, i) => {
-        gsap.to(step, {
-          opacity: 1,
-          y: 0,
-          duration: 0.7,
+        gsap.from(step, {
+          opacity: 0.4,
+          y: 14,
+          duration: 0.65,
           ease: motion.ease.out,
           scrollTrigger: {
             trigger: step,
-            start: "top 82%",
+            start: "top 88%",
             once: true,
             onEnter: () => {
               steps.forEach((s, k) => {
@@ -81,7 +80,6 @@ export function ProcessScene({ reduced }: Props) {
       </header>
 
       <div className="xp-proc__track" aria-hidden="true">
-        <span className="xp-proc__spine" />
         <span className="xp-proc__fill" />
       </div>
 

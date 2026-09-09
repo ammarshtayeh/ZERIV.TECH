@@ -1851,11 +1851,13 @@ html[data-xp-docked="true"] .xp-nav__logo {
 }
 .xp-proc__fill {
   position: absolute;
-  inset: 0;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 0%;
+  max-width: 100%;
   background: var(--xp-red);
-  transform: scaleX(0);
-  transform-origin: 0 50%;
-  will-change: transform;
+  transform: none;
 }
 .xp-proc__list {
   list-style: none;
@@ -1906,23 +1908,22 @@ html[data-xp-docked="true"] .xp-nav__logo {
    ════════════════════════════════════════════════════════════ */
 .xp-final {
   position: relative;
-  min-height: 100vh;
-  min-height: 100svh;
-  padding: 22vh var(--xp-gutter) 16vh;
+  min-height: auto;
+  padding: clamp(5.5rem, 14vh, 9rem) var(--xp-gutter) clamp(4rem, 12vh, 8rem);
   overflow: hidden;
   border-top: 1px solid var(--xp-line);
   background-color: var(--xp-bg);
 }
 .xp-final__label {
-  margin-bottom: 4vh;
+  margin: 0 0 1.5rem;
 }
 .xp-final__statement {
   margin: 0;
   font-family: var(--font-syne), sans-serif;
   font-weight: 800;
-  font-size: clamp(2.4rem, 9.4vw, 11.2rem);
-  line-height: 0.9;
-  letter-spacing: -0.05em;
+  font-size: clamp(2.2rem, 7.5vw, 7.5rem);
+  line-height: 0.92;
+  letter-spacing: -0.045em;
   color: var(--xp-bone);
 }
 .xp-final__line-wrap {
@@ -1931,25 +1932,20 @@ html[data-xp-docked="true"] .xp-nav__logo {
   padding: 0.04em 0 0.06em;
 }
 .xp-final__line-wrap:nth-child(2) {
-  padding-left: 0.5em;
+  padding-left: 0.35em;
   -webkit-text-stroke: 1px var(--xp-bone);
   color: transparent;
 }
 .xp-final__line {
   display: block;
-  transform: translateY(108%);
-  will-change: transform;
 }
 .xp-final__rest {
   display: flex;
   flex-wrap: wrap;
   align-items: flex-end;
-  gap: 3rem 5rem;
-  margin-top: clamp(3rem, 8vh, 6rem);
-  max-width: 56vw;
-}
-.xp-final__rest > * {
-  opacity: 0;
+  gap: 2rem 4rem;
+  margin-top: clamp(2.5rem, 6vh, 4.5rem);
+  max-width: 56rem;
 }
 .xp-magnet {
   display: inline-block;
@@ -1957,47 +1953,20 @@ html[data-xp-docked="true"] .xp-nav__logo {
 .xp-final__cta {
   display: inline-flex;
   align-items: center;
-  gap: 1.4rem;
-  padding: 1.3rem 2rem 1.3rem 2.2rem;
+  gap: 0.85rem;
+  padding: 1rem 1.45rem;
   border: 1px solid var(--xp-bone);
-  color: var(--xp-bone);
+  color: var(--xp-bg);
   text-decoration: none;
   font-family: var(--font-mono), ui-monospace, monospace;
-  font-size: 0.75rem;
-  letter-spacing: 0.26em;
-  background: transparent;
-  will-change: transform;
-  position: relative;
-  overflow: hidden;
-  transition: color 0.5s ease;
-}
-.xp-final__cta::before {
-  content: "";
-  position: absolute;
-  inset: 0;
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
   background: var(--xp-bone);
-  transform: translateY(101%);
-  transition: transform 0.6s var(--xp-ease);
-  z-index: -1;
+  transition: background-color 0.35s ease, color 0.35s ease;
 }
 .xp-final__cta:hover {
-  color: var(--xp-bg);
-}
-.xp-final__cta:hover::before {
-  transform: translateY(0);
-}
-.xp-final__cta-text,
-.xp-final__cta-arrow {
-  position: relative;
-  z-index: 1;
-}
-.xp-final__cta-arrow {
-  display: inline-block;
-  font-size: 1.1rem;
-  transition: transform 0.5s var(--xp-ease);
-}
-.xp-final__cta:hover .xp-final__cta-arrow {
-  transform: translateX(8px);
+  background: transparent;
+  color: var(--xp-bone);
 }
 .xp-final__direct {
   display: flex;
@@ -2020,11 +1989,10 @@ html[data-xp-docked="true"] .xp-nav__logo {
 .xp-final__logo {
   position: absolute;
   right: var(--xp-gutter);
-  bottom: 14vh;
-  width: clamp(160px, 20vw, 300px);
-  overflow: hidden;
-  clip-path: inset(50% 0 50% 0);
-  opacity: 0;
+  bottom: clamp(2rem, 6vh, 4rem);
+  width: clamp(110px, 14vw, 180px);
+  opacity: 0.9;
+  pointer-events: none;
 }
 
 /* ════════════════════════════════════════════════════════════
@@ -2557,10 +2525,10 @@ html[data-xp-docked="true"] .xp-nav__logo {
 
   /* final + footer */
   .xp-final {
-    padding: 16vh var(--xp-gutter) max(32vh, 14rem);
+    padding: clamp(4.5rem, 10vh, 6.5rem) var(--xp-gutter) clamp(3.5rem, 8vh, 5rem);
   }
   .xp-final__statement {
-    font-size: clamp(2.2rem, 12vw, 4.4rem);
+    font-size: clamp(2.1rem, 11vw, 3.8rem);
   }
   .xp-final__rest {
     max-width: none;
@@ -2569,13 +2537,15 @@ html[data-xp-docked="true"] .xp-nav__logo {
     align-items: flex-start;
   }
   .xp-final__cta {
-    font-size: clamp(1rem, 4.5vw, 1.25rem);
+    font-size: 0.7rem;
   }
   .xp-final__logo {
+    position: relative;
     right: auto;
-    left: var(--xp-gutter);
-    bottom: max(5vh, env(safe-area-inset-bottom));
-    width: clamp(120px, 40vw, 180px);
+    bottom: auto;
+    left: 0;
+    margin-top: 2.5rem;
+    width: clamp(100px, 34vw, 150px);
   }
 
   .xp-footer__top {

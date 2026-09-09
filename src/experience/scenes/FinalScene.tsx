@@ -6,7 +6,7 @@ import { motion } from "../animations/motion";
 import { contact } from "../data/contact";
 import { useSceneProgress } from "../hooks/useSceneProgress";
 import { BrandLogo } from "../ui/BrandLogo";
-import { MagneticLink } from "../ui/MagneticLink";
+import { TransitionLink } from "../ui/TransitionLink";
 
 const STATEMENT = ["LET'S BUILD", "SOMETHING", "WORTH REMEMBERING."];
 
@@ -15,8 +15,8 @@ interface Props {
 }
 
 /**
- * Scene 07 — the finale. Enormous statement, one CTA, and the lattice fragments from Scene 01
- * return behind the mark and re-stitch themselves. The journey closes where it began.
+ * Contact close — clear statement, one CTA, real contact details.
+ * Content stays visible by default so a missed ScrollTrigger never leaves a blank void.
  */
 export function FinalScene({ reduced }: Props) {
   const root = useRef<HTMLElement>(null);
@@ -25,38 +25,23 @@ export function FinalScene({ reduced }: Props) {
 
   useEffect(() => {
     const el = root.current;
-    if (!el) return;
+    if (!el || reduced) return;
+
     const ctx = gsap.context(() => {
       const lines = el.querySelectorAll<HTMLElement>(".xp-final__line");
       const rest = el.querySelectorAll<HTMLElement>(".xp-final__rest > *");
       const logo = el.querySelector<HTMLElement>(".xp-final__logo");
 
-      if (reduced) {
-        gsap.set(lines, { yPercent: 0 });
-        gsap.set(rest, { opacity: 1, y: 0 });
-        gsap.set(logo, { clipPath: "inset(0% 0 0% 0)", opacity: 1 });
-        return;
-      }
-
       gsap
         .timeline({
-          scrollTrigger: { trigger: el, start: "top 65%", once: true },
+          scrollTrigger: { trigger: el, start: "top 75%", once: true },
           defaults: { ease: motion.ease.out },
         })
-        .fromTo(lines, { yPercent: 108 }, { yPercent: 0, duration: motion.duration.cinematic, stagger: 0.12 }, 0)
-        .fromTo(rest, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.9, stagger: 0.08 }, 0.6);
-
-      gsap.fromTo(
-        logo,
-        { clipPath: "inset(50% 0 50% 0)", opacity: 0 },
-        {
-          clipPath: "inset(0% 0 0% 0)",
-          opacity: 1,
-          ease: "none",
-          scrollTrigger: { trigger: el, start: "top 40%", end: "bottom bottom", scrub: motion.scrub },
-        }
-      );
+        .from(lines, { yPercent: 110, duration: 1.05, stagger: 0.1 }, 0)
+        .from(rest, { opacity: 0, y: 16, duration: 0.75, stagger: 0.08 }, 0.35)
+        .from(logo, { opacity: 0, duration: 0.9 }, 0.45);
     }, el);
+
     return () => ctx.revert();
   }, [reduced]);
 
@@ -73,12 +58,9 @@ export function FinalScene({ reduced }: Props) {
       </h2>
 
       <div className="xp-final__rest">
-        <MagneticLink href="/contact" className="xp-final__cta" strength={0.22}>
-          <span className="xp-final__cta-text">START A PROJECT</span>
-          <span className="xp-final__cta-arrow" aria-hidden="true">
-            →
-          </span>
-        </MagneticLink>
+        <TransitionLink href="/contact" className="xp-final__cta" data-cursor="expand">
+          START A PROJECT <span aria-hidden="true">→</span>
+        </TransitionLink>
 
         <p className="xp-final__direct">
           <span className="xp-label">or write directly</span>
