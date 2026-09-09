@@ -5,11 +5,17 @@
    ════════════════════════════════════════════════════════════ */
 
 .xp {
-  --xp-bg: #07080a;
-  --xp-surface: #0c0e12;
-  --xp-surface-2: #11141a;
+  --xp-bg: #08090b;
+  --xp-surface: #0e1014;
+  --xp-surface-2: #14171d;
   --xp-fg: #e8e2d2;
   --xp-bone: #e8e2d2;
+  --xp-paper: #e9e4d8;
+  --xp-paper-2: #f3efe6;
+  --xp-ink: #12141a;
+  --xp-ink-muted: rgba(18, 20, 26, 0.58);
+  --xp-ink-faint: rgba(18, 20, 26, 0.28);
+  --xp-ink-line: rgba(18, 20, 26, 0.12);
   --xp-muted-fg: rgba(232, 226, 210, 0.52);
   --xp-red: #ce1126;
   --xp-green: #007a3d;
@@ -117,10 +123,11 @@ html.xp-html::-webkit-scrollbar {
   inset: 0;
   z-index: 1;
   pointer-events: none;
-  background-image: radial-gradient(rgba(232, 226, 210, 0.035) 1px, transparent 1.3px);
+  background-image: radial-gradient(rgba(232, 226, 210, 0.028) 1px, transparent 1.3px);
   background-size: 56px 56px;
-  -webkit-mask-image: radial-gradient(ellipse at center, #000 30%, transparent 78%);
-  mask-image: radial-gradient(ellipse at center, #000 30%, transparent 78%);
+  -webkit-mask-image: radial-gradient(ellipse at center, #000 28%, transparent 72%);
+  mask-image: radial-gradient(ellipse at center, #000 28%, transparent 72%);
+  opacity: 0.85;
 }
 
 .xp-vignette {
@@ -160,6 +167,22 @@ html.xp-html::-webkit-scrollbar {
 .xp-main > .xp-scene {
   flex: 0 0 auto;
   width: 100%;
+}
+
+/* Light editorial bands — break the black without losing ZERIV authority */
+.xp-scene--paper {
+  background:
+    radial-gradient(ellipse 80% 60% at 10% 0%, rgba(206, 17, 38, 0.06), transparent 55%),
+    radial-gradient(ellipse 70% 50% at 100% 100%, rgba(0, 122, 61, 0.07), transparent 50%),
+    var(--xp-paper);
+  color: var(--xp-ink);
+  border-top-color: var(--xp-ink-line);
+}
+.xp-scene--paper .xp-label {
+  color: var(--xp-ink-faint);
+}
+.xp-scene--paper a {
+  color: inherit;
 }
 
 /* quiet connectors — a line and a node, not another section */
@@ -686,6 +709,20 @@ html[data-xp-docked="true"] .xp-nav__logo {
   align-items: center;
   padding: clamp(5.5rem, 14vh, 9rem) var(--xp-gutter) clamp(4rem, 10vh, 7rem);
 }
+.xp-identity.xp-scene--paper .xp-identity__position {
+  color: var(--xp-ink);
+}
+.xp-identity.xp-scene--paper .xp-identity__pos-wrap:nth-child(2) {
+  -webkit-text-stroke: 1px var(--xp-ink);
+  color: transparent;
+}
+.xp-identity.xp-scene--paper .xp-identity__statement,
+.xp-identity.xp-scene--paper .xp-identity__word {
+  color: var(--xp-ink);
+}
+.xp-identity.xp-scene--paper .xp-identity__copy {
+  color: var(--xp-ink-muted);
+}
 .xp-identity__inner {
   position: relative;
   width: 100%;
@@ -764,6 +801,10 @@ html[data-xp-docked="true"] .xp-nav__logo {
 .xp-caps {
   padding: clamp(5rem, 12vh, 8rem) var(--xp-gutter);
   border-top: 1px solid var(--xp-line);
+  background:
+    linear-gradient(180deg, rgba(14, 16, 20, 0.95), transparent 28%),
+    radial-gradient(ellipse 90% 70% at 80% 20%, rgba(206, 17, 38, 0.08), transparent 55%),
+    var(--xp-bg);
 }
 .xp-caps__head {
   display: flex;
@@ -1820,6 +1861,31 @@ html[data-xp-docked="true"] .xp-nav__logo {
   padding: clamp(5rem, 12vh, 8rem) var(--xp-gutter);
   border-top: 1px solid var(--xp-line);
 }
+.xp-proc.xp-scene--paper {
+  border-top-color: var(--xp-ink-line);
+}
+.xp-proc.xp-scene--paper .xp-proc__title {
+  color: var(--xp-ink);
+}
+.xp-proc.xp-scene--paper .xp-proc__title em {
+  -webkit-text-stroke: 1px var(--xp-ink);
+  color: transparent;
+}
+.xp-proc.xp-scene--paper .xp-proc__track {
+  background: var(--xp-ink-line);
+}
+.xp-proc.xp-scene--paper .xp-proc__name {
+  color: var(--xp-ink);
+}
+.xp-proc.xp-scene--paper .xp-proc__line {
+  color: var(--xp-ink-muted);
+}
+.xp-proc.xp-scene--paper .xp-proc__index {
+  color: var(--xp-ink-faint);
+}
+.xp-proc.xp-scene--paper .xp-proc__step {
+  border-color: var(--xp-ink-line);
+}
 .xp-proc__head {
   display: flex;
   flex-direction: column;
@@ -1912,7 +1978,10 @@ html[data-xp-docked="true"] .xp-nav__logo {
   padding: clamp(5.5rem, 14vh, 9rem) var(--xp-gutter) clamp(4rem, 12vh, 8rem);
   overflow: hidden;
   border-top: 1px solid var(--xp-line);
-  background-color: var(--xp-bg);
+  background:
+    radial-gradient(ellipse 70% 55% at 85% 80%, rgba(0, 122, 61, 0.12), transparent 55%),
+    radial-gradient(ellipse 60% 45% at 10% 20%, rgba(206, 17, 38, 0.1), transparent 50%),
+    var(--xp-bg);
 }
 .xp-final__label {
   margin: 0 0 1.5rem;
@@ -2001,9 +2070,11 @@ html[data-xp-docked="true"] .xp-nav__logo {
 .xp-footer {
   position: relative;
   z-index: 2;
-  padding: 6vh var(--xp-gutter) max(2.5rem, env(safe-area-inset-bottom));
+  padding: clamp(3.5rem, 8vh, 5.5rem) var(--xp-gutter) max(2.5rem, env(safe-area-inset-bottom));
   border-top: 1px solid var(--xp-line);
-  background: linear-gradient(to bottom, rgba(7, 8, 10, 0.4), var(--xp-bg) 40%);
+  background:
+    linear-gradient(180deg, transparent, rgba(14, 16, 20, 0.95) 35%),
+    var(--xp-surface);
 }
 .xp-footer a {
   color: var(--xp-bone);

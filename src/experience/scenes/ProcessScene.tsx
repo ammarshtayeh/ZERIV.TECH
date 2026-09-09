@@ -71,7 +71,7 @@ export function ProcessScene({ reduced }: Props) {
   }, [reduced]);
 
   return (
-    <section ref={root} id="method" className="xp-scene xp-proc" aria-labelledby="xp-proc-heading">
+    <section ref={root} id="method" className="xp-scene xp-proc xp-scene--paper" aria-labelledby="xp-proc-heading">
       <header className="xp-proc__head">
         <p className="xp-label">Method</p>
         <h2 id="xp-proc-heading" className="xp-proc__title">

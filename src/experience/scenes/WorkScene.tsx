@@ -40,7 +40,7 @@ export function WorkScene({ reduced }: Props) {
   }, [reduced]);
 
   return (
-    <section ref={root} id="work" className="xp-scene xp-ed" aria-labelledby="xp-work-heading">
+    <section ref={root} id="work" className="xp-scene xp-ed xp-scene--paper" aria-labelledby="xp-work-heading">
       <header className="xp-ed__head">
         <p className="xp-label">Selected work</p>
         <h2 id="xp-work-heading" className="xp-ed__title">

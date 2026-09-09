@@ -20,6 +20,14 @@
   max-width: 42rem;
   margin-bottom: clamp(2.5rem, 6vh, 4.5rem);
 }
+.xp-page .xp-studio__hero::before {
+  content: "";
+  display: block;
+  width: 2.5rem;
+  height: 2px;
+  margin-bottom: 1.25rem;
+  background: linear-gradient(90deg, var(--xp-red), var(--xp-green));
+}
 .xp-studio__display {
   margin: 0.85rem 0 1.25rem;
   font-family: var(--font-syne), sans-serif;
@@ -78,6 +86,37 @@
   padding: clamp(5rem, 12vh, 8rem) var(--xp-gutter) clamp(4rem, 10vh, 6.5rem);
   background-color: var(--xp-bg);
   border-top: 1px solid var(--xp-line);
+}
+.xp-ed.xp-scene--paper {
+  background: transparent;
+  border-top-color: var(--xp-ink-line);
+}
+.xp-ed.xp-scene--paper .xp-ed__title,
+.xp-ed.xp-scene--paper .xp-ed__name {
+  color: var(--xp-ink);
+}
+.xp-ed.xp-scene--paper .xp-ed__lede,
+.xp-ed.xp-scene--paper .xp-ed__summary {
+  color: var(--xp-ink-muted);
+}
+.xp-ed.xp-scene--paper .xp-ed__cta,
+.xp-ed.xp-scene--paper .xp-ed__all {
+  color: var(--xp-ink);
+  border-bottom-color: var(--xp-ink-line);
+}
+.xp-ed.xp-scene--paper .xp-ed__cta:hover,
+.xp-ed.xp-scene--paper .xp-ed__all:hover {
+  border-bottom-color: var(--xp-ink);
+}
+.xp-ed.xp-scene--paper .xp-ed__media {
+  background: #fff;
+  box-shadow: 0 24px 60px rgba(18, 20, 26, 0.12);
+}
+.xp-ed.xp-scene--paper .xp-ed__frame {
+  border-color: rgba(18, 20, 26, 0.1);
+}
+.xp-ed.xp-scene--paper .xp-ed__foot {
+  border-top-color: var(--xp-ink-line);
 }
 .xp-ed__head {
   max-width: 36rem;
@@ -538,8 +577,16 @@
   color: var(--xp-muted);
 }
 .xp-about__band {
-  margin: clamp(3rem, 8vh, 5rem) 0 0;
-  padding: clamp(2.5rem, 6vh, 4rem) 0;
+  margin: clamp(3rem, 8vh, 5rem) calc(-1 * var(--xp-gutter)) 0;
+  padding: clamp(2.5rem, 6vh, 4rem) var(--xp-gutter);
+  background:
+    radial-gradient(ellipse 70% 80% at 0% 50%, rgba(206, 17, 38, 0.06), transparent 55%),
+    radial-gradient(ellipse 60% 70% at 100% 50%, rgba(0, 122, 61, 0.07), transparent 50%),
+    var(--xp-paper);
+  color: var(--xp-ink);
+}
+.xp-about__band .xp-label {
+  color: var(--xp-ink-faint);
 }
 .xp-about__band-line {
   margin: 0.75rem 0 1.25rem;
@@ -547,10 +594,14 @@
   font-size: clamp(1.4rem, 3.5vw, 2.4rem);
   font-weight: 700;
   letter-spacing: -0.02em;
+  color: var(--xp-ink);
 }
 .xp-about__band-line span {
   color: var(--xp-red);
   margin: 0 0.15em;
+}
+.xp-about__band .xp-about__copy {
+  color: var(--xp-ink-muted);
 }
 
 .xp-contact {

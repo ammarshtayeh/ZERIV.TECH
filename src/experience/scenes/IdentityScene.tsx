@@ -69,7 +69,7 @@ export function IdentityScene({ reduced }: Props) {
   }, [reduced]);
 
   return (
-    <section ref={root} id="about" className="xp-scene xp-identity" aria-labelledby="xp-identity-heading">
+    <section ref={root} id="about" className="xp-scene xp-identity xp-scene--paper" aria-labelledby="xp-identity-heading">
       <div className="xp-identity__inner">
         <h2 id="xp-identity-heading" className="xp-identity__position" aria-label={POSITION.join(" ")}>
           {POSITION.map((line) => (
