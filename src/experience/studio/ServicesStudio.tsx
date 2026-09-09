@@ -47,10 +47,6 @@ export function ServicesStudio() {
                       ))}
                     </ul>
                   </div>
-                  <div>
-                    <p className="xp-label">{t("services.tech")}</p>
-                    <p className="xp-label xp-svc__tags">{c.tech.join(" · ")}</p>
-                  </div>
                 </div>
               </div>
 

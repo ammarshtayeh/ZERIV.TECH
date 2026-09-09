@@ -5,10 +5,10 @@ import { ServicesStudio } from "@/experience/studio/ServicesStudio";
 export const metadata: Metadata = {
   title: "Services",
   description:
-    "Web development, mobile applications, UI/UX, branding, AI solutions and creative technology from ZERIV.",
+    "Web development, mobile applications, UI/UX, branding and AI solutions from ZERIV.",
   openGraph: {
     title: "Capabilities | ZERIV",
-    description: "What ZERIV builds — web, mobile, design, brand, AI and creative technology.",
+    description: "What ZERIV builds — web, mobile, design, brand and AI.",
     url: "/services",
   },
   alternates: { canonical: "/services" },

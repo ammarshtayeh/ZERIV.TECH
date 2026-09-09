@@ -46,7 +46,6 @@ const SERVICE_POSE: Array<Partial<Pose>> = [
   { wire: 0.75, scatter: 0.28, flow: 0.15, spin: 1 }, // ui/ux — interface geometry
   { wire: 0, scatter: 0, flow: 0, spin: 0.35 }, // branding — the solid stitched mark
   { wire: 1, scatter: 0.8, flow: 0.35, spin: 1.2 }, // ai — neural field
-  { wire: 0.6, scatter: 0.5, flow: 1, spin: 2.2 }, // creative — experimental
 ];
 
 export function TatreezLattice({ tier, reduced }: Props) {

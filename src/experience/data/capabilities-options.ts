@@ -5,6 +5,5 @@ export const capabilities = [
   "UI / UX Design",
   "Branding",
   "AI Solutions",
-  "Creative Technology",
   "Other",
 ];

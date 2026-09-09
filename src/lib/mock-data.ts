@@ -86,7 +86,7 @@ export const portfolioProjects: PortfolioProject[] = [
     type: "web",
     description:
       "منصة فلسطينية متخصصة في توفير سكن آمن وموثّق لطلاب جامعة النجاح الوطنية في نابلس.",
-    tags: ["Next.js", "سكن طلابي", "نابلس"],
+    tags: ["منصة", "سكن طلابي", "نابلس"],
     image: "/portfolio/sakannu.jpg",
     url: "https://www.sakannu.com/",
   },

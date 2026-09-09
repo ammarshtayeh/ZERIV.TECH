@@ -28,7 +28,7 @@ const en: Dict = {
   "prefs.toEn": "Switch to English",
   "prefs.toAr": "التبديل إلى العربية",
 
-  "footer.tag": "A Palestinian creative technology studio.",
+  "footer.tag": "A Palestinian studio for digital products and brands.",
   "footer.contact": "Contact",
   "footer.follow": "Follow",
   "footer.location": "Location",
@@ -38,7 +38,7 @@ const en: Dict = {
   "footer.home": "Home ↑",
 
   "hero.tag": "TECHNOLOGY × DESIGN × CULTURE",
-  "hero.line": "A Palestinian creative technology studio.",
+  "hero.line": "A Palestinian studio for digital products and brands.",
   "hero.scroll": "SCROLL",
   "hero.l1": "WE BUILD",
   "hero.l2": "DIGITAL",
@@ -69,7 +69,7 @@ const en: Dict = {
   "work.pageLede": "Digital products, platforms and experiences built by ZERIV.",
 
   "caps.label": "Capabilities",
-  "caps.h1": "SIX DISCIPLINES.",
+  "caps.h1": "FIVE DISCIPLINES.",
   "caps.h2": "ONE STUDIO.",
 
   "sig.label": "Signature",
@@ -94,7 +94,7 @@ const en: Dict = {
   "about.title1": "ABOUT",
   "about.title2": "ZERIV",
   "about.lede":
-    "A Palestinian creative technology studio building digital products with clarity, craft and cultural intelligence.",
+    "A Palestinian studio building digital products with clarity, craft and cultural intelligence.",
   "about.statement":
     "ZERIV exists at the intersection of technology, design and culture. We build websites, applications, brands and intelligent systems for teams who need work that feels intentional — not assembled from templates.",
   "about.s1l": "How we think",
@@ -108,7 +108,7 @@ const en: Dict = {
   "about.s3l": "How we build",
   "about.s3h": "Clarity, then craft",
   "about.s3":
-    "We start with the problem, define the system, then execute with precision — modern stacks, careful motion, and production quality from the first release.",
+    "We start with the problem, define the system, then execute with precision — careful motion and production quality from the first release.",
   "about.bandLabel": "Position",
   "about.band": "TECHNOLOGY × DESIGN × CULTURE",
   "about.bandCopy":
@@ -118,10 +118,9 @@ const en: Dict = {
 
   "services.label": "Services",
   "services.title": "WHAT WE BUILD",
-  "services.lede": "Six disciplines. One studio. Clear scope for every engagement.",
+  "services.lede": "Five disciplines. One studio. Clear scope for every engagement.",
   "services.audience": "Who it's for",
   "services.includes": "What's included",
-  "services.tech": "Stack",
   "services.related": "Related work",
   "services.cta": "Start a project",
 
@@ -150,7 +149,6 @@ const en: Dict = {
   "case.overview": "Overview",
   "case.challenge": "Challenge",
   "case.approach": "Approach",
-  "case.stack": "Stack",
   "case.live": "Visit live →",
   "case.next": "Next project",
   "case.year": "Year",
@@ -192,7 +190,7 @@ const ar: Dict = {
   "prefs.toEn": "Switch to English",
   "prefs.toAr": "التبديل إلى العربية",
 
-  "footer.tag": "استوديو فلسطيني للتكنولوجيا الإبداعية.",
+  "footer.tag": "استوديو فلسطيني للمنتجات الرقمية والعلامات.",
   "footer.contact": "تواصل",
   "footer.follow": "تابعنا",
   "footer.location": "الموقع",
@@ -202,7 +200,7 @@ const ar: Dict = {
   "footer.home": "الرئيسية ↑",
 
   "hero.tag": "تكنولوجيا × تصميم × ثقافة",
-  "hero.line": "استوديو فلسطيني للتكنولوجيا الإبداعية.",
+  "hero.line": "استوديو فلسطيني للمنتجات الرقمية والعلامات.",
   "hero.scroll": "تمرير",
   "hero.l1": "نبني",
   "hero.l2": "تجارب",
@@ -233,7 +231,7 @@ const ar: Dict = {
   "work.pageLede": "منتجات ومنصات وتجارب رقمية بنتها زيريف.",
 
   "caps.label": "القدرات",
-  "caps.h1": "ستة تخصصات.",
+  "caps.h1": "خمسة تخصصات.",
   "caps.h2": "استوديو واحد.",
 
   "sig.label": "التوقيع",
@@ -258,7 +256,7 @@ const ar: Dict = {
   "about.title1": "عن",
   "about.title2": "زيريف",
   "about.lede":
-    "استوديو فلسطيني للتكنولوجيا الإبداعية يبني منتجات رقمية بالوضوح والحرفة والذكاء الثقافي.",
+    "استوديو فلسطيني يبني منتجات رقمية بالوضوح والحرفة والذكاء الثقافي.",
   "about.statement":
     "توجد زيريف عند تقاطع التكنولوجيا والتصميم والثقافة. نبني مواقع وتطبيقات وعلامات وأنظمة ذكية لفرق تحتاج عملاً مقصوداً — لا مجمّعاً من قوالب.",
   "about.s1l": "كيف نفكر",
@@ -272,7 +270,7 @@ const ar: Dict = {
   "about.s3l": "كيف نبني",
   "about.s3h": "وضوح ثم حرفة",
   "about.s3":
-    "نبدأ بالمشكلة، نعرّف النظام، ثم ننفّذ بدقة — تقنيات حديثة وحركة حذرة وجودة إنتاج من الإطلاق الأول.",
+    "نبدأ بالمشكلة، نعرّف النظام، ثم ننفّذ بدقة — حركة حذرة وجودة إنتاج من الإطلاق الأول.",
   "about.bandLabel": "التموضع",
   "about.band": "تكنولوجيا × تصميم × ثقافة",
   "about.bandCopy":
@@ -282,10 +280,9 @@ const ar: Dict = {
 
   "services.label": "الخدمات",
   "services.title": "ما نبنيه",
-  "services.lede": "ستة تخصصات. استوديو واحد. نطاق واضح لكل تعاون.",
+  "services.lede": "خمسة تخصصات. استوديو واحد. نطاق واضح لكل تعاون.",
   "services.audience": "لمن",
   "services.includes": "ما يشمله",
-  "services.tech": "التقنيات",
   "services.related": "أعمال ذات صلة",
   "services.cta": "ابدأ مشروعاً",
 
@@ -314,7 +311,6 @@ const ar: Dict = {
   "case.overview": "نظرة عامة",
   "case.challenge": "التحدي",
   "case.approach": "النهج",
-  "case.stack": "التقنيات",
   "case.live": "زيارة الموقع ←",
   "case.next": "المشروع التالي",
   "case.year": "السنة",

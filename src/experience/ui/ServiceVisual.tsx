@@ -17,7 +17,6 @@ export function ServiceVisual({ kind }: Props) {
         {kind === "uiux" && <UiUx />}
         {kind === "branding" && <Branding />}
         {kind === "ai" && <Ai />}
-        {kind === "creative" && <Creative />}
         {kind === null && <Idle />}
       </svg>
     </div>
@@ -171,37 +170,6 @@ function Ai() {
             strokeWidth="1"
           />
         </g>
-      ))}
-    </g>
-  );
-}
-
-function Creative() {
-  return (
-    <g>
-      <g className="xp-svis__spin xp-svis__spin--slow" style={{ transformOrigin: "150px 180px" }}>
-        <path d="M150 40 L290 180 L150 320 L10 180 Z" {...stroke} opacity="0.3" />
-        <path d="M51 81 H249 V279 H51 Z" {...stroke} opacity="0.3" />
-      </g>
-      <g className="xp-svis__spin xp-svis__spin--rev" style={{ transformOrigin: "150px 180px" }}>
-        <path d="M150 90 L240 180 L150 270 L60 180 Z" {...stroke} opacity="0.6" />
-        <path d="M86 116 H214 V244 H86 Z" {...stroke} opacity="0.6" />
-      </g>
-      <g className="xp-svis__spin xp-svis__spin--fast" style={{ transformOrigin: "150px 180px" }}>
-        <path d="M150 140 L190 180 L150 220 L110 180 Z" fill="var(--xp-red)" opacity="0.85" />
-      </g>
-      {[0, 1, 2, 3, 4, 5].map((i) => (
-        <line
-          key={i}
-          className="xp-svis__noise"
-          style={{ animationDelay: `${i * 0.13}s` }}
-          x1="20"
-          y1={70 + i * 44}
-          x2="280"
-          y2={70 + i * 44}
-          {...stroke}
-          opacity="0.15"
-        />
       ))}
     </g>
   );

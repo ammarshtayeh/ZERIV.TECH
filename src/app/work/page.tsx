@@ -5,7 +5,7 @@ import { WorkIndex } from "@/experience/studio/WorkIndex";
 export const metadata: Metadata = {
   title: "Work",
   description:
-    "Selected digital products, platforms and experiences built by ZERIV — a Palestinian creative technology studio.",
+    "Selected digital products, platforms and experiences built by ZERIV — a Palestinian studio for digital products and brands.",
   openGraph: {
     title: "Selected Work | ZERIV",
     description: "Digital products, platforms and experiences built by ZERIV.",

@@ -48,7 +48,7 @@ const meta: Record<
       "Students needed a reliable way to find safe housing without scattered listings, unclear ownership or weak verification.",
     approach:
       "We designed a focused product experience around verification, search and trust — then engineered a fast web platform ready for real use.",
-    stack: ["Next.js", "TypeScript", "Product design"],
+    stack: [],
     accent: "green",
     featured: true,
   },
@@ -64,7 +64,7 @@ const meta: Record<
       "Students spend too long turning course material into useful practice. Manual question writing does not scale.",
     approach:
       "We shaped a calm product flow around upload → generation → review, and connected AI capabilities into a usable learning interface.",
-    stack: ["Next.js", "AI APIs", "TypeScript"],
+    stack: [],
     accent: "red",
     featured: true,
   },
@@ -80,7 +80,7 @@ const meta: Record<
       "Healthcare and aesthetic services were fragmented across informal channels, making discovery and trust difficult.",
     approach:
       "We structured the marketplace around searchable providers, clear categories and a product language that feels local and contemporary.",
-    stack: ["Next.js", "Marketplace UX", "TypeScript"],
+    stack: [],
     accent: "bone",
     featured: true,
   },
@@ -96,7 +96,7 @@ const meta: Record<
       "Luxury products need presentation that matches their quality. A generic storefront would weaken the brand.",
     approach:
       "We built a restrained ecommerce surface with strong media hierarchy, clear product storytelling and a polished purchase path.",
-    stack: ["Next.js", "E-commerce", "Brand design"],
+    stack: [],
     accent: "red",
     featured: true,
   },
@@ -112,7 +112,7 @@ export const projects: ExperienceProject[] = portfolioProjects.map((p, i) => {
     overview: p.description,
     challenge: p.description,
     approach: p.description,
-    stack: p.tags,
+    stack: [],
     accent: "bone" as const,
     featured: true,
   };
@@ -128,7 +128,7 @@ export const projects: ExperienceProject[] = portfolioProjects.map((p, i) => {
     overview: m.overview,
     challenge: m.challenge,
     approach: m.approach,
-    stack: m.stack,
+    stack: [],
     url: p.url,
     accent: m.accent,
     featured: m.featured,

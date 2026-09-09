@@ -72,15 +72,8 @@ export function CaseStudy({ slug }: Props) {
         </figure>
       </section>
 
-      <section className="xp-case__block">
-        <p className="xp-label">{t("case.stack")}</p>
-        <h2 className="xp-case__h">{t("case.stack")}</h2>
-        <ul className="xp-case__stack">
-          {project.stack.map((item) => (
-            <li key={item}>{item}</li>
-          ))}
-        </ul>
-        {project.url && (
+      {project.url && (
+        <section className="xp-case__block">
           <a
             className="xp-case__live"
             href={project.url}
@@ -90,8 +83,8 @@ export function CaseStudy({ slug }: Props) {
           >
             {t("case.live")}
           </a>
-        )}
-      </section>
+        </section>
+      )}
 
       {next && (
         <nav className="xp-case__next" aria-label={t("case.next")}>

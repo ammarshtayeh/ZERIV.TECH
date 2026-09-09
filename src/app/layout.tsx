@@ -54,7 +54,7 @@ const notoNaskh = Noto_Naskh_Arabic({
 });
 
 const DESCRIPTION =
-  "ZERIV is a Palestinian creative technology studio building websites, mobile applications, brands, AI-powered solutions and interactive digital experiences.";
+  "ZERIV is a Palestinian studio building websites, mobile applications, brands, AI-powered solutions and interactive digital experiences.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -67,7 +67,7 @@ export const metadata: Metadata = {
   keywords: [
     "ZERIV",
     "ZERIV TECH",
-    "creative technology studio",
+    "digital studio",
     "web development",
     "mobile applications",
     "UI/UX design",
@@ -104,7 +104,7 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   themeColor: [
     { media: "(prefers-color-scheme: dark)", color: "#07080a" },
-    { media: "(prefers-color-scheme: light)", color: "#f3efe6" },
+    { media: "(prefers-color-scheme: light)", color: "#f7f3ea" },
   ],
   colorScheme: "dark light",
   width: "device-width",

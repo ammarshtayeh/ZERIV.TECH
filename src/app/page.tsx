@@ -19,7 +19,7 @@ const organization = {
   address: { "@type": "PostalAddress", addressCountry: "PS" },
   sameAs: contact.socials.map((s) => s.href),
   description:
-    "Palestinian creative technology studio — web development, mobile applications, UI/UX, branding, AI solutions and creative technology.",
+    "Palestinian studio for digital products and brands — websites, mobile applications, UI/UX, branding and AI solutions.",
 };
 
 export default function HomePage() {
