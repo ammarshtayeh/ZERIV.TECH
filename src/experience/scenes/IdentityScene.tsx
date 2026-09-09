@@ -36,8 +36,9 @@ export function IdentityScene({ reduced }: Props) {
         return;
       }
 
+      /* Readable on paper from first paint — never near-invisible */
       gsap.set(pos, { yPercent: 110, opacity: 1 });
-      gsap.set(words, { "--w": 400, opacity: 0.2, filter: "blur(4px)" });
+      gsap.set(words, { "--w": 500, opacity: 0.55, filter: "blur(0px)" });
       gsap.set(copy, { opacity: 0, y: 16 });
 
       gsap
@@ -50,8 +51,8 @@ export function IdentityScene({ reduced }: Props) {
           defaults: { ease: motion.ease.out },
         })
         .to(pos, { yPercent: 0, duration: 1, stagger: 0.1 }, 0)
-        .to(words, { "--w": 800, opacity: 1, filter: "blur(0px)", duration: 0.9, stagger: 0.04 }, 0.35)
-        .to(copy, { opacity: 1, y: 0, duration: 0.7 }, 0.7);
+        .to(words, { "--w": 800, opacity: 1, duration: 0.85, stagger: 0.04 }, 0.3)
+        .to(copy, { opacity: 1, y: 0, duration: 0.7 }, 0.65);
 
       gsap.to(xp, {
         identity: 1,
