@@ -5,6 +5,7 @@ import { useLocale } from "@/i18n/LocaleProvider";
 import { gsap } from "../animations/gsap";
 import { motion } from "../animations/motion";
 import { xp } from "../lib/experience-store";
+import { Ghost, Hud } from "../ui/Kinetic";
 
 interface Props {
   reduced: boolean;
@@ -72,10 +73,12 @@ export function IdentityScene({ reduced }: Props) {
 
   return (
     <section ref={root} id="about" className="xp-scene xp-identity xp-scene--paper" aria-labelledby="xp-identity-heading">
+      <Ghost>02</Ghost>
       <div className="xp-identity__inner">
+        <Hud className="xp-identity__hud">SEC.02 — POSITION</Hud>
         <h2 id="xp-identity-heading" className="xp-identity__position" aria-label={position.join(" ")}>
           {position.map((line) => (
-            <span key={line} className="xp-identity__pos-wrap" aria-hidden="true">
+            <span key={line} className="xp-identity__pos-wrap xpk-skew" aria-hidden="true">
               <span className="xp-identity__pos-line">{line}</span>
             </span>
           ))}

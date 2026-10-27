@@ -2,7 +2,7 @@
 
 import { Canvas } from "@react-three/fiber";
 import { useEffect, useState } from "react";
-import { TatreezLattice } from "./TatreezLattice";
+import { TatreezUniverse } from "./TatreezUniverse";
 import type { DeviceTier } from "../hooks/useDeviceTier";
 
 interface Props {
@@ -37,7 +37,7 @@ export default function ExperienceCanvas({ tier, reduced }: Props) {
         }}
         frameloop={visible ? "always" : "never"}
       >
-        <TatreezLattice tier={tier} reduced={reduced} />
+        <TatreezUniverse tier={tier} reduced={reduced} />
       </Canvas>
     </div>
   );

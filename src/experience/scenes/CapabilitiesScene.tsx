@@ -8,6 +8,7 @@ import { getCapabilities } from "../data/localized";
 import { useSceneProgress } from "../hooks/useSceneProgress";
 import { xp } from "../lib/experience-store";
 import { ServiceVisual } from "../ui/ServiceVisual";
+import { Ghost, Hud, Stitch } from "../ui/Kinetic";
 import { useLocale } from "@/i18n/LocaleProvider";
 
 interface Props {
@@ -90,7 +91,9 @@ export function CapabilitiesScene({ reduced, narrow }: Props) {
       data-active={current}
       data-narrow={narrow ? "true" : "false"}
     >
+      <Ghost>04</Ghost>
       <header className="xp-caps__head">
+        <Hud>SEC.04 — DISCIPLINES</Hud>
         <p className="xp-label">{t("caps.label")}</p>
         <h2 id="xp-caps-heading" className="xp-caps__heading">
           <span>{t("caps.h1")}</span>
@@ -121,7 +124,8 @@ export function CapabilitiesScene({ reduced, narrow }: Props) {
                 data-cursor="explore"
               >
                 <span className="xp-label xp-caps__index">{c.index}</span>
-                <span className="xp-caps__title">
+                <span className="xp-caps__title xpk-skew">
+                  <Stitch className="xp-caps__stitch" />
                   <span className="xp-caps__title-inner">
                     <span className="xp-caps__title-a">{c.title}</span>
                     <span className="xp-caps__title-b" aria-hidden="true">

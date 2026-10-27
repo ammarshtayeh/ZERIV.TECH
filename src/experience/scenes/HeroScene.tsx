@@ -6,20 +6,23 @@ import { gsap } from "../animations/gsap";
 import { motion } from "../animations/motion";
 import { getPhase, subscribePhase, xp } from "../lib/experience-store";
 import { BrandLogo } from "../ui/BrandLogo";
+import { Hud, KineticChars, Marquee } from "../ui/Kinetic";
 
 interface Props {
   reduced: boolean;
 }
 
 /**
- * Scene 01 — clean first frame: official mark, one statement, one line of positioning.
- * Logo docks into the nav on scroll. No HUD chrome.
+ * Scene 01 — kinetic opening.
+ * Living statement type (pointer wave + scroll skew), HUD chrome, stitched marquee.
+ * Logo still docks into the nav on scroll.
  */
 export function HeroScene({ reduced }: Props) {
   const root = useRef<HTMLElement>(null);
   const [introDone, setIntroDone] = useState(false);
   const { t, locale } = useLocale();
   const statement = useMemo(() => [t("hero.l1"), t("hero.l2"), t("hero.l3")], [t, locale]);
+  const marqueeItems = useMemo(() => t("marquee.a").split("|"), [t, locale]);
 
   useEffect(() => {
     const el = root.current;
@@ -137,6 +140,7 @@ export function HeroScene({ reduced }: Props) {
         0
       )
         .to(".xp-hero__chrome", { opacity: 0, duration: 0.35 }, 0)
+        .to(".xp-hero__marquee", { yPercent: 110, opacity: 0, duration: 0.4 }, 0)
         .to(
           logo,
           {
@@ -160,25 +164,44 @@ export function HeroScene({ reduced }: Props) {
   return (
     <section ref={root} id="top" className="xp-scene xp-hero" data-intro="pending" aria-label="ZERIV">
       <div className="xp-hero__chrome">
-        <p className="xp-hero__meta xp-hero__meta--tag xp-label">{t("hero.tag")}</p>
-        <p className="xp-hero__meta xp-hero__meta--line">{t("hero.line")}</p>
-        <div className="xp-hero__meta xp-hero__meta--scroll" aria-hidden="true">
-          <span className="xp-label">{t("hero.scroll")}</span>
-          <span className="xp-hero__scroll-line" />
+        <div className="xp-hero__meta xp-hero__hud xp-hero__hud--tl">
+          <Hud>{t("hero.hud.a")}</Hud>
         </div>
+        <div className="xp-hero__meta xp-hero__hud xp-hero__hud--tr">
+          <Hud>{t("hero.hud.c")}</Hud>
+        </div>
+        <div className="xp-hero__meta xp-hero__hud xp-hero__hud--bl">
+          <Hud>{t("hero.hud.b")}</Hud>
+        </div>
+        <div className="xp-hero__meta xp-hero__hud xp-hero__hud--br">
+          <Hud>{t("hero.hud.d")}</Hud>
+        </div>
+        <p className="xp-hero__meta xp-hero__tagline xp-label">{t("hero.tag")}</p>
       </div>
 
       <h1 className="xp-hero__logo" data-hero-logo>
-        <BrandLogo priority sizes="(max-width: 900px) 60vw, 24vw" />
+        <BrandLogo priority sizes="(max-width: 900px) 44vw, 15vw" />
       </h1>
 
       <h2 className="xp-hero__statement" aria-label={statement.join(" ")}>
-        {statement.map((line) => (
+        {statement.map((line, i) => (
           <span key={line} className="xp-hero__line-wrap" aria-hidden="true">
-            <span className="xp-hero__line">{line}</span>
+            <span className="xp-hero__line">
+              <KineticChars
+                text={line}
+                accent={i === 1 ? "outline" : undefined}
+                glitch={i === 1}
+              />
+            </span>
           </span>
         ))}
       </h2>
+
+      <p className="xp-hero__meta xp-hero__lede">{t("hero.line")}</p>
+
+      <div className="xp-hero__marquee" aria-hidden="true">
+        <Marquee items={marqueeItems} speed={30} />
+      </div>
     </section>
   );
 }

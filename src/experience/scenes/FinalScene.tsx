@@ -7,6 +7,7 @@ import { motion } from "../animations/motion";
 import { contact } from "../data/contact";
 import { useSceneProgress } from "../hooks/useSceneProgress";
 import { BrandLogo } from "../ui/BrandLogo";
+import { Ghost, KineticChars, Marquee } from "../ui/Kinetic";
 import { TransitionLink } from "../ui/TransitionLink";
 
 interface Props {
@@ -21,6 +22,7 @@ export function FinalScene({ reduced }: Props) {
   const root = useRef<HTMLElement>(null);
   const { t, locale } = useLocale();
   const statement = useMemo(() => [t("final.l1"), t("final.l2"), t("final.l3")], [t, locale]);
+  const marqueeItems = useMemo(() => t("marquee.b").split("|"), [t, locale]);
 
   useSceneProgress(root, "final", { start: "top 85%", end: "bottom bottom" });
 
@@ -48,12 +50,19 @@ export function FinalScene({ reduced }: Props) {
 
   return (
     <section ref={root} id="contact" className="xp-scene xp-final" aria-labelledby="xp-final-heading">
+      <Ghost>07</Ghost>
       <p className="xp-label xp-final__label">{t("final.label")}</p>
 
+      <div className="xp-final__marquee" aria-hidden="true">
+        <Marquee items={marqueeItems} speed={22} reverse outline />
+      </div>
+
       <h2 id="xp-final-heading" className="xp-final__statement" aria-label={statement.join(" ")}>
-        {statement.map((l) => (
-          <span key={l} className="xp-final__line-wrap" aria-hidden="true">
-            <span className="xp-final__line">{l}</span>
+        {statement.map((l, i) => (
+          <span key={l} className="xp-final__line-wrap xpk-skew" aria-hidden="true">
+            <span className="xp-final__line">
+              <KineticChars text={l} glitch={i === 1} />
+            </span>
           </span>
         ))}
       </h2>

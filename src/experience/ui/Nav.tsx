@@ -8,6 +8,7 @@ import { motion } from "../animations/motion";
 import { getPhase, scrollToTarget, usePhase, xp } from "../lib/experience-store";
 import { contact } from "../data/contact";
 import { BrandLogo } from "./BrandLogo";
+import { KineticChars } from "./Kinetic";
 import { TransitionLink } from "./TransitionLink";
 import { XpPrefs } from "./XpPrefs";
 
@@ -196,7 +197,9 @@ export function Nav({ mode = "home" }: Props) {
                     tabIndex={open ? 0 : -1}
                   >
                     <span className="xp-label xp-menu__index">{m.index}</span>
-                    <span className="xp-menu__label">{m.label}</span>
+                    <span className="xp-menu__label">
+                      <KineticChars text={m.label} wave={open} />
+                    </span>
                   </a>
                 ) : (
                   <TransitionLink
@@ -207,7 +210,9 @@ export function Nav({ mode = "home" }: Props) {
                     tabIndex={open ? 0 : -1}
                   >
                     <span className="xp-label xp-menu__index">{m.index}</span>
-                    <span className="xp-menu__label">{m.label}</span>
+                    <span className="xp-menu__label">
+                      <KineticChars text={m.label} wave={open} />
+                    </span>
                   </TransitionLink>
                 )}
               </div>

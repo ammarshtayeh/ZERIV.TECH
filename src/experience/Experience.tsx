@@ -1,7 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { useLocale } from "@/i18n/LocaleProvider";
 import { useDeviceTier } from "./hooks/useDeviceTier";
 import { useNarrow } from "./hooks/useNarrow";
@@ -10,6 +10,7 @@ import { useLenis } from "./hooks/useLenis";
 import { setPhase, scrollToTarget, usePhase, xp } from "./lib/experience-store";
 import { ScrollTrigger } from "./animations/gsap";
 import { Preloader } from "./scenes/Preloader";
+import { Thread } from "./ui/Kinetic";
 import { HeroScene } from "./scenes/HeroScene";
 import { IdentityScene } from "./scenes/IdentityScene";
 import { CapabilitiesScene } from "./scenes/CapabilitiesScene";
@@ -38,6 +39,7 @@ export function Experience() {
   const narrow = useNarrow();
   const phase = usePhase();
   const { t, locale } = useLocale();
+  const rootRef = useRef<HTMLDivElement>(null);
 
   useLenis(phase === "ready", reduced);
 
@@ -97,11 +99,31 @@ export function Experience() {
   const onHandoff = useCallback(() => setPhase("revealing"), []);
   const onComplete = useCallback(() => setPhase("ready"), []);
 
+  /* Scroll-velocity skew — the kinetic layer leans into the scroll direction. */
+  useEffect(() => {
+    if (reduced) return;
+    const root = rootRef.current;
+    if (!root) return;
+    let raf = 0;
+    let skew = 0;
+    const loop = () => {
+      const v = xp.lenis?.velocity ?? 0;
+      const target = Math.max(-7, Math.min(7, v * 0.42));
+      skew += (target - skew) * 0.11;
+      if (Math.abs(skew) < 0.01) skew = 0;
+      root.style.setProperty("--xp-skew", `${skew.toFixed(3)}deg`);
+      raf = requestAnimationFrame(loop);
+    };
+    raf = requestAnimationFrame(loop);
+    return () => cancelAnimationFrame(raf);
+  }, [reduced]);
+
   return (
-    <div className="xp" data-phase={phase} data-tier={tier} data-locale={locale}>
+    <div ref={rootRef} className="xp" data-phase={phase} data-tier={tier} data-locale={locale}>
       <ExperienceCanvas tier={tier} reduced={reduced} />
       <div className="xp-grid" aria-hidden="true" />
       <div className="xp-vignette" aria-hidden="true" />
+      <div className="xp-grain" aria-hidden="true" />
 
       <a
         className="xp-skip"
@@ -120,10 +142,13 @@ export function Experience() {
 
       <main className="xp-main">
         <HeroScene reduced={reduced} />
+        <Thread />
         <IdentityScene reduced={reduced} />
         <WorkScene reduced={reduced} />
+        <Thread />
         <CapabilitiesScene reduced={reduced} narrow={narrow} />
         <SignatureScene tier={tier} reduced={reduced} />
+        <Thread />
         <ProcessScene reduced={reduced} narrow={narrow} />
         <FinalScene reduced={reduced} />
       </main>

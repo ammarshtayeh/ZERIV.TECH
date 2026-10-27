@@ -13,27 +13,43 @@ const LABELS: Partial<Record<Mode, string>> = {
 };
 
 /**
- * Desktop-only cursor. A minimal dot that follows with a light lag; it grows into a ring on
+ * Desktop-only cursor. A cross-stitch × that follows with a light lag; it grows into a ring on
  * interactive elements and into a labelled disc for VIEW / EXPLORE / OPEN / DRAG contexts.
+ * A red thread — the needle's trail — is sewn behind it on a fixed canvas.
  * Driven entirely through the DOM — no React state on pointer events.
  */
 export function Cursor() {
   const fine = useIsFinePointer();
   const ref = useRef<HTMLDivElement>(null);
   const label = useRef<HTMLSpanElement>(null);
+  const trail = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
     if (!fine) return;
     const el = ref.current;
     const lb = label.current;
-    if (!el || !lb) return;
+    const cv = trail.current;
+    if (!el || !lb || !cv) return;
 
     document.documentElement.classList.add("xp-cursor-on");
+
+    const ctx = cv.getContext("2d");
+    const dpr = Math.min(window.devicePixelRatio || 1, 1.75);
+    const sizeTrail = () => {
+      cv.width = Math.round(window.innerWidth * dpr);
+      cv.height = Math.round(window.innerHeight * dpr);
+      cv.style.width = `${window.innerWidth}px`;
+      cv.style.height = `${window.innerHeight}px`;
+    };
+    sizeTrail();
+    window.addEventListener("resize", sizeTrail);
 
     let x = window.innerWidth / 2;
     let y = window.innerHeight / 2;
     let tx = x;
     let ty = y;
+    let px = x;
+    let py = y;
     let raf = 0;
     let mode: Mode = "default";
     let pressed = false;
@@ -72,6 +88,30 @@ export function Cursor() {
       x += (tx - x) * k;
       y += (ty - y) * k;
       el.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+
+      // sew the thread: fade the whole canvas a touch, then stitch to the new position
+      if (ctx) {
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        ctx.globalCompositeOperation = "destination-out";
+        ctx.fillStyle = "rgba(0,0,0,0.055)";
+        ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
+        const dist = Math.hypot(x - px, y - py);
+        if (dist > 0.75) {
+          ctx.globalCompositeOperation = "source-over";
+          ctx.strokeStyle = document.documentElement.classList.contains("dark")
+            ? "rgba(226,30,46,0.85)"
+            : "rgba(200,16,34,0.8)";
+          ctx.lineWidth = 1.4;
+          ctx.lineCap = "round";
+          ctx.setLineDash([5, 4]);
+          ctx.beginPath();
+          ctx.moveTo(px, py);
+          ctx.lineTo(x, y);
+          ctx.stroke();
+        }
+        px = x;
+        py = y;
+      }
       raf = requestAnimationFrame(loop);
     };
     raf = requestAnimationFrame(loop);
@@ -85,6 +125,7 @@ export function Cursor() {
 
     return () => {
       cancelAnimationFrame(raf);
+      window.removeEventListener("resize", sizeTrail);
       window.removeEventListener("pointermove", move);
       window.removeEventListener("pointerover", over);
       window.removeEventListener("pointerdown", down);
@@ -98,10 +139,14 @@ export function Cursor() {
   if (!fine) return null;
 
   return (
-    <div ref={ref} className="xp-cursor" data-mode="default" data-visible="false" aria-hidden="true">
-      <span ref={label} className="xp-cursor__label">
-        VIEW
-      </span>
-    </div>
+    <>
+      <canvas ref={trail} className="xp-trail" aria-hidden="true" />
+      <div ref={ref} className="xp-cursor" data-mode="default" data-visible="false" aria-hidden="true">
+        <span className="xp-cursor__x" aria-hidden="true" />
+        <span ref={label} className="xp-cursor__label">
+          VIEW
+        </span>
+      </div>
+    </>
   );
 }

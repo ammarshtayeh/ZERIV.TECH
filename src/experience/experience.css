@@ -2987,8 +2987,8 @@ html:not(.dark) .xp-about__band {
   color: #14161c;
 }
 html:not(.dark) .xp-canvas {
-  opacity: 0.28;
-  filter: saturate(0.35) brightness(1.15) contrast(0.95);
+  opacity: 1;
+  filter: none;
 }
 
 /* ── Arabic / RTL ── */
@@ -3009,4 +3009,580 @@ html[dir="rtl"] .xp-sig__title {
   font-family: var(--font-messiri), var(--font-syne), sans-serif;
   letter-spacing: 0;
   text-transform: none;
+}
+
+/* ════════════════════════════════════════════════════════════
+   V2 — CYBER TATREEZ × KINETIC TYPE
+   ════════════════════════════════════════════════════════════ */
+
+/* ── Kinetic units ── */
+.xpk {
+  display: inline-block;
+  position: relative;
+}
+.xpk__u {
+  display: inline-block;
+}
+.xpk__i {
+  display: inline-block;
+  transform:
+    translateY(calc(var(--k, 0) * -0.13em))
+    skewX(calc(var(--k, 0) * -7deg))
+    scale(calc(1 + var(--k, 0) * 0.05));
+  transition: transform 0.5s var(--xp-ease);
+  will-change: transform;
+}
+.xpk[data-live="true"] .xpk__i {
+  transition: none;
+}
+.xpk[data-accent="outline"] {
+  color: transparent;
+  -webkit-text-stroke: 1px var(--xp-bone);
+}
+.xpk[data-accent="red"] {
+  color: var(--xp-red);
+}
+.xpk[data-accent="green"] {
+  color: var(--xp-green);
+}
+
+/* RGB-split glitch — rare, brief, electric */
+.xpk[data-glitch="true"]::before,
+.xpk[data-glitch="true"]::after {
+  content: attr(data-text);
+  position: absolute;
+  inset-inline-start: 0;
+  inset-block-start: 0;
+  width: 100%;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 0;
+  -webkit-text-stroke: 0;
+  white-space: nowrap;
+}
+.xpk[data-glitch="true"]::before {
+  color: var(--xp-red);
+  animation: xpk-glitch-a 6.5s steps(1, end) infinite;
+}
+.xpk[data-glitch="true"]::after {
+  color: var(--xp-green);
+  animation: xpk-glitch-b 6.5s steps(1, end) infinite;
+}
+@keyframes xpk-glitch-a {
+  0%, 88.9%, 93.5%, 100% { opacity: 0; transform: none; clip-path: inset(0 0 0 0); }
+  89%   { opacity: 0.85; transform: translate(0.06em, -0.03em); clip-path: inset(8% 0 58% 0); }
+  90.5% { opacity: 0.85; transform: translate(-0.05em, 0.02em); clip-path: inset(52% 0 12% 0); }
+  92%   { opacity: 0.6;  transform: translate(0.03em, 0.01em);  clip-path: inset(30% 0 38% 0); }
+}
+@keyframes xpk-glitch-b {
+  0%, 88.9%, 93.5%, 100% { opacity: 0; transform: none; clip-path: inset(0 0 0 0); }
+  89.4% { opacity: 0.8;  transform: translate(-0.06em, 0.03em); clip-path: inset(58% 0 8% 0); }
+  91%   { opacity: 0.8;  transform: translate(0.05em, -0.02em); clip-path: inset(10% 0 64% 0); }
+  92.6% { opacity: 0.55; transform: translate(-0.03em, -0.01em); clip-path: inset(40% 0 28% 0); }
+}
+
+/* scroll-velocity skew — applied on wrap-level elements only */
+.xpk-skew {
+  transform: skewY(var(--xp-skew, 0deg));
+  will-change: transform;
+}
+
+/* ── Stitch glyph ── */
+.xpst {
+  width: 0.6em;
+  height: 0.6em;
+  flex: 0 0 auto;
+  color: var(--xp-red);
+}
+
+/* ── HUD label ── */
+.xph {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6em;
+  margin: 0;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.6rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--xp-faint);
+  direction: ltr;
+}
+.xph__star {
+  width: 0.55em;
+  height: 0.55em;
+  animation: xpst-spin 7s linear infinite;
+}
+@keyframes xpst-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ── Marquee — the stitched band ── */
+.xpm {
+  overflow: clip;
+  border-block: 1px solid var(--xp-line);
+  padding-block: 0.6em;
+  user-select: none;
+}
+.xpm__track {
+  display: flex;
+  width: max-content;
+  animation: xpm-run var(--xpm-dur, 26s) linear infinite;
+}
+.xpm[data-reverse="true"] .xpm__track {
+  animation-direction: reverse;
+}
+@keyframes xpm-run {
+  to { transform: translateX(-50%); }
+}
+.xpm__seq {
+  display: flex;
+  flex: none;
+  align-items: center;
+}
+.xpm__unit {
+  display: flex;
+  align-items: center;
+  gap: 1.6em;
+  padding-inline-end: 1.6em;
+}
+.xpm__item {
+  font-family: var(--font-syne), sans-serif;
+  font-weight: 700;
+  font-size: clamp(0.85rem, 1.5vw, 1.3rem);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--xp-bone);
+}
+.xpm__star {
+  width: 0.5em;
+  height: 0.5em;
+  color: var(--xp-red);
+}
+.xpm__unit:nth-child(even) .xpm__star {
+  color: var(--xp-green);
+}
+.xpm[data-outline="true"] .xpm__item {
+  color: transparent;
+  -webkit-text-stroke: 1px var(--xp-faint);
+}
+
+/* ── Thread — a sewn divider with a travelling needle ── */
+.xpt {
+  position: relative;
+  z-index: 2;
+  height: clamp(3rem, 8vh, 5.5rem);
+  background: var(--xp-bg);
+  overflow: clip;
+}
+.xpt__line {
+  position: absolute;
+  inset-inline: 0;
+  top: 50%;
+  height: 1px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--xp-faint) 0 7px,
+    transparent 7px 15px
+  );
+  opacity: 0.55;
+}
+.xpt__needle {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 6px;
+  height: 6px;
+  margin: -3px 0 0 -3px;
+  background: var(--xp-red);
+  transform: rotate(45deg);
+  box-shadow: 0 0 12px 2px rgba(206, 17, 38, 0.55);
+  animation: xpt-sew 9s cubic-bezier(0.65, 0, 0.35, 1) infinite alternate;
+}
+@keyframes xpt-sew {
+  from { left: -1%; }
+  to { left: 101%; }
+}
+
+/* ── Ghost — huge background section number ── */
+.xpg-ghost {
+  position: absolute;
+  z-index: 0;
+  inset-inline-end: calc(var(--xp-gutter) * 0.4);
+  top: clamp(0.5rem, 4vh, 3rem);
+  font-family: var(--font-syne), sans-serif;
+  font-weight: 800;
+  font-size: clamp(8rem, 19vw, 20rem);
+  line-height: 0.75;
+  letter-spacing: -0.05em;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--xp-line);
+  opacity: 0.6;
+  user-select: none;
+  pointer-events: none;
+}
+
+/* ── Hero V2 layout ── */
+.xp-hero__hud {
+  z-index: 3;
+}
+.xp-hero__hud--tl { inset-inline-start: var(--xp-gutter); top: max(1.5rem, 4vh); }
+.xp-hero__hud--tr { inset-inline-end: var(--xp-gutter);  top: max(1.5rem, 4vh); }
+.xp-hero__hud--bl { inset-inline-start: var(--xp-gutter); bottom: calc(clamp(2.6rem, 5.5vh, 3.75rem) + 1rem); }
+.xp-hero__hud--br { inset-inline-end: var(--xp-gutter);  bottom: calc(clamp(2.6rem, 5.5vh, 3.75rem) + 1rem); }
+
+.xp-hero__tagline {
+  left: 50%;
+  top: max(1.5rem, 4vh);
+  translate: -50% 0;
+  margin: 0;
+  letter-spacing: 0.34em;
+  white-space: nowrap;
+}
+
+.xp-hero__statement {
+  font-size: clamp(2.6rem, 8.8vw, 10.6rem);
+  bottom: max(6.5rem, 15vh);
+}
+
+.xp-hero__lede {
+  left: var(--xp-gutter);
+  bottom: calc(clamp(2.6rem, 5.5vh, 3.75rem) + clamp(1.2rem, 4vh, 2.4rem));
+  margin: 0;
+  max-width: 30ch;
+  font-size: clamp(0.85rem, 1.05vw, 1.05rem);
+  line-height: 1.45;
+  color: var(--xp-muted);
+}
+
+.xp-hero__marquee {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+}
+.xp-hero__marquee .xpm {
+  border-bottom: none;
+}
+
+/* ── Final marquee ── */
+.xp-final__marquee {
+  margin-inline: calc(-1 * var(--xp-gutter));
+  margin-bottom: clamp(2.5rem, 7vh, 5rem);
+}
+
+/* ── Identity HUD ── */
+.xp-identity__hud {
+  margin-bottom: 2.2vh;
+}
+
+/* ghost numbers on paper bands need ink strokes, not bone ones */
+.xp-scene--paper .xpg-ghost {
+  -webkit-text-stroke-color: rgba(18, 20, 26, 0.13);
+}
+.xp-scene--paper .xph {
+  color: rgba(18, 20, 26, 0.48);
+}
+
+/* ── Capabilities stitch bullet ── */
+.xp-caps__title {
+  display: flex;
+  align-items: center;
+  gap: 0.35em;
+}
+.xp-caps__stitch {
+  width: 0.34em;
+  height: 0.34em;
+  color: var(--xp-red);
+  opacity: 0;
+  transform: scale(0) rotate(-120deg);
+  transition: opacity 0.4s var(--xp-ease), transform 0.55s var(--xp-ease);
+}
+.xp-caps__row[data-on="true"] .xp-caps__stitch {
+  opacity: 1;
+  transform: scale(1) rotate(0deg);
+}
+
+/* ── Menu items: kinetic labels inherit menu type ── */
+.xp-menu__label .xpk {
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+}
+
+/* ── Light theme for the V2 layer ── */
+html:not(.dark) .xpk[data-accent="outline"] {
+  color: #14161c;
+  -webkit-text-stroke: 0;
+}
+html:not(.dark) .xpm__item {
+  color: #14161c;
+}
+html:not(.dark) .xpm[data-outline="true"] .xpm__item {
+  color: transparent;
+  -webkit-text-stroke-color: rgba(20, 22, 28, 0.45);
+}
+html:not(.dark) .xpt {
+  background: #f7f3ea;
+}
+html:not(.dark) .xpg-ghost,
+html:not(.dark) .xp-scene--paper .xpg-ghost {
+  -webkit-text-stroke-color: rgba(20, 22, 28, 0.13);
+}
+html:not(.dark) .xp-hero__lede {
+  color: rgba(20, 22, 28, 0.62);
+}
+
+/* ── Mobile: HUD noise stays out of the way ── */
+@media (max-width: 900px) {
+  .xp-hero__hud--bl,
+  .xp-hero__hud--br,
+  .xp-hero__tagline,
+  .xp-hero__lede {
+    display: none;
+  }
+  .xp-hero__statement {
+    font-size: clamp(2.2rem, 12.5vw, 5.4rem);
+    bottom: max(7.5rem, 18vh);
+  }
+  .xpg-ghost {
+    font-size: clamp(6rem, 30vw, 10rem);
+    opacity: 0.4;
+  }
+}
+
+/* ── Reduced motion: calm everything down ── */
+@media (prefers-reduced-motion: reduce) {
+  .xpk[data-glitch="true"]::before,
+  .xpk[data-glitch="true"]::after,
+  .xph__star,
+  .xpt__needle {
+    animation: none;
+  }
+  .xpm__track {
+    animation-duration: 240s;
+  }
+  .xpk__i {
+    transition: none;
+    transform: none;
+  }
+  .xpk-skew {
+    transform: none;
+  }
+}
+
+/* ════════════════════════════════════════════════════════════
+   V3 — TATREEZ UNIVERSE · HOT TYPE · GRAIN · STITCH CURSOR
+   ════════════════════════════════════════════════════════════ */
+
+.xp {
+  --xp-hot: #fffaf0;          /* hot bone — headline white */
+  --xp-red-hot: #e21e2e;      /* neon-ish red for accents */
+}
+html:not(.dark) .xp {
+  --xp-hot: #0a0b0e;
+  --xp-red-hot: #c01022;
+}
+
+/* ── 1 · Dark scenes go transparent — the universe shows through ── */
+.xp-hero,
+.xp-caps,
+.xp-sig,
+.xp-final,
+.xpt {
+  background-color: transparent;
+}
+.xp-caps {
+  background:
+    linear-gradient(180deg, rgba(8, 9, 11, 0.82), transparent 26%),
+    radial-gradient(ellipse 90% 70% at 80% 20%, rgba(226, 30, 46, 0.1), transparent 55%);
+}
+.xp-final {
+  background:
+    radial-gradient(ellipse 70% 55% at 85% 80%, rgba(0, 122, 61, 0.14), transparent 55%),
+    radial-gradient(ellipse 60% 45% at 10% 20%, rgba(226, 30, 46, 0.12), transparent 50%);
+}
+.xp-footer {
+  background: linear-gradient(180deg, transparent, rgba(8, 9, 11, 0.9) 40%);
+}
+html:not(.dark) .xp-caps {
+  background:
+    linear-gradient(180deg, rgba(247, 243, 234, 0.82), transparent 28%),
+    radial-gradient(ellipse 90% 70% at 80% 20%, rgba(192, 16, 34, 0.08), transparent 55%);
+}
+html:not(.dark) .xp-final {
+  background:
+    radial-gradient(ellipse 70% 55% at 85% 80%, rgba(0, 122, 61, 0.1), transparent 55%),
+    radial-gradient(ellipse 60% 45% at 10% 20%, rgba(192, 16, 34, 0.09), transparent 50%);
+}
+html:not(.dark) .xp-sig,
+html:not(.dark) .xp-footer {
+  background: transparent;
+}
+html:not(.dark) .xp-footer {
+  background: linear-gradient(180deg, transparent, rgba(247, 243, 234, 0.9) 40%);
+}
+
+/* ── 2 · Hot hero statement — bigger, hotter, tighter ── */
+.xp-hero__statement {
+  color: var(--xp-hot);
+  font-size: clamp(2.9rem, 10.4vw, 13rem);
+  letter-spacing: -0.05em;
+  text-shadow: 0 0 42px rgba(255, 250, 240, 0.14);
+}
+html:not(.dark) .xp-hero__statement {
+  text-shadow: none;
+}
+.xp-final__statement {
+  color: var(--xp-hot);
+}
+
+/* ── 3 · Stronger kinetic wave + variable weight swell ── */
+.xpk__i {
+  transform:
+    translateY(calc(var(--k, 0) * -0.22em))
+    skewX(calc(var(--k, 0) * -11deg))
+    scale(calc(1 + var(--k, 0) * 0.09));
+  font-variation-settings: "wght" calc(var(--base-wght, 800) + var(--k, 0) * 130);
+  transition: transform 0.55s var(--xp-ease), font-variation-settings 0.55s var(--xp-ease);
+}
+.xpk[data-live="true"] .xpk__i {
+  transition: none;
+}
+[dir="rtl"] .xpk__i,
+.xp [lang="ar"] .xpk__i {
+  --base-wght: 700;
+}
+
+/* ── 4 · Film grain ── */
+.xp-grain {
+  position: fixed;
+  inset: -60%;
+  z-index: 70;
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: xp-grain-shift 0.9s steps(3) infinite;
+}
+html:not(.dark) .xp-grain {
+  opacity: 0.06;
+  mix-blend-mode: multiply;
+  filter: invert(1);
+}
+@keyframes xp-grain-shift {
+  0% { transform: translate(0, 0); }
+  33% { transform: translate(-2.5%, 1.6%); }
+  66% { transform: translate(1.8%, -2.2%); }
+  100% { transform: translate(0, 0); }
+}
+
+/* ── 5 · Stitch cursor + red thread trail ── */
+.xp-trail {
+  position: fixed;
+  inset: 0;
+  z-index: 79;
+  pointer-events: none;
+}
+.xp-cursor {
+  z-index: 80;
+  background: transparent;
+  border-radius: 0;
+  mix-blend-mode: normal;
+  width: 14px;
+  height: 14px;
+  margin: -7px 0 0 -7px;
+}
+.xp-cursor__x {
+  position: absolute;
+  inset: 0;
+  transition: transform 0.4s var(--xp-ease), opacity 0.25s ease;
+}
+.xp-cursor__x::before,
+.xp-cursor__x::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 100%;
+  height: 2px;
+  background: var(--xp-red-hot);
+  translate: -50% -50%;
+}
+.xp-cursor__x::before { rotate: 45deg; }
+.xp-cursor__x::after { rotate: -45deg; }
+.xp-cursor[data-pressed="true"] .xp-cursor__x {
+  transform: scale(0.55) rotate(90deg);
+}
+/* modes hide the ×, the disc/ring takes over */
+.xp-cursor[data-mode="expand"] {
+  background: transparent;
+  border: 1px solid var(--xp-bone);
+  border-radius: 50%;
+}
+.xp-cursor[data-mode="view"],
+.xp-cursor[data-mode="explore"],
+.xp-cursor[data-mode="open"],
+.xp-cursor[data-mode="drag"] {
+  background: var(--xp-hot);
+  border-radius: 999px;
+}
+.xp-cursor[data-mode="explore"] {
+  background: transparent;
+  border: 1px solid var(--xp-bone);
+}
+.xp-cursor[data-mode="expand"] .xp-cursor__x,
+.xp-cursor[data-mode="view"] .xp-cursor__x,
+.xp-cursor[data-mode="explore"] .xp-cursor__x,
+.xp-cursor[data-mode="open"] .xp-cursor__x,
+.xp-cursor[data-mode="drag"] .xp-cursor__x {
+  opacity: 0;
+  transform: scale(0.3);
+}
+.xp-cursor__label {
+  color: var(--xp-bg);
+}
+.xp-cursor[data-mode="explore"] .xp-cursor__label {
+  color: var(--xp-bone);
+}
+
+/* ── 6 · Marquee — every 5th item burns red ── */
+.xpm__item:nth-child(5n) {
+  color: var(--xp-red-hot);
+}
+.xpm[data-outline="true"] .xpm__item:nth-child(5n) {
+  color: transparent;
+  -webkit-text-stroke-color: var(--xp-red-hot);
+  -webkit-text-stroke-width: 1px;
+}
+
+/* ── 7 · Work media — hungrier hover ── */
+.xp-work__media:hover .xp-media {
+  transform: scale(1.085);
+}
+.xp-media {
+  transition: transform 0.9s var(--xp-ease);
+}
+
+/* ── Mobile: keep the hot scale sane ── */
+@media (max-width: 900px) {
+  .xp-hero__statement {
+    font-size: clamp(2.3rem, 13.5vw, 5.6rem);
+  }
+}
+
+/* ── Reduced motion: V3 respects it too ── */
+@media (prefers-reduced-motion: reduce) {
+  .xp-grain {
+    animation: none;
+  }
+  .xp-cursor__x {
+    transition: none;
+  }
+  .xpk__i {
+    font-variation-settings: none;
+  }
 }

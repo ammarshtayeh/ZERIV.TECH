@@ -41,7 +41,6 @@ const plex = IBM_Plex_Sans_Arabic({
 
 const messiri = El_Messiri({
   subsets: ["arabic", "latin"],
-  weight: ["400", "500", "600", "700"],
   variable: "--font-messiri",
   display: "swap",
 });
