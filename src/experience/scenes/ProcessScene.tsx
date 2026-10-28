@@ -5,7 +5,6 @@ import { useLocale } from "@/i18n/LocaleProvider";
 import { gsap } from "../animations/gsap";
 import { motion } from "../animations/motion";
 import { getMethodSteps } from "../data/localized";
-import { Ghost, Hud } from "../ui/Kinetic";
 
 interface Props {
   reduced: boolean;
@@ -76,9 +75,7 @@ export function ProcessScene({ reduced }: Props) {
 
   return (
     <section ref={root} id="method" className="xp-scene xp-proc xp-scene--paper" aria-labelledby="xp-proc-heading">
-      <Ghost>06</Ghost>
       <header className="xp-proc__head">
-        <Hud>SEC.06 — METHOD</Hud>
         <p className="xp-label">{t("proc.label")}</p>
         <h2 id="xp-proc-heading" className="xp-proc__title">
           {t("proc.title")} <em>{t("proc.titleEm")}</em>

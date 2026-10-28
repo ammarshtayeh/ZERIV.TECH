@@ -9,7 +9,6 @@ import { useSceneProgress } from "../hooks/useSceneProgress";
 import { STAGE_LABELS } from "../data/localized";
 import { createTransformation, STAGES, type Transformation } from "../lib/transformation";
 import { BrandLogo } from "../ui/BrandLogo";
-import { Ghost } from "../ui/Kinetic";
 
 interface Props {
   tier: DeviceTier;
@@ -112,7 +111,6 @@ export function SignatureScene({ tier, reduced }: Props) {
 
   return (
     <section ref={root} id="signature" className="xp-scene xp-sig" aria-labelledby="xp-sig-heading">
-      <Ghost>05</Ghost>
       <div className="xp-sig__frame">
         <canvas ref={canvas} className="xp-sig__canvas" aria-hidden="true" />
 

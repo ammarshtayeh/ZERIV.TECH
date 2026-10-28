@@ -3586,3 +3586,308 @@ html:not(.dark) .xp-grain {
     font-variation-settings: none;
   }
 }
+
+/* ════════════════════════════════════════════════════════════
+   V4 — THE EMBROIDERED POSTER
+   Flat poster colour, giant cropped type, scroll-sewn tatreez frame.
+   ════════════════════════════════════════════════════════════ */
+
+/* ── Scenes go flat — no gradients, poster blocks of colour ── */
+.xp-caps {
+  background: var(--xp-red);
+  border-top: none;
+  color: #fffaf0;
+}
+.xp-final {
+  background: var(--xp-bg);
+}
+.xp-footer {
+  background: var(--xp-bg);
+}
+html:not(.dark) .xp-caps {
+  background: var(--xp-red);
+}
+html:not(.dark) .xp-final,
+html:not(.dark) .xp-footer {
+  background: var(--xp-bg);
+}
+
+/* ── Capabilities on red — everything turns bone ── */
+.xp-caps .xp-label,
+.xp-caps__count {
+  color: rgba(255, 250, 240, 0.6);
+}
+.xp-caps__heading {
+  color: #fffaf0;
+}
+.xp-caps__heading span:last-child {
+  -webkit-text-stroke-color: rgba(255, 250, 240, 0.85);
+  color: transparent;
+}
+.xp-caps__rule {
+  background: rgba(255, 250, 240, 0.32);
+}
+.xp-caps__index {
+  color: rgba(255, 250, 240, 0.55);
+}
+.xp-caps__row[data-on="true"] .xp-caps__index {
+  color: #14161c;
+}
+.xp-caps__title-a {
+  color: #fffaf0;
+}
+.xp-caps__title-b,
+html:not(.dark) .xp-caps__title-b {
+  color: #14161c;
+}
+.xp-caps[data-active]:not([data-active="-1"]) .xp-caps__row[data-on="false"] .xp-caps__title-a,
+html:not(.dark) .xp-caps[data-active]:not([data-active="-1"]) .xp-caps__row[data-on="false"] .xp-caps__title-a {
+  color: rgba(255, 250, 240, 0.42);
+}
+.xp-caps__desc,
+.xp-caps__detail {
+  color: rgba(255, 250, 240, 0.8);
+}
+.xp-caps__tags .xp-label {
+  color: rgba(255, 250, 240, 0.55);
+}
+.xp-caps__tags .xp-label::before {
+  color: #14161c;
+}
+.xp-caps__stitch {
+  color: #fffaf0;
+}
+@media (max-width: 900px) {
+  .xp-caps__row[data-on="true"] .xp-caps__title-a {
+    color: #14161c;
+  }
+  .xp-caps__heading span:last-child {
+    color: #fffaf0;
+    -webkit-text-stroke: 0;
+  }
+}
+
+/* ── Poster hero — giant left-aligned type, red block, vertical strip ── */
+.xp-hero__logo {
+  width: clamp(110px, 11vw, 180px);
+  top: max(5rem, 9.5vh);
+}
+.xp-hero__statement {
+  left: var(--xp-gutter);
+  right: 0;
+  bottom: max(5.5rem, 12vh);
+  text-align: start;
+  font-size: clamp(3rem, 12.5vw, 13.5rem);
+  line-height: 0.86;
+  letter-spacing: -0.055em;
+  text-shadow: none;
+}
+html:not(.dark) .xp-hero__statement {
+  color: #0a0b0e;
+}
+.xp-hero__line-wrap {
+  justify-content: flex-start;
+}
+[dir="rtl"] .xp-hero__line-wrap {
+  justify-content: flex-end;
+}
+/* V2's outline second line is dead — the red block replaces it */
+.xp-hero__line-wrap:nth-child(2) {
+  -webkit-text-stroke: 0;
+  color: inherit;
+}
+html:not(.dark) .xp-hero__line-wrap:nth-child(2) {
+  -webkit-text-stroke: 0;
+  color: inherit;
+}
+.xp-hero__block {
+  display: inline-block;
+  background: var(--xp-red);
+  color: #fffaf0;
+  padding: 0.015em 0.12em 0.05em 0.06em;
+  transform: rotate(-1.4deg) translateX(-0.02em);
+  transform-origin: 0 100%;
+}
+[dir="rtl"] .xp-hero__block {
+  transform: rotate(1.4deg) translateX(0.02em);
+  transform-origin: 100% 100%;
+  padding: 0.015em 0.06em 0.05em 0.12em;
+}
+.xp-hero__tagline {
+  left: var(--xp-gutter);
+  right: auto;
+  translate: none;
+  top: max(1.5rem, 3.5vh);
+}
+[dir="rtl"] .xp-hero__tagline {
+  left: auto;
+  right: var(--xp-gutter);
+}
+.xp-hero__coords {
+  position: absolute;
+  right: var(--xp-gutter);
+  top: max(1.5rem, 3.5vh);
+  margin: 0;
+  color: var(--xp-muted);
+}
+[dir="rtl"] .xp-hero__coords {
+  right: auto;
+  left: var(--xp-gutter);
+}
+.xp-hero__strip {
+  position: absolute;
+  inset-inline-end: calc(var(--xp-gutter) * 0.4);
+  top: 50%;
+  translate: 0 -50%;
+  margin: 0;
+  writing-mode: vertical-rl;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.4em;
+  color: var(--xp-green);
+}
+html:not(.dark) .xp-hero__strip {
+  color: #007a3d;
+}
+.xp-hero__lede {
+  bottom: calc(clamp(2.6rem, 5.5vh, 3.75rem) + clamp(1rem, 3.2vh, 2rem));
+}
+@media (max-width: 900px) {
+  .xp-hero__statement {
+    font-size: clamp(2.6rem, 15vw, 6rem);
+    bottom: max(7.5rem, 16vh);
+  }
+  .xp-hero__strip,
+  .xp-hero__coords {
+    display: none;
+  }
+}
+
+/* ── The sewn frame — your scroll embroiders the poster ── */
+.xps {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 1.4s ease 0.2s;
+}
+.xp[data-phase="ready"] .xps {
+  opacity: 0.55;
+}
+html:not(.dark) .xp[data-phase="ready"] .xps {
+  opacity: 0.55;
+}
+.xps__path {
+  fill: none;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.xps--red {
+  stroke: var(--xp-red-hot);
+}
+html:not(.dark) .xps--red {
+  stroke: #c8102e;
+}
+.xps--green {
+  stroke: var(--xp-green);
+}
+.xps--bone {
+  stroke: var(--xp-muted);
+}
+.xps__needle-body {
+  stroke: var(--xp-hot);
+  stroke-width: 2.4;
+  stroke-linecap: round;
+}
+.xps__needle-eye {
+  fill: var(--xp-bg);
+  stroke: var(--xp-hot);
+  stroke-width: 1.2;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .xp[data-phase="ready"] .xps {
+    opacity: 0.5;
+  }
+  .xps__needle {
+    display: none;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   V4.1 — LIVING IMAGES · CSS motion until AI video loops land
+   Ken Burns breathing + hover light sweep. Swap media to
+   { type: "video" } in projects.ts when loops are generated.
+   ═══════════════════════════════════════════════════════════════ */
+
+@keyframes xp-kenburns {
+  0% {
+    transform: scale(1.001) translate(0, 0);
+  }
+  50% {
+    transform: scale(1.065) translate(-1.1%, -0.9%);
+  }
+  100% {
+    transform: scale(1.001) translate(0, 0);
+  }
+}
+
+.xp-media__img {
+  animation: xp-kenburns 24s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* never breathe in sync — every surface gets its own tempo */
+.xp-ed__row:nth-child(2n) .xp-media__img {
+  animation-duration: 29s;
+  animation-delay: -9s;
+  animation-direction: reverse;
+}
+.xp-ed__row:nth-child(3n) .xp-media__img {
+  animation-duration: 21s;
+  animation-delay: -4s;
+}
+
+/* light sweep on hover — the glint that reads as "video" */
+.xp-media::before {
+  content: "";
+  position: absolute;
+  inset: -45%;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(105deg, transparent 44%, rgba(232, 226, 210, 0.13) 50%, transparent 56%);
+  transform: translateX(-130%) skewX(-6deg);
+}
+.xp-ed__media:hover .xp-media::before,
+.xp-work__media:hover .xp-media::before,
+.xp-case__media:hover .xp-media::before {
+  transform: translateX(130%) skewX(-6deg);
+  transition: transform 1.25s var(--xp-ease);
+}
+html:not(.dark) .xp-media::before {
+  background: linear-gradient(105deg, transparent 44%, rgba(20, 22, 18, 0.1) 50%, transparent 56%);
+}
+
+/* the empty placeholder drifts too */
+@keyframes xp-ph-spin {
+  to {
+    transform: rotate(1turn);
+  }
+}
+.xp-media__ph-mark {
+  animation: xp-ph-spin 46s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .xp-media__img,
+  .xp-media__ph-mark {
+    animation: none !important;
+  }
+  .xp-media::before {
+    display: none;
+  }
+}

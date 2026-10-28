@@ -49,6 +49,7 @@ const en: Dict = {
   "hero.l1": "WE BUILD",
   "hero.l2": "DIGITAL",
   "hero.l3": "EXPERIENCES.",
+  "hero.strip": "PALESTINIAN STUDIO — NABLUS",
 
   "identity.l1": "WE TURN",
   "identity.l2": "IDEAS INTO",
@@ -217,6 +218,7 @@ const ar: Dict = {
   "hero.l1": "نبني",
   "hero.l2": "تجارب",
   "hero.l3": "رقمية.",
+  "hero.strip": "استوديو فلسطيني — نابلس",
 
   "identity.l1": "نحوّل",
   "identity.l2": "الأفكار إلى",

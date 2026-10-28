@@ -6,7 +6,7 @@ import { gsap } from "../animations/gsap";
 import { motion } from "../animations/motion";
 import { getPhase, subscribePhase, xp } from "../lib/experience-store";
 import { BrandLogo } from "../ui/BrandLogo";
-import { Hud, KineticChars, Marquee } from "../ui/Kinetic";
+import { KineticChars, Marquee } from "../ui/Kinetic";
 
 interface Props {
   reduced: boolean;
@@ -164,34 +164,29 @@ export function HeroScene({ reduced }: Props) {
   return (
     <section ref={root} id="top" className="xp-scene xp-hero" data-intro="pending" aria-label="ZERIV">
       <div className="xp-hero__chrome">
-        <div className="xp-hero__meta xp-hero__hud xp-hero__hud--tl">
-          <Hud>{t("hero.hud.a")}</Hud>
-        </div>
-        <div className="xp-hero__meta xp-hero__hud xp-hero__hud--tr">
-          <Hud>{t("hero.hud.c")}</Hud>
-        </div>
-        <div className="xp-hero__meta xp-hero__hud xp-hero__hud--bl">
-          <Hud>{t("hero.hud.b")}</Hud>
-        </div>
-        <div className="xp-hero__meta xp-hero__hud xp-hero__hud--br">
-          <Hud>{t("hero.hud.d")}</Hud>
-        </div>
         <p className="xp-hero__meta xp-hero__tagline xp-label">{t("hero.tag")}</p>
+        <p className="xp-hero__meta xp-hero__coords xp-label">PALESTINE — 31.90°N / 35.20°E</p>
       </div>
 
+      <p className="xp-hero__meta xp-hero__strip" aria-hidden="true">
+        {t("hero.strip")}
+      </p>
+
       <h1 className="xp-hero__logo" data-hero-logo>
-        <BrandLogo priority sizes="(max-width: 900px) 44vw, 15vw" />
+        <BrandLogo priority sizes="(max-width: 900px) 40vw, 11vw" />
       </h1>
 
       <h2 className="xp-hero__statement" aria-label={statement.join(" ")}>
         {statement.map((line, i) => (
           <span key={line} className="xp-hero__line-wrap" aria-hidden="true">
             <span className="xp-hero__line">
-              <KineticChars
-                text={line}
-                accent={i === 1 ? "outline" : undefined}
-                glitch={i === 1}
-              />
+              {i === 1 ? (
+                <span className="xp-hero__block">
+                  <KineticChars text={line} />
+                </span>
+              ) : (
+                <KineticChars text={line} />
+              )}
             </span>
           </span>
         ))}

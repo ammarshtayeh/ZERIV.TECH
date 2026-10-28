@@ -7,7 +7,6 @@ import { motion } from "../animations/motion";
 import { getFeaturedProjects } from "../data/localized";
 import { useSceneProgress } from "../hooks/useSceneProgress";
 import { CinematicMedia } from "../ui/CinematicMedia";
-import { Ghost, Hud } from "../ui/Kinetic";
 import { TransitionLink } from "../ui/TransitionLink";
 
 interface Props {
@@ -47,9 +46,7 @@ export function WorkScene({ reduced }: Props) {
 
   return (
     <section ref={root} id="work" className="xp-scene xp-ed xp-scene--paper" aria-labelledby="xp-work-heading">
-      <Ghost>03</Ghost>
       <header className="xp-ed__head">
-        <Hud>SEC.03 — PROOF</Hud>
         <p className="xp-label">{t("work.label")}</p>
         <h2 id="xp-work-heading" className="xp-ed__title xpk-skew">
           {titleParts.map((part) => (

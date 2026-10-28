@@ -159,34 +159,4 @@ export function Stitch({ className }: { className?: string }) {
   );
 }
 
-/* ── Thread — a sewn hairline with a travelling needle ─────── */
-
-export function Thread({ className }: { className?: string }) {
-  return (
-    <div className={`xpt${className ? ` ${className}` : ""}`} aria-hidden="true">
-      <span className="xpt__line" />
-      <span className="xpt__needle" />
-    </div>
-  );
-}
-
-/* ── Ghost — the huge background section number ────────────── */
-
-export function Ghost({ children, className }: { children: string; className?: string }) {
-  return (
-    <span className={`xpg-ghost${className ? ` ${className}` : ""}`} aria-hidden="true">
-      {children}
-    </span>
-  );
-}
-
-/* ── Hud — a mono system label with a stitch prefix ────────── */
-
-export function Hud({ children, className }: { children: string; className?: string }) {
-  return (
-    <p className={`xph${className ? ` ${className}` : ""}`}>
-      <Stitch className="xph__star" />
-      <span>{children}</span>
-    </p>
-  );
-}
+/* V4: Thread / Ghost / Hud removed — the SewnPanel carries the embroidery now. */

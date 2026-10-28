@@ -1,6 +1,5 @@
 "use client";
 
-import dynamic from "next/dynamic";
 import { useCallback, useEffect, useRef } from "react";
 import { useLocale } from "@/i18n/LocaleProvider";
 import { useDeviceTier } from "./hooks/useDeviceTier";
@@ -10,7 +9,7 @@ import { useLenis } from "./hooks/useLenis";
 import { setPhase, scrollToTarget, usePhase, xp } from "./lib/experience-store";
 import { ScrollTrigger } from "./animations/gsap";
 import { Preloader } from "./scenes/Preloader";
-import { Thread } from "./ui/Kinetic";
+import { SewnPanel } from "./ui/SewnPanel";
 import { HeroScene } from "./scenes/HeroScene";
 import { IdentityScene } from "./scenes/IdentityScene";
 import { CapabilitiesScene } from "./scenes/CapabilitiesScene";
@@ -24,10 +23,6 @@ import { Cursor } from "./ui/Cursor";
 import { RouteTransition } from "./ui/TransitionLink";
 import "./experience.css";
 import "./experience-studio.css";
-
-const ExperienceCanvas = dynamic(() => import("./webgl/ExperienceCanvas"), {
-  ssr: false,
-});
 
 /**
  * Official ZERIV journey.
@@ -120,9 +115,9 @@ export function Experience() {
 
   return (
     <div ref={rootRef} className="xp" data-phase={phase} data-tier={tier} data-locale={locale}>
-      <ExperienceCanvas tier={tier} reduced={reduced} />
       <div className="xp-grid" aria-hidden="true" />
       <div className="xp-vignette" aria-hidden="true" />
+      <SewnPanel reduced={reduced} />
       <div className="xp-grain" aria-hidden="true" />
 
       <a
@@ -142,13 +137,10 @@ export function Experience() {
 
       <main className="xp-main">
         <HeroScene reduced={reduced} />
-        <Thread />
         <IdentityScene reduced={reduced} />
         <WorkScene reduced={reduced} />
-        <Thread />
         <CapabilitiesScene reduced={reduced} narrow={narrow} />
         <SignatureScene tier={tier} reduced={reduced} />
-        <Thread />
         <ProcessScene reduced={reduced} narrow={narrow} />
         <FinalScene reduced={reduced} />
       </main>

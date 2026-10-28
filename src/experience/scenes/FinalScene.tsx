@@ -7,7 +7,7 @@ import { motion } from "../animations/motion";
 import { contact } from "../data/contact";
 import { useSceneProgress } from "../hooks/useSceneProgress";
 import { BrandLogo } from "../ui/BrandLogo";
-import { Ghost, KineticChars, Marquee } from "../ui/Kinetic";
+import { KineticChars, Marquee } from "../ui/Kinetic";
 import { TransitionLink } from "../ui/TransitionLink";
 
 interface Props {
@@ -50,7 +50,6 @@ export function FinalScene({ reduced }: Props) {
 
   return (
     <section ref={root} id="contact" className="xp-scene xp-final" aria-labelledby="xp-final-heading">
-      <Ghost>07</Ghost>
       <p className="xp-label xp-final__label">{t("final.label")}</p>
 
       <div className="xp-final__marquee" aria-hidden="true">
