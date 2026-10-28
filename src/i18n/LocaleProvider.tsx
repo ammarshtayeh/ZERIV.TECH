@@ -5,10 +5,14 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useLayoutEffect,
   useMemo,
   useState,
   type ReactNode,
 } from "react";
+
+/** layout effect on client, plain effect on server — flips locale before first paint */
+const useIsoLayoutEffect = typeof window === "undefined" ? useEffect : useLayoutEffect;
 import { translate } from "./messages";
 import { DEFAULT_LOCALE, LOCALE_COOKIE, type Locale } from "./types";
 
@@ -21,17 +25,6 @@ interface LocaleContextValue {
 }
 
 const LocaleContext = createContext<LocaleContextValue | null>(null);
-
-function readStoredLocale(): Locale {
-  if (typeof window === "undefined") return DEFAULT_LOCALE;
-  try {
-    const stored = window.localStorage.getItem(LOCALE_COOKIE);
-    if (stored === "ar" || stored === "en") return stored;
-  } catch {
-    /* ignore */
-  }
-  return DEFAULT_LOCALE;
-}
 
 function applyDocumentLocale(locale: Locale) {
   const root = document.documentElement;
@@ -46,15 +39,32 @@ function applyDocumentLocale(locale: Locale) {
   }
 }
 
-export function LocaleProvider({ children }: { children: ReactNode }) {
-  const [locale, setLocaleState] = useState<Locale>(DEFAULT_LOCALE);
+export function LocaleProvider({
+  children,
+  initialLocale = DEFAULT_LOCALE,
+}: {
+  children: ReactNode;
+  /** server-read cookie locale — first client render matches the HTML */
+  initialLocale?: Locale;
+}) {
+  const [locale, setLocaleState] = useState<Locale>(initialLocale);
   const [ready, setReady] = useState(false);
 
-  useEffect(() => {
-    const next = readStoredLocale();
+  useIsoLayoutEffect(() => {
+    /* localStorage is the freshest client truth; cookie (initialLocale) is the
+       server-rendered one. They only diverge if the cookie write once failed. */
+    let stored: Locale | null = null;
+    try {
+      const v = window.localStorage.getItem(LOCALE_COOKIE);
+      if (v === "ar" || v === "en") stored = v;
+    } catch {
+      /* ignore */
+    }
+    const next = stored ?? initialLocale;
     setLocaleState(next);
     applyDocumentLocale(next);
     setReady(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const setLocale = useCallback((next: Locale) => {

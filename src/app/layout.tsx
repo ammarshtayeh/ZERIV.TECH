@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { SITE_URL } from "@/lib/site";
+import { getServerLocale } from "@/i18n/seo";
 import {
   Syne,
   Space_Grotesk,
@@ -52,53 +53,76 @@ const notoNaskh = Noto_Naskh_Arabic({
   display: "swap",
 });
 
-const DESCRIPTION =
+const TITLE_EN = "ZERIV — Technology × Design × Culture";
+const TITLE_AR = "زيريف — تكنولوجيا × تصميم × ثقافة";
+const DESCRIPTION_EN =
   "ZERIV is a Palestinian studio building websites, mobile applications, brands, AI-powered solutions and interactive digital experiences.";
+const DESCRIPTION_AR =
+  "زيريف استوديو فلسطيني يبني مواقع وتطبيقات موبايل وعلامات تجارية وحلول ذكاء وتجارب رقمية تفاعلية.";
+const TAGLINE_EN = "We build digital experiences worth remembering.";
+const TAGLINE_AR = "نبني تجارب رقمية تستحق أن تُذكر.";
 
-export const metadata: Metadata = {
-  metadataBase: new URL(SITE_URL),
-  title: {
-    default: "ZERIV — Technology × Design × Culture",
-    template: "%s | ZERIV",
-  },
-  description: DESCRIPTION,
-  applicationName: "ZERIV",
-  keywords: [
-    "ZERIV",
-    "ZERIV TECH",
-    "digital studio",
-    "web development",
-    "mobile applications",
-    "UI/UX design",
-    "branding",
-    "AI solutions",
-    "Palestine",
-    "digital experiences",
-  ],
-  authors: [{ name: "ZERIV TECH" }],
-  creator: "ZERIV TECH",
-  openGraph: {
-    type: "website",
-    siteName: "ZERIV",
-    locale: "en_US",
-    url: "/",
-    title: "ZERIV — Technology × Design × Culture",
-    description: "We build digital experiences worth remembering.",
-    images: [{ url: "/brand/logo.png", width: 1024, height: 1024, alt: "ZERIV TECH" }],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "ZERIV — Technology × Design × Culture",
-    description: "We build digital experiences worth remembering.",
-    images: ["/brand/logo.png"],
-  },
-  robots: { index: true, follow: true },
-  alternates: { canonical: "/" },
-  icons: {
-    icon: "/brand/logo.png",
-    apple: "/brand/logo.png",
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getServerLocale();
+  const isAr = locale === "ar";
+  return {
+    metadataBase: new URL(SITE_URL),
+    title: {
+      default: isAr ? TITLE_AR : TITLE_EN,
+      template: "%s | ZERIV",
+    },
+    description: isAr ? DESCRIPTION_AR : DESCRIPTION_EN,
+    applicationName: "ZERIV",
+    keywords: isAr
+      ? [
+          "زيريف",
+          "استوديو رقمي فلسطيني",
+          "تطوير مواقع",
+          "تطبيقات موبايل",
+          "تصميم واجهات",
+          "هوية بصرية",
+          "حلول ذكاء اصطناعي",
+          "فلسطين",
+          "تجارب رقمية",
+        ]
+      : [
+          "ZERIV",
+          "ZERIV TECH",
+          "digital studio",
+          "web development",
+          "mobile applications",
+          "UI/UX design",
+          "branding",
+          "AI solutions",
+          "Palestine",
+          "digital experiences",
+        ],
+    authors: [{ name: "ZERIV TECH" }],
+    creator: "ZERIV TECH",
+    openGraph: {
+      type: "website",
+      siteName: "ZERIV",
+      locale: isAr ? "ar_PS" : "en_US",
+      alternateLocale: isAr ? "en_US" : "ar_PS",
+      url: "/",
+      title: isAr ? TITLE_AR : TITLE_EN,
+      description: isAr ? TAGLINE_AR : TAGLINE_EN,
+      images: [{ url: "/brand/logo.png", width: 1024, height: 1024, alt: "ZERIV TECH" }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: isAr ? TITLE_AR : TITLE_EN,
+      description: isAr ? TAGLINE_AR : TAGLINE_EN,
+      images: ["/brand/logo.png"],
+    },
+    robots: { index: true, follow: true },
+    alternates: { canonical: "/" },
+    icons: {
+      icon: "/brand/logo.png",
+      apple: "/brand/logo.png",
+    },
+  };
+}
 
 export const viewport: Viewport = {
   themeColor: [
@@ -111,17 +135,23 @@ export const viewport: Viewport = {
   viewportFit: "cover",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const locale = await getServerLocale();
   return (
-    <html lang="en" className="dark" suppressHydrationWarning>
+    <html
+      lang={locale}
+      dir={locale === "ar" ? "rtl" : "ltr"}
+      className="dark"
+      suppressHydrationWarning
+    >
       <body
         className={`${syne.variable} ${grotesk.variable} ${mono.variable} ${plex.variable} ${messiri.variable} ${notoNaskh.variable} antialiased`}
       >
-        <AppProviders>{children}</AppProviders>
+        <AppProviders initialLocale={locale}>{children}</AppProviders>
       </body>
     </html>
   );

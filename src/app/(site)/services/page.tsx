@@ -1,18 +1,23 @@
 import type { Metadata } from "next";
 import { PageShell } from "@/experience/ui/PageShell";
 import { ServicesStudio } from "@/experience/studio/ServicesStudio";
+import { getServerLocale, pageMetadata } from "@/i18n/seo";
 
-export const metadata: Metadata = {
-  title: "Services",
-  description:
-    "Web development, mobile applications, UI/UX, branding and AI solutions from ZERIV.",
-  openGraph: {
-    title: "Capabilities | ZERIV",
-    description: "What ZERIV builds — web, mobile, design, brand and AI.",
-    url: "/services",
-  },
-  alternates: { canonical: "/services" },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return pageMetadata(await getServerLocale(), {
+    path: "/services",
+    en: {
+      title: "Services",
+      description:
+        "Web development, mobile applications, UI/UX, branding and AI solutions from ZERIV.",
+    },
+    ar: {
+      title: "الخدمات",
+      description:
+        "تطوير ويب وتطبيقات موبايل وواجهات وتجربة مستخدم وهوية بصرية وحلول ذكاء اصطناعي من زيريف.",
+    },
+  });
+}
 
 export default function ServicesPage() {
   return (

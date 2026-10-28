@@ -3798,6 +3798,16 @@ html:not(.dark) .xps--red {
 .xps--bone {
   stroke: var(--xp-muted);
 }
+/* light mode: the thread must read on bone — deeper hues, higher presence */
+html:not(.dark) .xp[data-phase="ready"] .xps {
+  opacity: 0.72;
+}
+html:not(.dark) .xps--green {
+  stroke: #007a3d;
+}
+html:not(.dark) .xps--bone {
+  stroke: rgba(43, 36, 28, 0.62);
+}
 .xps__needle-body {
   stroke: var(--xp-hot);
   stroke-width: 2.4;

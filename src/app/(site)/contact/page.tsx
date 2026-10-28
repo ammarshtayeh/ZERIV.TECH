@@ -1,17 +1,21 @@
 import type { Metadata } from "next";
 import { PageShell } from "@/experience/ui/PageShell";
 import { ContactStudio } from "@/experience/studio/ContactStudio";
+import { getServerLocale, pageMetadata } from "@/i18n/seo";
 
-export const metadata: Metadata = {
-  title: "Contact",
-  description: "Start a project with ZERIV — tell us what you're building.",
-  openGraph: {
-    title: "Contact | ZERIV",
-    description: "Let's build what's next.",
-    url: "/contact",
-  },
-  alternates: { canonical: "/contact" },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return pageMetadata(await getServerLocale(), {
+    path: "/contact",
+    en: {
+      title: "Contact",
+      description: "Start a project with ZERIV — tell us what you're building.",
+    },
+    ar: {
+      title: "تواصل",
+      description: "ابدأ مشروعك مع زيريف — أخبرنا بما تبنيه.",
+    },
+  });
+}
 
 export default function ContactPage() {
   return (
