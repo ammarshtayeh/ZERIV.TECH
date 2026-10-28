@@ -478,7 +478,7 @@ html[data-xp-docked="true"] .xp-nav__logo {
   text-decoration: none;
   font-family: var(--font-syne), sans-serif;
   font-weight: 800;
-  font-size: clamp(2.4rem, 7.6vw, 7.4rem);
+  font-size: clamp(2.1rem, 5.4vw, 5.2rem);
   line-height: 1;
   letter-spacing: -0.04em;
   transition: color 0.4s ease, letter-spacing 0.6s var(--xp-ease);
@@ -735,7 +735,7 @@ html[data-xp-docked="true"] .xp-nav__logo {
   margin: 0 0 4vh;
   font-family: var(--font-syne), sans-serif;
   font-weight: 800;
-  font-size: clamp(2.2rem, 7.2vw, 8.4rem);
+  font-size: clamp(2rem, 5vw, 5.9rem);
   line-height: 0.9;
   letter-spacing: -0.05em;
   color: var(--xp-bone);
@@ -830,7 +830,7 @@ html[data-xp-docked="true"] .xp-nav__logo {
   margin: 0;
   font-family: var(--font-syne), sans-serif;
   font-weight: 800;
-  font-size: clamp(2.4rem, 6.4vw, 6.8rem);
+  font-size: clamp(2.2rem, 4.6vw, 4.9rem);
   line-height: 0.92;
   letter-spacing: -0.045em;
   color: var(--xp-bone);
@@ -892,7 +892,7 @@ html[data-xp-docked="true"] .xp-nav__logo {
   overflow: hidden;
   font-family: var(--font-syne), sans-serif;
   font-weight: 800;
-  font-size: clamp(1.9rem, 6.2vw, 7.2rem);
+  font-size: clamp(1.8rem, 4.4vw, 5rem);
   line-height: 1;
   letter-spacing: -0.045em;
   text-transform: uppercase;
@@ -1320,7 +1320,7 @@ html[data-xp-docked="true"] .xp-nav__logo {
   margin: 0 0 1.5rem;
   font-family: var(--font-syne), sans-serif;
   font-weight: 800;
-  font-size: clamp(2.6rem, 6.4vw, 7.6rem);
+  font-size: clamp(2.3rem, 4.6vw, 5.2rem);
   line-height: 0.92;
   letter-spacing: -0.045em;
   color: var(--xp-bone);
@@ -1460,7 +1460,7 @@ html[data-xp-docked="true"] .xp-nav__logo {
   margin: 0;
   font-family: var(--font-syne), sans-serif;
   font-weight: 800;
-  font-size: clamp(2.2rem, 4.8vw, 5.6rem);
+  font-size: clamp(2rem, 3.4vw, 3.9rem);
   line-height: 0.95;
   letter-spacing: -0.045em;
   color: var(--xp-bone);
@@ -1748,7 +1748,7 @@ html[data-xp-docked="true"] .xp-nav__logo {
   margin: 0;
   font-family: var(--font-syne), sans-serif;
   font-weight: 800;
-  font-size: clamp(2.6rem, 7vw, 8.4rem);
+  font-size: clamp(2.2rem, 4.8vw, 5.6rem);
   line-height: 0.92;
   letter-spacing: -0.045em;
   color: var(--xp-bone);
@@ -1886,7 +1886,7 @@ html[data-xp-docked="true"] .xp-nav__logo {
   margin: 0;
   font-family: var(--font-syne), sans-serif;
   font-weight: 800;
-  font-size: clamp(2.6rem, 7vw, 8.4rem);
+  font-size: clamp(2.2rem, 4.8vw, 5.6rem);
   line-height: 0.92;
   letter-spacing: -0.045em;
   color: var(--xp-bone);
@@ -2008,7 +2008,7 @@ html[data-xp-docked="true"] .xp-nav__logo {
   margin: 0;
   font-family: var(--font-syne), sans-serif;
   font-weight: 800;
-  font-size: clamp(2.2rem, 7.5vw, 7.5rem);
+  font-size: clamp(2.1rem, 5.2vw, 5.4rem);
   line-height: 0.92;
   letter-spacing: -0.045em;
   color: var(--xp-bone);
@@ -2542,7 +2542,7 @@ html[data-xp-docked="true"] .xp-nav__logo {
     font-size: 1rem;
   }
   .xp-work__name {
-    font-size: clamp(2rem, 10vw, 3.2rem);
+    font-size: clamp(1.8rem, 8vw, 2.8rem);
   }
   .xp-work[data-layout="stack"] .xp-work__pin {
     padding: 12vh 0 8vh;
@@ -2615,7 +2615,7 @@ html[data-xp-docked="true"] .xp-nav__logo {
     padding: 14vh var(--xp-gutter) 10vh;
   }
   .xp-proc__title {
-    font-size: clamp(2.2rem, 12vw, 4.2rem);
+    font-size: clamp(2rem, 9vw, 3.4rem);
   }
   .xp-proc__track {
     display: none;
@@ -3460,13 +3460,13 @@ html:not(.dark) .xp-hero__statement {
 /* ── 4 · Film grain ── */
 .xp-grain {
   position: fixed;
-  inset: -60%;
+  inset: -22%;
   z-index: 70;
   pointer-events: none;
   opacity: 0.05;
   mix-blend-mode: overlay;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
-  animation: xp-grain-shift 0.9s steps(3) infinite;
+  animation: xp-grain-shift 1.2s steps(2) infinite;
 }
 html:not(.dark) .xp-grain {
   opacity: 0.06;
@@ -3547,6 +3547,18 @@ html:not(.dark) .xp-grain {
 }
 .xp-cursor[data-mode="explore"] .xp-cursor__label {
   color: var(--xp-bone);
+}
+/* on red surfaces the red × vanishes — flip the stitch to bone */
+.xp-cursor[data-tone="onred"] .xp-cursor__x::before,
+.xp-cursor[data-tone="onred"] .xp-cursor__x::after {
+  background: #fffaf0;
+}
+.xp-cursor[data-tone="onred"][data-mode="expand"],
+.xp-cursor[data-tone="onred"][data-mode="explore"] {
+  border-color: #fffaf0;
+}
+.xp-cursor[data-tone="onred"][data-mode="explore"] .xp-cursor__label {
+  color: #fffaf0;
 }
 
 /* ── 6 · Marquee — every 5th item burns red ── */
@@ -3677,8 +3689,8 @@ html:not(.dark) .xp-caps[data-active]:not([data-active="-1"]) .xp-caps__row[data
   right: 0;
   bottom: max(5.5rem, 12vh);
   text-align: start;
-  font-size: clamp(3rem, 12.5vw, 13.5rem);
-  line-height: 0.86;
+  font-size: clamp(2.5rem, 8.2vw, 8.75rem);
+  line-height: 0.9;
   letter-spacing: -0.055em;
   text-shadow: none;
 }
@@ -3754,7 +3766,7 @@ html:not(.dark) .xp-hero__strip {
 }
 @media (max-width: 900px) {
   .xp-hero__statement {
-    font-size: clamp(2.6rem, 15vw, 6rem);
+    font-size: clamp(2.1rem, 11vw, 4.4rem);
     bottom: max(7.5rem, 16vh);
   }
   .xp-hero__strip,

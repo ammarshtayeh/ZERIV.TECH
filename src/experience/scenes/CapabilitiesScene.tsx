@@ -88,6 +88,7 @@ export function CapabilitiesScene({ reduced, narrow }: Props) {
       id="services"
       className="xp-scene xp-caps"
       aria-labelledby="xp-caps-heading"
+      data-cursor-red
       data-active={current}
       data-narrow={narrow ? "true" : "false"}
     >

@@ -181,7 +181,7 @@ export function HeroScene({ reduced }: Props) {
           <span key={line} className="xp-hero__line-wrap" aria-hidden="true">
             <span className="xp-hero__line">
               {i === 1 ? (
-                <span className="xp-hero__block">
+                <span className="xp-hero__block" data-cursor-red>
                   <KineticChars text={line} />
                 </span>
               ) : (

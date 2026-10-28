@@ -34,7 +34,7 @@ export function Cursor() {
     document.documentElement.classList.add("xp-cursor-on");
 
     const ctx = cv.getContext("2d");
-    const dpr = Math.min(window.devicePixelRatio || 1, 1.75);
+    const dpr = Math.min(window.devicePixelRatio || 1, 1.25);
     const sizeTrail = () => {
       cv.width = Math.round(window.innerWidth * dpr);
       cv.height = Math.round(window.innerHeight * dpr);
@@ -53,6 +53,8 @@ export function Cursor() {
     let raf = 0;
     let mode: Mode = "default";
     let pressed = false;
+    let onRed = false;
+    let frame = 0;
 
     const setMode = (next: Mode) => {
       if (next === mode) return;
@@ -68,9 +70,13 @@ export function Cursor() {
       el.dataset.visible = "true";
     };
     const over = (e: PointerEvent) => {
-      const target = (e.target as HTMLElement | null)?.closest<HTMLElement>("[data-cursor]");
+      const node = e.target as HTMLElement | null;
+      const target = node?.closest<HTMLElement>("[data-cursor]");
       const raw = target?.dataset.cursor as Mode | undefined;
       setMode(raw && MODES.includes(raw) ? raw : "default");
+      // red × drowns on red surfaces (hero block, capabilities) — flip to bone
+      onRed = !!node?.closest("[data-cursor-red]");
+      el.dataset.tone = onRed ? "onred" : "default";
     };
     const down = () => {
       pressed = true;
@@ -91,16 +97,21 @@ export function Cursor() {
 
       // sew the thread: fade the whole canvas a touch, then stitch to the new position
       if (ctx) {
+        frame++;
         ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-        ctx.globalCompositeOperation = "destination-out";
-        ctx.fillStyle = "rgba(0,0,0,0.055)";
-        ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
+        if (frame % 2 === 0) {
+          ctx.globalCompositeOperation = "destination-out";
+          ctx.fillStyle = "rgba(0,0,0,0.11)";
+          ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
+        }
         const dist = Math.hypot(x - px, y - py);
         if (dist > 0.75) {
           ctx.globalCompositeOperation = "source-over";
-          ctx.strokeStyle = document.documentElement.classList.contains("dark")
-            ? "rgba(226,30,46,0.85)"
-            : "rgba(200,16,34,0.8)";
+          ctx.strokeStyle = onRed
+            ? "rgba(247,243,234,0.9)"
+            : document.documentElement.classList.contains("dark")
+              ? "rgba(226,30,46,0.85)"
+              : "rgba(200,16,34,0.8)";
           ctx.lineWidth = 1.4;
           ctx.lineCap = "round";
           ctx.setLineDash([5, 4]);
